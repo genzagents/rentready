@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>rentready: landlord database readiness check</title>
+<meta name="description" content="Is your English rental ready for the landlord database (Register your rental property, Renters' Rights Act)? Region deadline, gas/EICR/EPC validity, the £65 fee, the upload list. Free, one file, also an MCP server.">
+<style>
+:root{--bg:#fff;--fg:#111;--mut:#555;--acc:#0b5;--box:#f4f4f4;--bd:#ddd}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111;--fg:#eee;--mut:#aaa;--box:#1c1c1c;--bd:#333}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px}
+h1{font-size:2rem;margin:.2em 0}h2{margin-top:2em}
+pre{background:var(--box);border:1px solid var(--bd);padding:12px;overflow:auto;font-size:13px}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:left}
+.btn{display:inline-block;background:var(--acc);color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600}
+.mut{color:var(--mut)}
+</style></head><body><main>
+<h1>rentready</h1>
+<p><strong>Is your rental ready for England's landlord database?</strong> From 15 December 2026 every private landlord in England registers each property on <em>Register your rental property</em> (Renters' Rights Act), region by region, at £65 a property a year, uploading the gas safety record, EICR and EPC. No active entry, no possession order; penalties to £7,000.</p>
+<p>rentready tells you your region's window and deadline, whether your certificates will still be in date, what to book, what to upload and what it costs. Free, zero dependencies, one Python file. Also an MCP server, so your own Claude or ChatGPT agent can run it.</p>
+<pre>curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/__init__.py | python3 - check "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --epc=2017-05-01 --epc-rating=D</pre>
+<pre>rentready 0.1.0  B3 2TA  region: West Midlands
+Window: requirement starts 2026-12-15, deadline 2027-03-14 (139 days from 2026-10-26)
+  PASS registration deadline: West Midlands requirement starts 2026-12-15, deadline 2027-03-14
+  WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (98 days)
+  PASS EICR: valid to 2028-06-01
+  PASS EPC: valid to 2027-05-01
+Do next:
+  - Book before 2027-02-01: annual gas safety check by a Gas Safe engineer; upload the record and issue date
+Fee: £65 a year; renewal on the anniversary of the first property registered
+READY: nothing expires before your deadline.</pre>
+<h2>The timetable</h2>
+<table><tr><th>Region</th><th>Requirement starts</th><th>Deadline</th></tr>
+<tr><td>West Midlands</td><td>15 Dec 2026</td><td>14 Mar 2027</td></tr><tr><td>East of England</td><td>15 Jan 2027</td><td>14 Apr 2027</td></tr>
+<tr><td>East Midlands</td><td>15 Feb 2027</td><td>14 May 2027</td></tr><tr><td>South East</td><td>15 Mar 2027</td><td>14 Jun 2027</td></tr>
+<tr><td>Yorkshire and The Humber</td><td>15 Apr 2027</td><td>14 Jul 2027</td></tr><tr><td>North West</td><td>15 May 2027</td><td>14 Aug 2027</td></tr>
+<tr><td>North East</td><td>15 Jun 2027</td><td>14 Sep 2027</td></tr><tr><td>London</td><td>15 Jul 2027</td><td>14 Oct 2027</td></tr>
+<tr><td>South West</td><td>15 Aug 2027</td><td>14 Nov 2027</td></tr></table>
+<p class="mut">Source: the Private Rented Sector Database Regulations 2026 as summarised by the <a href="https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service.">NRLA</a>; official guidance at <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">housinghub.campaign.gov.uk</a>. Check gov.uk before relying on a date. Not legal advice.</p>
+<h2>Want the monthly watch?</h2>
+<p>The paid step: one check a month per property, an email before the gas record, EICR, EPC or the registration itself lapses, silence otherwise. A few pounds a year, not £15 a month.</p>
+<p><a class="btn" href="https://github.com/genzagents/rentready/issues/new?title=I%20want%20the%20monthly%20watch&body=Properties%3A%20%0ARegion%3A%20%0AWhat%20I%27d%20pay%20a%20year%3A%20">I want the monthly watch</a></p>
+<h2>Install</h2>
+<pre>pip install git+https://github.com/genzagents/rentready
+claude plugin marketplace add genzagents/marketplace && claude plugin install rentready@genzagents</pre>
+<p class="mut">MIT. <a href="https://github.com/genzagents/rentready">Source</a>. Sibling of <a href="https://genzagents.github.io/citable/">citable</a>. Your dates never leave your machine; the only network call is the postcode lookup.</p>
+</main></body></html>

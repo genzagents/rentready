@@ -1,0 +1,33 @@
+---
+name: rentready
+description: Use when a landlord or letting agent in England asks about the landlord database, "Register your rental property", the Renters' Rights Act register, the £65 fee, when their region must register, or whether their gas safety record, EICR or EPC are in date for it. Runs the rentready check and turns it into dated actions.
+---
+
+# rentready
+
+England's private rented sector database opens on 15 December 2026 and each region gets a three-month window
+(West Midlands first, deadline 14 March 2027; London 15 July to 14 October 2027; South West last, 14 November 2027).
+Every property costs £65 a year. Gas safety record, EICR and EPC are uploaded, and a landlord without an active
+entry cannot get a possession order and faces penalties up to £7,000 (£40,000 repeat).
+
+## How to run it
+
+- If the `rentready` MCP server is available, call `check_property` with the postcode and the certificate dates you know.
+- Otherwise from the shell (no install, Python 3.9+):
+
+  ```bash
+  curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/__init__.py | python3 - check "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --epc=2017-05-01 --epc-rating=D
+  ```
+
+  `rentready regions` prints the timetable. `--no-gas` for a property without gas. `--properties=N` for the fee.
+
+## How to read the result
+
+1. The **window** line says when the region's requirement starts and the deadline. Registration itself opens for all
+   of England on 15 December 2026; registering early fixes the portfolio's renewal date, so say so.
+2. **FAIL** on a certificate means it is missing or expired: book the check now, it must be uploaded.
+3. **WARN** means it expires before the deadline: book it for before that date so the uploaded record is in date.
+4. Ask for anything you do not know (dates, whether there is gas, EPC rating) rather than guessing; re-run with the answers.
+5. Always add: each joint landlord needs their own entry, an agent cannot register for the landlord, and all details
+   are due within 28 days of creating the entry. Point to https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/
+   and https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service.
