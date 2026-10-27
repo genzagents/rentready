@@ -14,7 +14,7 @@ curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/_
 ```
 
 ```
-rentready 0.1.0  B3 2TA  region: West Midlands
+rentready 0.3.0  B3 2TA  region: West Midlands
 Window: requirement starts 2026-12-15, deadline 2027-03-14 (139 days from 2026-10-26); the service opens for everyone on 2026-12-15
   PASS registration deadline: West Midlands requirement starts 2026-12-15, deadline 2027-03-14; you can register from 2026-12-15
   WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (98 days)
@@ -89,6 +89,42 @@ EICR and EPC expiry, each with reminders 60 and 14 days before (change with `--r
 Apple or Outlook calendar; UIDs are deterministic, so re-importing after a renewal updates the events instead of duplicating them.
 This is the free, serverless version of the monthly watch: nothing is stored anywhere but your own calendar.
 
+### Watch
+
+A certificate that lapses in month four is the thing nobody notices until the deadline. The watch is the alarm, and it
+runs for free as a GitHub Action in a private repo of yours that holds `properties.csv`: on the first of every month it
+re-checks every property, keeps one issue up to date with the full table, and **comments on that issue only when
+something needs action**: a gas safety record, EICR or EPC within 60 days of expiring, your region's window opening,
+a deadline nearing or passing, or a property no longer ready. GitHub emails the comment to you. No server, no account
+beyond GitHub, no dependencies; your dates never leave your repo except for the postcode lookup. Example:
+[issue #1](https://github.com/genzagents/rentready/issues/1) watches [`docs/example.csv`](docs/example.csv).
+
+Copy [`docs/watch.yml`](docs/watch.yml) to `.github/workflows/rentready-watch.yml`:
+
+```yaml
+on:
+  schedule: [{ cron: "23 7 1 * *" }]   # the 1st of each month
+  workflow_dispatch:
+  push: { paths: [properties.csv] }
+permissions: { issues: write, contents: read }
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: genzagents/rentready@v0.3.0
+        with:
+          portfolio: properties.csv
+          # warn-days: 90
+          # always-comment: "true"    # a monthly "all fine" email too
+```
+
+The same command runs from cron on your own machine with a local state file instead of an issue:
+
+```bash
+rentready watch properties.csv --state=rentready-state.json      # exit 1 when something needs action
+```
+
 ### As an MCP server / Claude Code plugin
 
 ```bash
@@ -113,7 +149,7 @@ is the postcode lookup. Not legal advice.
 
 ## Roadmap
 
-`rentready calendar` already puts every date in your calendar for free. A hosted monthly watch per property (re-checks, alerts before gas, EICR, EPC or the registration lapse, one email a month otherwise, no CSV to keep) is the
+`rentready calendar` puts every date in your calendar and `rentready watch` emails you from GitHub when something needs action, both free. A hosted monthly watch (no repo, no CSV to keep, the same alerts to your inbox) is the
 paid step, a few pounds a year. EPC lookup by address from the official open-data register is next (the register's API moved to get-energy-performance-data.communities.gov.uk in 2026 and needs a free key). Press the button on the [project page](https://genzagents.github.io/rentready/) if you want it.
 
 MIT. Built by [genzagents](https://github.com/genzagents); sibling of [citable](https://github.com/genzagents/citable).

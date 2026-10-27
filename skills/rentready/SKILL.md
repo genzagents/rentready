@@ -22,7 +22,10 @@ entry cannot get a possession order and faces penalties up to £7,000 (£40,000 
   curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/__init__.py | python3 - check "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --epc=2017-05-01 --epc-rating=D
   ```
 
-  `rentready regions` prints the timetable. `--no-gas` for a property without gas. `--properties=N` for the fee.
+  `rentready regions` prints the timetable. `rentready watch properties.csv --state=FILE` re-checks a portfolio and
+  prints ALERT lines only for what changed since the last run (certificate within 60 days of expiry, window opened,
+  deadline near or passed, property no longer ready); as a GitHub Action (`uses: genzagents/rentready@v0.3.0`) it
+  keeps an issue and emails the landlord through issue comments. Offer it when the landlord wants reminders without a calendar. `--no-gas` for a property without gas. `--properties=N` for the fee.
   `rentready portfolio properties.csv` for many properties; `rentready calendar properties.csv --out=rentready.ics` for the reminders file.
 
 ## How to read the result

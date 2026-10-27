@@ -10,6 +10,9 @@ Usage:
   rentready calendar FILE.csv|POSTCODE [check flags] [--reminders=60,14] [--out=rentready.ics]
                                     write an iCalendar file: window opens, deadline, each certificate expiry,
                                     with reminders; import into Google/Apple/Outlook calendar
+  rentready watch FILE.csv          re-check monthly and raise the alarm only when something changes: a certificate
+                                    comes within 60 days of expiring, a window opens, a deadline nears, a property
+                                    stops being ready; remembers the last run in a GitHub issue (Actions) or --state=FILE
   rentready regions                 print the rollout timetable
   rentready mcp                     run as an MCP server over stdio (tools: check_property, check_portfolio, make_calendar)
 
@@ -26,7 +29,7 @@ import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
-__version__ = "0.2.0"
+__version__ = "0.3.0"
 
 FEE_PER_PROPERTY_GBP = 65
 
@@ -487,6 +490,9 @@ def main(argv: Optional[List[str]] = None) -> int:
         mcp_serve(); return 0
     if argv[0] == "regions":
         print(format_regions()); return 0
+    if argv[0] == "watch":
+        from rentready.watch import main as watch_main
+        return watch_main(argv[1:])
     if argv[0] not in ("check", "portfolio", "calendar"):
         print(__doc__.strip(), file=sys.stderr); return 2
     rest = argv[1:]

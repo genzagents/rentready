@@ -17,7 +17,7 @@ table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd
 <p><strong>Is your rental ready for England's landlord database?</strong> From 15 December 2026 every private landlord in England registers each property on <em>Register your rental property</em> (Renters' Rights Act), region by region, at £65 a property a year, uploading the gas safety record, EICR and EPC. No active entry, no possession order; penalties to £7,000.</p>
 <p>rentready tells you your region's window and deadline, whether your certificates will still be in date, what to book, what to upload and what it costs. Free, zero dependencies, one Python file. Also an MCP server, so your own Claude or ChatGPT agent can run it.</p>
 <pre>curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/__init__.py | python3 - check "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --epc=2017-05-01 --epc-rating=D</pre>
-<pre>rentready 0.2.0  B3 2TA  region: West Midlands
+<pre>rentready 0.3.0  B3 2TA  region: West Midlands
 Window: requirement starts 2026-12-15, deadline 2027-03-14 (139 days from 2026-10-26)
   PASS registration deadline: West Midlands requirement starts 2026-12-15, deadline 2027-03-14
   WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (98 days)
@@ -31,7 +31,7 @@ READY: nothing expires before your deadline.</pre>
 <p>New in 0.2.0. Put your properties in a CSV (<code>name, postcode, gas, no_gas, eicr, epc, epc_rating</code>) and get one table with every warning, the total fee and the earliest deadline. Then write an <code>.ics</code> file with the day your region's window opens, the deadline and every gas, EICR and EPC expiry, each with reminders 60 and 14 days before, and import it into Google, Apple or Outlook calendar. Nothing is stored anywhere but your own calendar.</p>
 <pre>rentready portfolio properties.csv
 rentready calendar properties.csv --out=rentready.ics</pre>
-<pre>rentready 0.2.0  portfolio of 3 (3 in England)  today 2026-10-27
+<pre>rentready 0.3.0  portfolio of 3 (3 in England)  today 2026-10-27
 Property        Postcode  Region         Deadline    Status     Next
 12 Example St   B3 2TA    West Midlands  2027-03-14  READY      2026-12-15 registration window opens (49d)
 Flat 4          SW1A 1AA  London         2027-10-14  READY      2027-07-15 registration window opens (261d)
@@ -42,6 +42,14 @@ No EICR:
 Fee: £195 a year for 3 properties (£65 each)
 Earliest deadline: 2027-03-14. 2 ready, 1 not ready.</pre>
 <p>Your own agent can do the same: the MCP server has <code>check_property</code>, <code>check_portfolio</code> and <code>make_calendar</code>.</p>
+<h2>An email when something needs action (0.3.0)</h2>
+<p>Put <code>properties.csv</code> in a private GitHub repo and add one workflow file. On the first of every month <code>rentready watch</code> re-checks every property, keeps one issue up to date with the whole table, and comments on it only when a gas safety record, EICR or EPC comes within 60 days of expiring, your region's window opens, a deadline nears or passes, or a property stops being ready. GitHub emails you the comment. Free, no server, no account beyond GitHub. <a href="https://github.com/genzagents/rentready/issues/1">Issue #1</a> watches the example portfolio.</p>
+<pre>steps:
+  - uses: actions/checkout@v4
+  - uses: genzagents/rentready@v0.3.0
+    with:
+      portfolio: properties.csv</pre>
+<p class="mut">Full template: <a href="https://github.com/genzagents/rentready/blob/main/docs/watch.yml">docs/watch.yml</a>. Or from cron on your own machine: <code>rentready watch properties.csv --state=state.json</code>.</p>
 <h2>The timetable</h2>
 <table><tr><th>Region</th><th>Requirement starts</th><th>Deadline</th></tr>
 <tr><td>West Midlands</td><td>15 Dec 2026</td><td>14 Mar 2027</td></tr><tr><td>East of England</td><td>15 Jan 2027</td><td>14 Apr 2027</td></tr>
@@ -51,7 +59,7 @@ Earliest deadline: 2027-03-14. 2 ready, 1 not ready.</pre>
 <tr><td>South West</td><td>15 Aug 2027</td><td>14 Nov 2027</td></tr></table>
 <p class="mut">Source: the Private Rented Sector Database Regulations 2026 as summarised by the <a href="https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service.">NRLA</a>; official guidance at <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">housinghub.campaign.gov.uk</a>. Check gov.uk before relying on a date. Not legal advice.</p>
 <h2>Want the hosted monthly watch?</h2>
-<p>The paid step: one check a month per property, an email before the gas record, EICR, EPC or the registration itself lapses, silence otherwise. A few pounds a year, not £15 a month.</p>
+<p>The paid step for landlords who do not want a GitHub repo: the same monthly re-check and the same alerts straight to your inbox, nothing to install or keep. A few pounds a year, not £15 a month.</p>
 <p><a class="btn" href="https://github.com/genzagents/rentready/issues/new?title=I%20want%20the%20monthly%20watch&body=Properties%3A%20%0ARegion%3A%20%0AWhat%20I%27d%20pay%20a%20year%3A%20">I want the monthly watch</a></p>
 <h2>Install</h2>
 <pre>pip install git+https://github.com/genzagents/rentready

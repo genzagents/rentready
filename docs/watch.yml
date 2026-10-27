@@ -1,0 +1,30 @@
+# Copy this file to .github/workflows/rentready-watch.yml in a private repo of yours that holds properties.csv.
+# On the first of every month it re-checks every property against England's landlord database timetable,
+# keeps one issue up to date, and comments on it (GitHub emails you) only when something needs action:
+# a gas safety record, EICR or EPC within 60 days of expiring, your region's window opening, a deadline
+# nearing or passing, or a property no longer ready. Nothing leaves GitHub except the postcode lookup.
+name: rentready watch
+
+on:
+  schedule:
+    - cron: "23 7 1 * *"    # 07:23 UTC on the 1st of each month
+  workflow_dispatch:        # and whenever you press "Run workflow"
+  push:
+    paths: [properties.csv] # and whenever you change the CSV
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: genzagents/rentready@v0.3.0
+        with:
+          portfolio: properties.csv
+          # warn-days: 90              # alert earlier
+          # always-comment: "true"     # a monthly "all fine" email too
+          # fail-if-not-ready: "true"  # red job whenever any property is NOT READY
+          # notify: your-github-login  # who gets @mentioned (default: repo owner)

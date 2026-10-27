@@ -1,0 +1,84 @@
+name: rentready watch
+description: >-
+  Monthly check that every property in a portfolio CSV is still ready for England's landlord database
+  (Register your rental property, Renters' Rights Act). Keeps one GitHub issue per CSV up to date and
+  comments on it (GitHub emails you) only when a gas safety record, EICR or EPC comes within 60 days of
+  expiring, a region's registration window opens, a deadline nears or passes, or a property stops being
+  ready. Zero dependencies; your dates stay in your own repo.
+author: genzagents
+branding:
+  icon: home
+  color: green
+
+inputs:
+  portfolio:
+    description: Path (in the checked-out repo) to the portfolio CSV or JSON. Columns name, postcode, gas, no_gas, eicr, epc, epc_rating, tenancy_start, region.
+    required: true
+  warn-days:
+    description: Alert when a certificate expiry or a registration deadline is this many days away or fewer.
+    default: "60"
+  issue:
+    description: 'Track the portfolio in a GitHub issue titled "rentready watch <file>" (needs issues write permission).'
+    default: "true"
+  notify:
+    description: GitHub login to @mention in the comment when action is needed.
+    default: ${{ github.repository_owner }}
+  label:
+    description: Label put on the watch issue.
+    default: rentready
+  always-comment:
+    description: Also comment when nothing changed (a monthly "all fine" email).
+    default: "false"
+  fail-on-regression:
+    description: Fail the job when something needs action since the last run.
+    default: "true"
+  fail-if-not-ready:
+    description: Fail the job whenever any property is NOT READY.
+    default: "false"
+  token:
+    description: Token used by `gh` to read and write issues.
+    default: ${{ github.token }}
+
+outputs:
+  ready:
+    description: Number of properties that are ready.
+    value: ${{ steps.watch.outputs.ready }}
+  not-ready:
+    description: Number of properties that are not ready.
+    value: ${{ steps.watch.outputs.not-ready }}
+  earliest-deadline:
+    description: The earliest registration deadline across the portfolio (YYYY-MM-DD).
+    value: ${{ steps.watch.outputs.earliest-deadline }}
+  days-to-next:
+    description: Days until the soonest dated thing (an expiry, a window opening or a deadline).
+    value: ${{ steps.watch.outputs.days-to-next }}
+  regressed:
+    description: "true if something needs action since the previous run."
+    value: ${{ steps.watch.outputs.regressed }}
+  changed:
+    description: "true if anything changed (better or worse) since the previous run."
+    value: ${{ steps.watch.outputs.changed }}
+
+runs:
+  using: composite
+  steps:
+    - id: watch
+      shell: bash
+      env:
+        GH_TOKEN: ${{ inputs.token }}
+        RR_PORTFOLIO: ${{ inputs.portfolio }}
+        RR_WARN_DAYS: ${{ inputs.warn-days }}
+        RR_ISSUE: ${{ inputs.issue }}
+        RR_NOTIFY: ${{ inputs.notify }}
+        RR_LABEL: ${{ inputs.label }}
+        RR_ALWAYS: ${{ inputs.always-comment }}
+        RR_FAIL: ${{ inputs.fail-on-regression }}
+        RR_FAIL_NR: ${{ inputs.fail-if-not-ready }}
+      run: |
+        args=("--warn-days=$RR_WARN_DAYS" "--label=$RR_LABEL")
+        [ "$RR_ISSUE" = "true" ] || args+=(--no-issue)
+        [ "$RR_ALWAYS" != "true" ] || args+=(--always-comment)
+        [ "$RR_FAIL" = "true" ] || args+=(--no-fail-on-regression)
+        [ "$RR_FAIL_NR" != "true" ] || args+=(--fail-if-not-ready)
+        [ -z "$RR_NOTIFY" ] || args+=("--notify=$RR_NOTIFY")
+        python3 "$GITHUB_ACTION_PATH/rentready/watch.py" "$RR_PORTFOLIO" "${args[@]}"

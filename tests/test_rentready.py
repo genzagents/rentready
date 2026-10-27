@@ -140,3 +140,76 @@ class McpTools(unittest.TestCase):
         self.assertEqual([t["name"] for t in res[1]["result"]["tools"]], ["check_property", "check_portfolio", "make_calendar"])
         self.assertEqual(res[2]["result"]["structuredContent"]["fee_gbp_per_year"], 65)
         self.assertIn("BEGIN:VCALENDAR", res[3]["result"]["content"][0]["text"]); self.assertEqual(len(res[3]["result"]["structuredContent"]["events"]), 5)
+
+
+class Watch(unittest.TestCase):
+    """rentready watch: snapshot, diff and the issue body round trip (no network: --region given)."""
+    ROWS = [
+        {"name": "A", "region": "West Midlands", "gas": "2026-02-01", "eicr": "2023-06-01", "epc": "2017-05-01", "epc_rating": "D"},
+        {"name": "B", "region": "London", "no_gas": "yes", "eicr": "2024-01-01", "epc": "2020-01-01", "epc_rating": "C"},
+    ]
+
+    def snap(self, today, rows=None, warn=60):
+        from rentready import watch
+        return watch.snapshot(rr.check_portfolio(rows or self.ROWS, today=today), warn)
+
+    def test_first_run_is_silent(self):
+        from rentready import watch
+        self.assertEqual(watch.diff(None, self.snap("2026-10-27")), ([], []))
+
+    def test_unchanged_is_silent(self):
+        from rentready import watch
+        self.assertEqual(watch.diff(self.snap("2026-10-27"), self.snap("2026-10-28")), ([], []))
+
+    def test_window_opens_and_cert_comes_due(self):
+        from rentready import watch
+        alerts, better = watch.diff(self.snap("2026-10-27"), self.snap("2026-12-20"))
+        self.assertEqual(better, [])
+        self.assertTrue(any("West Midlands registration window is open" in a for a in alerts), alerts)
+        self.assertTrue(any("gas safety record expires 2027-02-01 (43 days)" in a for a in alerts), alerts)
+        self.assertFalse(any("registration deadline is now" in a for a in alerts), alerts)  # no duplicate wording
+        self.assertEqual(len(alerts), 2)
+
+    def test_deadline_passes_and_cert_expires(self):
+        from rentready import watch
+        alerts, _ = watch.diff(self.snap("2026-12-20"), self.snap("2027-03-20"))
+        self.assertTrue(any("A: no longer READY" in a for a in alerts), alerts)
+        self.assertTrue(any("gas safety record is now FAIL" in a for a in alerts), alerts)
+        self.assertTrue(any("deadline 2027-03-14 has passed" in a for a in alerts), alerts)
+
+    def test_renewal_is_better_and_removal_and_addition(self):
+        from rentready import watch
+        prev = self.snap("2027-03-20")
+        rows = [dict(self.ROWS[0], gas="2027-03-15"), {"name": "C", "region": "North West", "eicr": "2024-01-01", "epc": "2020-01-01"}]
+        alerts, better = watch.diff(prev, self.snap("2027-03-21", rows))
+        self.assertTrue(any("A: gas safety record is now PASS" in b for b in better), better)
+        self.assertTrue(any("B: removed" in b for b in better), better)
+        self.assertTrue(any("C: added to the portfolio (NOT READY)" in a for a in alerts), alerts)  # no gas date
+
+    def test_body_round_trip_and_comment(self):
+        from rentready import watch
+        p = rr.check_portfolio(self.ROWS, today="2026-10-27")
+        snap = watch.snapshot(p)
+        body = watch.render_body("properties.csv", p, snap, "https://example/run")
+        self.assertTrue(body.startswith("## rentready watch: properties.csv"))
+        self.assertIn("| A | West Midlands | 2027-03-14 | READY |", body)
+        self.assertEqual(watch.parse_state(body), json.loads(json.dumps(snap)))
+        c = watch.render_comment(["A: x"], ["B: y"], p, "@me", "")
+        self.assertTrue(c.startswith("@me **Action needed**")); self.assertIn("- B: y", c)
+        self.assertIn("nothing changed", watch.render_comment([], [], p, "", ""))
+
+    def test_cli_state_file_and_outputs(self):
+        import tempfile
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with tempfile.TemporaryDirectory() as d:
+            csv = os.path.join(d, "p.csv"); st = os.path.join(d, "state.json"); outp = os.path.join(d, "out.txt")
+            with open(csv, "w") as fh:
+                fh.write("name,region,gas,eicr,epc\nA,West Midlands,2026-02-01,2023-06-01,2017-05-01\n")
+            env = dict(os.environ, GITHUB_OUTPUT=outp)
+            r1 = subprocess.run([sys.executable, "-m", "rentready", "watch", csv, f"--state={st}", "--today=2026-10-27"], capture_output=True, text=True, cwd=root, env=env)
+            self.assertEqual(r1.returncode, 0, r1.stderr); self.assertTrue(os.path.isfile(st))
+            r2 = subprocess.run([sys.executable, "-m", "rentready", "watch", csv, f"--state={st}", "--today=2026-12-20"], capture_output=True, text=True, cwd=root, env=env)
+            self.assertEqual(r2.returncode, 1); self.assertIn("ALERT: A: the West Midlands registration window is open", r2.stdout)
+            self.assertIn("regressed=true", open(outp).read())
+            r3 = subprocess.run([sys.executable, "-m", "rentready", "watch", csv, f"--state={st}", "--today=2026-12-20", "--no-fail-on-regression"], capture_output=True, text=True, cwd=root, env=env)
+            self.assertEqual(r3.returncode, 0); self.assertNotIn("ALERT", r3.stdout)
