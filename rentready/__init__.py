@@ -23,7 +23,7 @@ import json
 import sys
 import urllib.parse
 import urllib.request
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
 __version__ = "0.2.0"
@@ -364,7 +364,7 @@ def format_ics(events: List[Dict[str, str]], reminders: Optional[List[int]] = No
     """RFC 5545 calendar of all-day events with VALARMs N days before. Deterministic UIDs, so re-importing updates rather than duplicates."""
     import hashlib
     reminders = [60, 14] if reminders is None else reminders
-    ds = (stamp or datetime.utcnow().strftime("%Y%m%dT%H%M%SZ"))
+    ds = (stamp or datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ"))
     out = ["BEGIN:VCALENDAR", "VERSION:2.0", f"PRODID:-//genzagents//rentready {__version__}//EN", "CALSCALE:GREGORIAN",
            "METHOD:PUBLISH", "X-WR-CALNAME:rentready: landlord database and certificate dates"]
     for e in events:
