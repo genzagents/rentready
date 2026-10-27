@@ -60,6 +60,35 @@ rentready check "SW1A 1AA" --no-gas --eicr=2024-01-01 --epc=2020-01-01 --propert
 
 Exit code 0 when nothing fails, 1 otherwise, so it works in a cron or a CI step.
 
+### A whole portfolio from one CSV (0.2.0)
+
+```bash
+rentready portfolio properties.csv          # one line per property, every FAIL/WARN, total fee, earliest deadline
+rentready portfolio properties.csv --json
+```
+
+`properties.csv` has a header row with any of `name, postcode, gas, no_gas, eicr, epc, epc_rating, tenancy_start, region`
+(common spellings like `Address`, `Post Code`, `Gas safety`, `Rating` are accepted; a JSON list of objects works too):
+
+```csv
+name,postcode,gas,no_gas,eicr,epc,epc_rating
+12 Example St,B3 2TA,2026-02-01,,2023-06-01,2017-05-01,D
+Flat 4,SW1A 1AA,,yes,2024-01-01,2020-01-01,C
+```
+
+### Dates in your calendar, with reminders (0.2.0)
+
+```bash
+rentready calendar properties.csv --out=rentready.ics             # whole portfolio
+rentready calendar "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --epc=2017-05-01 --out=rentready.ics
+rentready calendar properties.csv --reminders=90,30,7 > rentready.ics
+```
+
+One all-day event per dated thing: the day your region's window opens, the registration deadline, and each gas safety,
+EICR and EPC expiry, each with reminders 60 and 14 days before (change with `--reminders`). Import the file into Google,
+Apple or Outlook calendar; UIDs are deterministic, so re-importing after a renewal updates the events instead of duplicating them.
+This is the free, serverless version of the monthly watch: nothing is stored anywhere but your own calendar.
+
 ### As an MCP server / Claude Code plugin
 
 ```bash
@@ -67,7 +96,7 @@ claude plugin marketplace add genzagents/marketplace
 claude plugin install rentready@genzagents
 ```
 
-Or add to any MCP client: `python3 /path/to/rentready/__init__.py mcp` (stdio). One tool, `check_property`.
+Or add to any MCP client: `python3 /path/to/rentready/__init__.py mcp` (stdio). Three tools: `check_property`, `check_portfolio` (CSV or JSON text in, one table out) and `make_calendar` (returns the .ics text for one property or a portfolio).
 
 ## What it checks
 
@@ -84,7 +113,7 @@ is the postcode lookup. Not legal advice.
 
 ## Roadmap
 
-A monthly watch per property (alerts before gas, EICR, EPC or the registration lapse; one email a month otherwise) is the
-paid step, a few pounds a year. Press the button on the [project page](https://genzagents.github.io/rentready/) if you want it.
+`rentready calendar` already puts every date in your calendar for free. A hosted monthly watch per property (re-checks, alerts before gas, EICR, EPC or the registration lapse, one email a month otherwise, no CSV to keep) is the
+paid step, a few pounds a year. EPC lookup by address from the official open-data register is next (the register's API moved to get-energy-performance-data.communities.gov.uk in 2026 and needs a free key). Press the button on the [project page](https://genzagents.github.io/rentready/) if you want it.
 
 MIT. Built by [genzagents](https://github.com/genzagents); sibling of [citable](https://github.com/genzagents/citable).

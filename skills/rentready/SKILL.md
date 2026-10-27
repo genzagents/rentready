@@ -13,6 +13,9 @@ entry cannot get a possession order and faces penalties up to £7,000 (£40,000 
 ## How to run it
 
 - If the `rentready` MCP server is available, call `check_property` with the postcode and the certificate dates you know.
+  For several properties, call `check_portfolio` with CSV text (header: name, postcode, gas, no_gas, eicr, epc, epc_rating).
+  When the landlord wants reminders, call `make_calendar` (same inputs) and save the returned text as `rentready.ics` for them
+  to import into Google, Apple or Outlook calendar; it holds the window-opens day, the deadline and every certificate expiry with 60- and 14-day alarms.
 - Otherwise from the shell (no install, Python 3.9+):
 
   ```bash
@@ -20,6 +23,7 @@ entry cannot get a possession order and faces penalties up to £7,000 (£40,000 
   ```
 
   `rentready regions` prints the timetable. `--no-gas` for a property without gas. `--properties=N` for the fee.
+  `rentready portfolio properties.csv` for many properties; `rentready calendar properties.csv --out=rentready.ics` for the reminders file.
 
 ## How to read the result
 

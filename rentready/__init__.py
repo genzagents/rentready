@@ -5,8 +5,13 @@ Usage:
   rentready check POSTCODE [--gas=YYYY-MM-DD] [--eicr=YYYY-MM-DD] [--epc=YYYY-MM-DD] [--epc-rating=C]
                            [--tenancy-start=YYYY-MM-DD] [--no-gas] [--properties=N] [--today=YYYY-MM-DD]
                            [--region="West Midlands"] [--json]
+  rentready portfolio FILE.csv      check every property in a CSV (columns: name, postcode, gas, no_gas, eicr, epc,
+                                    epc_rating, tenancy_start, region); one table, total fee, earliest deadline
+  rentready calendar FILE.csv|POSTCODE [check flags] [--reminders=60,14] [--out=rentready.ics]
+                                    write an iCalendar file: window opens, deadline, each certificate expiry,
+                                    with reminders; import into Google/Apple/Outlook calendar
   rentready regions                 print the rollout timetable
-  rentready mcp                     run as an MCP server over stdio (tool: check_property)
+  rentready mcp                     run as an MCP server over stdio (tools: check_property, check_portfolio, make_calendar)
 
 Zero dependencies. Region comes from postcodes.io (no key) unless --region is given.
 Timetable, fee and required information: Private Rented Sector Database Regulations 2026 as summarised by
@@ -21,7 +26,7 @@ import urllib.request
 from datetime import date, datetime, timedelta
 from typing import Any, Dict, List, Optional
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
 FEE_PER_PROPERTY_GBP = 65
 
@@ -139,6 +144,7 @@ def check_property(postcode: str = "", *, region: Optional[str] = None, gas: Opt
         except ValueError:  # 29 Feb
             expiry = d0.replace(year=d0.year + years, day=28)
         days = (expiry - t).days
+        out.setdefault("expiries", {})[name] = expiry.isoformat()
         if expiry <= t:
             out["findings"].append({"status": "FAIL", "check": name, "detail": f"expired {expiry}"})
             out["actions"].append(f"Renew now: {what}")
@@ -204,6 +210,178 @@ def format_regions() -> str:
     return "\n".join(rows)
 
 
+# ---------------------------------------------------------------------------
+# Portfolio (many properties from a CSV) and calendar (.ics with reminders)
+# ---------------------------------------------------------------------------
+PORTFOLIO_COLUMNS = ["name", "postcode", "region", "gas", "no_gas", "eicr", "epc", "epc_rating", "tenancy_start"]
+_COLUMN_ALIASES = {"address": "name", "property": "name", "label": "name", "post_code": "postcode", "post code": "postcode",
+                   "gas_date": "gas", "gas safety": "gas", "gas_safety": "gas", "cp12": "gas", "eicr_date": "eicr",
+                   "epc_date": "epc", "epc rating": "epc_rating", "rating": "epc_rating", "tenancy": "tenancy_start",
+                   "tenancy start": "tenancy_start", "no gas": "no_gas", "nogas": "no_gas"}
+
+
+def _norm_col(c: str) -> str:
+    c = (c or "").strip().lower().replace("-", "_")
+    return _COLUMN_ALIASES.get(c, c.replace(" ", "_"))
+
+
+def read_portfolio(text: str) -> List[Dict[str, str]]:
+    """Parse a portfolio from CSV text (header row required) or a JSON list of objects."""
+    import csv
+    import io
+    text = text.lstrip("\ufeff")
+    if text.lstrip().startswith("["):
+        rows = json.loads(text)
+        return [{_norm_col(k): ("" if v is None else str(v)) for k, v in r.items()} for r in rows]
+    reader = csv.DictReader(io.StringIO(text))
+    out = []
+    for r in reader:
+        row = {_norm_col(k): (v or "").strip() for k, v in r.items() if k is not None}
+        if any(row.values()):
+            out.append(row)
+    return out
+
+
+def _truthy(v: Optional[str]) -> bool:
+    return str(v or "").strip().lower() in ("1", "true", "yes", "y", "x")
+
+
+def check_portfolio(rows: List[Dict[str, str]], today: Optional[str] = None) -> Dict[str, Any]:
+    """Run check_property for every row. Fee is £65 per property; the earliest deadline is the one to plan around."""
+    t = _d(today) or date.today()
+    props: List[Dict[str, Any]] = []
+    region_cache: Dict[str, Dict[str, Any]] = {}
+    for i, row in enumerate(rows, 1):
+        pc = (row.get("postcode") or "").strip()
+        region = row.get("region") or None
+        if pc and not region:
+            key = pc.upper().replace(" ", "")
+            if key not in region_cache:
+                region_cache[key] = lookup_region(pc)
+            lk = region_cache[key]
+            if "error" not in lk:
+                region = lk.get("region")
+                if lk.get("country") and lk["country"] != "England":
+                    region = None
+        r = check_property(pc, region=region, gas=row.get("gas") or None, no_gas=_truthy(row.get("no_gas")),
+                           eicr=row.get("eicr") or None, epc=row.get("epc") or None, epc_rating=row.get("epc_rating") or None,
+                           tenancy_start=row.get("tenancy_start") or None, properties=1, today=t.isoformat())
+        if pc and not region and not row.get("region"):
+            lk = region_cache.get(pc.upper().replace(" ", ""), {})
+            if lk.get("country") and lk["country"] != "England":
+                r["findings"] = [{"status": "INFO", "check": "scope", "detail": f"{lk['country']}: the England database does not apply"}]
+                r["ready"] = None
+        r["name"] = row.get("name") or pc or f"property {i}"
+        nxt = _next_date(r)
+        r["next"] = nxt
+        props.append(r)
+    in_scope = [p for p in props if p.get("ready") is not None]
+    deadlines = sorted(p["window"]["deadline"] for p in in_scope if p.get("window"))
+    out = {"version": __version__, "today": t.isoformat(), "properties": props,
+           "count": len(props), "in_scope": len(in_scope),
+           "fee_gbp_per_year": FEE_PER_PROPERTY_GBP * len(in_scope),
+           "earliest_deadline": deadlines[0] if deadlines else None,
+           "ready": sum(1 for p in in_scope if p.get("ready") is True),
+           "not_ready": sum(1 for p in in_scope if p.get("ready") is False),
+           "renewal": "annual, on the anniversary of the first property registered (one date for the whole portfolio); later properties pay pro rata"}
+    return out
+
+
+def _next_date(r: Dict[str, Any]) -> Optional[Dict[str, str]]:
+    """The soonest dated thing for one property: a certificate expiry, the window opening or the deadline."""
+    t = _d(r.get("today")) or date.today()
+    cands: List[tuple] = []
+    for name, iso in (r.get("expiries") or {}).items():
+        cands.append((iso, f"{name} expires"))
+    w = r.get("window")
+    if w:
+        if _d(w["opens"]) >= t:
+            cands.append((w["opens"], "registration window opens"))
+        cands.append((w["deadline"], "registration deadline"))
+    cands = [c for c in cands if _d(c[0]) >= t] or cands
+    if not cands:
+        return None
+    iso, what = sorted(cands)[0]
+    return {"date": iso, "what": what, "days": (_d(iso) - t).days}
+
+
+def format_portfolio(p: Dict[str, Any]) -> str:
+    lines = [f"rentready {p['version']}  portfolio of {p['count']} ({p['in_scope']} in England)  today {p['today']}"]
+    lines.append(f"{'Property':<28} {'Postcode':<9} {'Region':<24} {'Deadline':<11} {'Status':<9} Next")
+    for r in p["properties"]:
+        w = r.get("window") or {}
+        st = "READY" if r.get("ready") is True else "NOT READY" if r.get("ready") is False else "n/a"
+        nxt = r.get("next")
+        nxt_s = f"{nxt['date']} {nxt['what']} ({nxt['days']}d)" if nxt else ""
+        lines.append(f"{str(r['name'])[:28]:<28} {(r.get('postcode') or '')[:9]:<9} {(r.get('region') or 'unknown')[:24]:<24} {w.get('deadline', ''):<11} {st:<9} {nxt_s}")
+    for r in p["properties"]:
+        bad = [f for f in r["findings"] if f["status"] in ("FAIL", "WARN")]
+        if bad:
+            lines.append(f"{r['name']}:")
+            lines += [f"  {f['status']:<4} {f['check']}: {f['detail']}" for f in bad]
+    lines.append(f"Fee: £{p['fee_gbp_per_year']} a year for {p['in_scope']} properties (£{FEE_PER_PROPERTY_GBP} each); renewal {p['renewal']}")
+    if p.get("earliest_deadline"):
+        lines.append(f"Earliest deadline: {p['earliest_deadline']}. {p['ready']} ready, {p['not_ready']} not ready.")
+    return "\n".join(lines)
+
+
+def calendar_events(reports: List[Dict[str, Any]]) -> List[Dict[str, str]]:
+    """Dated events for one or more check_property results: window opens, deadline, each certificate expiry."""
+    events: List[Dict[str, str]] = []
+    for r in reports:
+        name = r.get("name") or r.get("postcode") or "property"
+        w = r.get("window")
+        if w:
+            events.append({"date": w["opens"], "summary": f"Landlord database: register {name} (window opens)",
+                           "description": f"{r.get('region')}: the registration requirement starts today; register at gov.uk Register your rental property. Deadline {w['deadline']}. Fee £{FEE_PER_PROPERTY_GBP} per property per year. Upload: " + "; ".join(UPLOADS), "property": name, "kind": "opens"})
+            events.append({"date": w["deadline"], "summary": f"Landlord database DEADLINE: {name}",
+                           "description": f"{r.get('region')}: last day to register. After this: up to £7,000 penalty, no possession order.", "property": name, "kind": "deadline"})
+        for cert, iso in (r.get("expiries") or {}).items():
+            what = {"gas safety record": "book the annual Gas Safe check before this date and upload the new CP12",
+                    "EICR": "book an electrician for the five-yearly EICR before this date and upload the new report",
+                    "EPC": "book an EPC assessment before this date and upload the new certificate"}.get(cert, "renew before this date")
+            events.append({"date": iso, "summary": f"{cert} expires: {name}", "description": f"{what}. Update the property entry on the database within 28 days.", "property": name, "kind": cert})
+    events.sort(key=lambda e: (e["date"], e["property"], e["summary"]))
+    return events
+
+
+def _ics_escape(s: str) -> str:
+    return s.replace("\\", "\\\\").replace(";", "\\;").replace(",", "\\,").replace("\n", "\\n")
+
+
+def _ics_fold(line: str) -> str:
+    out, b = [], line.encode("utf-8")
+    while len(b) > 73:
+        cut = 73
+        while cut > 0 and (b[cut] & 0xC0) == 0x80:  # do not split a UTF-8 sequence
+            cut -= 1
+        out.append(b[:cut].decode("utf-8")); b = b" " + b[cut:]
+    out.append(b.decode("utf-8"))
+    return "\r\n".join(out)
+
+
+def format_ics(events: List[Dict[str, str]], reminders: Optional[List[int]] = None, stamp: Optional[str] = None) -> str:
+    """RFC 5545 calendar of all-day events with VALARMs N days before. Deterministic UIDs, so re-importing updates rather than duplicates."""
+    import hashlib
+    reminders = [60, 14] if reminders is None else reminders
+    ds = (stamp or datetime.utcnow().strftime("%Y%m%dT%H%M%SZ"))
+    out = ["BEGIN:VCALENDAR", "VERSION:2.0", f"PRODID:-//genzagents//rentready {__version__}//EN", "CALSCALE:GREGORIAN",
+           "METHOD:PUBLISH", "X-WR-CALNAME:rentready: landlord database and certificate dates"]
+    for e in events:
+        d = _d(e["date"])
+        uid = hashlib.sha1(f"{e['property']}|{e['kind']}|{e['date']}".encode()).hexdigest()[:20] + "@rentready"
+        out += ["BEGIN:VEVENT", f"UID:{uid}", f"DTSTAMP:{ds}", f"DTSTART;VALUE=DATE:{d.strftime('%Y%m%d')}",
+                f"DTEND;VALUE=DATE:{(d + timedelta(days=1)).strftime('%Y%m%d')}",
+                f"SUMMARY:{_ics_escape(e['summary'])}", f"DESCRIPTION:{_ics_escape(e['description'])}",
+                "URL:https://genzagents.github.io/rentready/", "TRANSP:TRANSPARENT"]
+        for n in reminders:
+            out += ["BEGIN:VALARM", "ACTION:DISPLAY", f"TRIGGER;VALUE=DURATION:-P{int(n)}D",
+                    f"DESCRIPTION:{_ics_escape(e['summary'])} in {int(n)} days", "END:VALARM"]
+        out.append("END:VEVENT")
+    out.append("END:VCALENDAR")
+    return "\r\n".join(_ics_fold(l) for l in out) + "\r\n"
+
+
 MCP_TOOLS: List[Dict[str, Any]] = [{
     "name": "check_property",
     "description": "Is an English rental property ready for the landlord database (Register your rental property, Renters' Rights Act)? "
@@ -219,6 +397,24 @@ MCP_TOOLS: List[Dict[str, Any]] = [{
         "epc_rating": {"type": "string", "description": "EPC rating letter A-G"},
         "tenancy_start": {"type": "string", "description": "Current tenancy start date YYYY-MM-DD"},
         "properties": {"type": "integer", "description": "Number of properties, for the fee"},
+    }},
+}, {
+    "name": "check_portfolio",
+    "description": "Check many English rental properties at once for the landlord database. Input is CSV text (header row: name, postcode, gas, no_gas, eicr, epc, epc_rating, tenancy_start, region) "
+                   "or a JSON list of objects with those keys. Returns one line per property, the total £65/property fee, the earliest deadline and every FAIL/WARN.",
+    "inputSchema": {"type": "object", "required": ["portfolio"], "properties": {
+        "portfolio": {"type": "string", "description": "CSV text or JSON list of properties"},
+        "today": {"type": "string", "description": "Override today's date YYYY-MM-DD"},
+    }},
+}, {
+    "name": "make_calendar",
+    "description": "Build an iCalendar (.ics) file for one property or a portfolio: registration window opens, registration deadline, and each gas/EICR/EPC expiry as all-day events with reminders. "
+                   "Save the returned text as rentready.ics and import it into Google, Apple or Outlook calendar.",
+    "inputSchema": {"type": "object", "properties": {
+        "portfolio": {"type": "string", "description": "CSV text or JSON list of properties (omit for a single property)"},
+        "postcode": {"type": "string"}, "region": {"type": "string"}, "name": {"type": "string", "description": "Label for the property"},
+        "gas": {"type": "string"}, "no_gas": {"type": "boolean"}, "eicr": {"type": "string"}, "epc": {"type": "string"},
+        "reminder_days": {"type": "array", "items": {"type": "integer"}, "description": "Days before each event to alarm, default [60, 14]"},
     }},
 }]
 
@@ -252,12 +448,27 @@ def mcp_serve() -> None:
                 result = {"tools": MCP_TOOLS}
             elif method == "tools/call":
                 name, a = params.get("name"), params.get("arguments") or {}
-                if name != "check_property":
+                if name == "check_property":
+                    r = check_property(a.get("postcode", ""), region=a.get("region"), gas=a.get("gas"), no_gas=bool(a.get("no_gas")),
+                                       eicr=a.get("eicr"), epc=a.get("epc"), epc_rating=a.get("epc_rating"),
+                                       tenancy_start=a.get("tenancy_start"), properties=int(a.get("properties") or 1))
+                    result = {"content": [{"type": "text", "text": format_report(r)}], "structuredContent": r, "isError": False}
+                elif name == "check_portfolio":
+                    p = check_portfolio(read_portfolio(a["portfolio"]), today=a.get("today"))
+                    result = {"content": [{"type": "text", "text": format_portfolio(p)}], "structuredContent": p, "isError": False}
+                elif name == "make_calendar":
+                    if a.get("portfolio"):
+                        reports = check_portfolio(read_portfolio(a["portfolio"]))["properties"]
+                    else:
+                        r = check_property(a.get("postcode", ""), region=a.get("region"), gas=a.get("gas"), no_gas=bool(a.get("no_gas")),
+                                           eicr=a.get("eicr"), epc=a.get("epc"))
+                        r["name"] = a.get("name") or r.get("postcode") or "property"
+                        reports = [r]
+                    ev = calendar_events(reports)
+                    ics = format_ics(ev, a.get("reminder_days"))
+                    result = {"content": [{"type": "text", "text": ics}], "structuredContent": {"events": ev, "ics": ics}, "isError": False}
+                else:
                     raise KeyError(f"unknown tool {name}")
-                r = check_property(a.get("postcode", ""), region=a.get("region"), gas=a.get("gas"), no_gas=bool(a.get("no_gas")),
-                                   eicr=a.get("eicr"), epc=a.get("epc"), epc_rating=a.get("epc_rating"),
-                                   tenancy_start=a.get("tenancy_start"), properties=int(a.get("properties") or 1))
-                result = {"content": [{"type": "text", "text": format_report(r)}], "structuredContent": r, "isError": False}
             else:
                 _mcp_send({"jsonrpc": "2.0", "id": mid, "error": {"code": -32601, "message": f"method not found: {method}"}})
                 continue
@@ -276,17 +487,40 @@ def main(argv: Optional[List[str]] = None) -> int:
         mcp_serve(); return 0
     if argv[0] == "regions":
         print(format_regions()); return 0
-    if argv[0] != "check":
+    if argv[0] not in ("check", "portfolio", "calendar"):
         print(__doc__.strip(), file=sys.stderr); return 2
     rest = argv[1:]
     pos = [a for a in rest if not a.startswith("--")]
     opts = dict(a[2:].split("=", 1) if "=" in a else (a[2:], "1") for a in rest if a.startswith("--"))
-    postcode = " ".join(pos)
-    r = check_property(postcode, region=opts.get("region"), gas=opts.get("gas"), no_gas="no-gas" in opts, eicr=opts.get("eicr"),
-                       epc=opts.get("epc"), epc_rating=opts.get("epc-rating"), tenancy_start=opts.get("tenancy-start"),
-                       properties=int(opts.get("properties", 1)), today=opts.get("today"))
-    print(json.dumps(r, indent=2) if "json" in opts else format_report(r))
-    return 0 if r.get("ready") else 1
+    import os
+    if argv[0] == "portfolio" or (argv[0] == "calendar" and pos and os.path.isfile(pos[0])):
+        if not pos or not os.path.isfile(pos[0]):
+            print("portfolio: give a CSV file (columns: name, postcode, gas, no_gas, eicr, epc, epc_rating, tenancy_start, region)", file=sys.stderr); return 2
+        with open(pos[0], encoding="utf-8") as fh:
+            p = check_portfolio(read_portfolio(fh.read()), today=opts.get("today"))
+        if argv[0] == "portfolio":
+            print(json.dumps(p, indent=2) if "json" in opts else format_portfolio(p))
+            return 0 if p["not_ready"] == 0 else 1
+        reports = p["properties"]
+    else:
+        postcode = " ".join(pos)
+        r = check_property(postcode, region=opts.get("region"), gas=opts.get("gas"), no_gas="no-gas" in opts, eicr=opts.get("eicr"),
+                           epc=opts.get("epc"), epc_rating=opts.get("epc-rating"), tenancy_start=opts.get("tenancy-start"),
+                           properties=int(opts.get("properties", 1)), today=opts.get("today"))
+        if argv[0] == "check":
+            print(json.dumps(r, indent=2) if "json" in opts else format_report(r))
+            return 0 if r.get("ready") else 1
+        r["name"] = opts.get("name") or r.get("postcode") or "property"
+        reports = [r]
+    reminders = [int(x) for x in opts["reminders"].split(",") if x.strip()] if "reminders" in opts else None
+    ics = format_ics(calendar_events(reports), reminders)
+    if opts.get("out"):
+        with open(opts["out"], "w", encoding="utf-8", newline="") as fh:
+            fh.write(ics)
+        print(f"wrote {opts['out']}: {ics.count('BEGIN:VEVENT')} events", file=sys.stderr)
+    else:
+        sys.stdout.write(ics)
+    return 0
 
 
 if __name__ == "__main__":
