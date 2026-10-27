@@ -108,6 +108,55 @@ class FindIssueTests(unittest.TestCase):
         self.assertIsNone(it)
 
 
+class PackTests(unittest.TestCase):
+    """rentready pack: pre-filled answers, GATHER gaps, files to renew before upload (no network: region given)."""
+    FULL = {"name": "2 Full Rd", "postcode": "B3 2TA", "region": "West Midlands", "gas": "2026-09-01", "eicr": "2024-06-01",
+            "epc": "2019-05-01", "epc_rating": "C", "ownership": "freehold", "dwelling_type": "terraced house", "bedrooms": "3",
+            "let": "y", "occupants": "4", "households": "1", "licence": "none", "furnished": "unfurnished", "rent": "1100",
+            "rent_frequency": "monthly", "bills": "none"}
+
+    def _pack(self, rows, **kw):
+        from rentready.pack import build_pack
+        return build_pack(rows, today="2026-10-27", **kw)
+
+    def test_full_row_is_ready_to_register(self):
+        pk = self._pack([self.FULL])
+        x = pk["properties"][0]
+        self.assertTrue(x["ready_to_register"])
+        self.assertEqual(pk["missing_columns"], [])
+        self.assertIn("Currently let?", [a["question"] for a in x["answers"] if a["answer"] == "yes"])
+        self.assertEqual(x["files"][0]["file"], "2-full-rd_gas-safety-record_2026-09-01.pdf")
+
+    def test_check_only_row_lists_columns_to_add(self):
+        pk = self._pack([{"name": "A", "region": "London", "no_gas": "yes", "eicr": "2024-01-01", "epc": "2020-01-01"}])
+        x = pk["properties"][0]
+        self.assertFalse(x["ready_to_register"])
+        self.assertIn("bedrooms", pk["missing_columns"])
+        self.assertNotIn("freeholder", pk["missing_columns"])
+        self.assertEqual(x["files"][0]["state"], "N/A")
+
+    def test_expired_eicr_renew_lapsed_epc_needs_tenancy_start_and_f_needs_mees(self):
+        row = dict(self.FULL, eicr="2019-01-01", epc="2014-05-01", epc_rating="F")
+        files = {f["item"].split(" ")[0]: f for f in self._pack([row])["properties"][0]["files"]}
+        self.assertEqual(files["EICR"]["state"], "RENEW")
+        self.assertEqual(files["Most"]["state"], "GATHER")
+        self.assertIn("tenancy start", files["Most"]["note"])
+        self.assertIn("MEES", files)
+        row["tenancy_start"] = "2023-02-01"
+        files = {f["item"].split(" ")[0]: f for f in self._pack([row])["properties"][0]["files"]}
+        self.assertEqual(files["Most"]["state"], "READY")
+
+    def test_markdown_and_organisation(self):
+        from rentready.pack import format_pack
+        md = format_pack(self._pack([self.FULL], organisation=True))
+        self.assertIn("Companies House", md)
+        self.assertIn("**ready to register**", md)
+        self.assertIn("`2-full-rd_eicr_2024-06-01.pdf`", md)
+
+    def test_mcp_tool_listed(self):
+        self.assertIn("registration_pack", [t["name"] for t in rr.MCP_TOOLS])
+
+
 if __name__ == "__main__":
     unittest.main()
 
@@ -162,7 +211,7 @@ class Calendar(unittest.TestCase):
         self.assertEqual(out.returncode, 0); self.assertIn("BEGIN:VCALENDAR", out.stdout); self.assertIn("-P30D", out.stdout); self.assertNotIn("-P60D", out.stdout)
 
 class McpTools(unittest.TestCase):
-    def test_three_tools_and_portfolio_call(self):
+    def test_four_tools_and_portfolio_call(self):
         root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         msgs = [{"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {}},
                 {"jsonrpc": "2.0", "id": 2, "method": "tools/list"},
@@ -170,7 +219,7 @@ class McpTools(unittest.TestCase):
                 {"jsonrpc": "2.0", "id": 4, "method": "tools/call", "params": {"name": "make_calendar", "arguments": {"region": "London", "gas": "2026-09-01", "eicr": "2024-01-01", "epc": "2020-01-01", "name": "X"}}}]
         out = subprocess.run([sys.executable, "-m", "rentready", "mcp"], input="\n".join(json.dumps(m) for m in msgs) + "\n", capture_output=True, text=True, cwd=root)
         res = [json.loads(l) for l in out.stdout.strip().splitlines()]
-        self.assertEqual([t["name"] for t in res[1]["result"]["tools"]], ["check_property", "check_portfolio", "make_calendar"])
+        self.assertEqual([t["name"] for t in res[1]["result"]["tools"]], ["check_property", "check_portfolio", "make_calendar", "registration_pack"])
         self.assertEqual(res[2]["result"]["structuredContent"]["fee_gbp_per_year"], 65)
         self.assertIn("BEGIN:VCALENDAR", res[3]["result"]["content"][0]["text"]); self.assertEqual(len(res[3]["result"]["structuredContent"]["events"]), 5)
 

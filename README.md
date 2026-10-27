@@ -89,6 +89,22 @@ EICR and EPC expiry, each with reminders 60 and 14 days before (change with `--r
 Apple or Outlook calendar; UIDs are deterministic, so re-importing after a renewal updates the events instead of duplicating them.
 This is the free, serverless version of the monthly watch: nothing is stored anywhere but your own calendar.
 
+### The registration pack (0.5.0)
+
+```bash
+rentready pack properties.csv --out=pack.md          # add --organisation for a company or trust
+```
+
+Every question *Register your rental property* asks, in the service's own words (gov.uk "Get ready to register", Oct 2026):
+you as the landlord once, then per property the dwelling, tenancy, rent and health-and-safety sections. Answers come
+pre-filled from the CSV, a GATHER line marks each gap, and the pack tells you which columns to add to fill them
+(`ownership, dwelling_type, bedrooms, let, occupants, households, licence, furnished, rent, rent_frequency, bills`,
+optional `freeholder, manager`). Each certificate gets a file name to scan it as (`12-example-st_eicr_2023-06-01.pdf`) and
+a state: READY, RENEW SOON (expires before your deadline), RENEW (lapsed: renew before you upload) or GATHER. A lapsed EPC
+is accepted with the current tenancy's start date, and an F or G rating adds the MEES exemption question. A property is
+**ready to register** only when every answer and file is in hand. Nothing registers for you: you start the entry with
+GOV.UK One Login.
+
 ### Watch
 
 A certificate that lapses in month four is the thing nobody notices until the deadline. The watch is the alarm, and it
@@ -112,7 +128,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: genzagents/rentready@v0.4.1
+      - uses: genzagents/rentready@v0.5.0
         with:
           portfolio: properties.csv
           # warn-days: 90
@@ -132,7 +148,7 @@ claude plugin marketplace add genzagents/marketplace
 claude plugin install rentready@genzagents
 ```
 
-Or add to any MCP client: `python3 /path/to/rentready/__init__.py mcp` (stdio). Three tools: `check_property`, `check_portfolio` (CSV or JSON text in, one table out) and `make_calendar` (returns the .ics text for one property or a portfolio).
+Or add to any MCP client: `python3 /path/to/rentready/__init__.py mcp` (stdio). Four tools: `check_property`, `check_portfolio` (CSV or JSON text in, one table out), `make_calendar` (returns the .ics text for one property or a portfolio) and `registration_pack` (the markdown checklist above).
 
 ## What it checks
 

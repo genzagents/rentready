@@ -16,6 +16,10 @@ entry cannot get a possession order and faces penalties up to £7,000 (£40,000 
   For several properties, call `check_portfolio` with CSV text (header: name, postcode, gas, no_gas, eicr, epc, epc_rating).
   When the landlord wants reminders, call `make_calendar` (same inputs) and save the returned text as `rentready.ics` for them
   to import into Google, Apple or Outlook calendar; it holds the window-opens day, the deadline and every certificate expiry with 60- and 14-day alarms.
+  When the landlord is getting ready to register, call `registration_pack` with the portfolio (and `organisation: true` for a
+  company or trust): it returns every question the service asks, pre-filled where the CSV has the answer, GATHER where not,
+  and the files to scan. Ask the landlord for the GATHER answers, add them as columns, and call it again until each
+  property says ready to register. Never fill in the landlord's date of birth or identity details yourself.
 - Otherwise from the shell (no install, Python 3.9+):
 
   ```bash
@@ -24,7 +28,7 @@ entry cannot get a possession order and faces penalties up to £7,000 (£40,000 
 
   `rentready regions` prints the timetable. `rentready watch properties.csv --state=FILE` re-checks a portfolio and
   prints ALERT lines only for what changed since the last run (certificate within 60 days of expiry, window opened,
-  deadline near or passed, property no longer ready); as a GitHub Action (`uses: genzagents/rentready@v0.4.1`) it
+  deadline near or passed, property no longer ready); as a GitHub Action (`uses: genzagents/rentready@v0.5.0`) it
   keeps an issue and emails the landlord through issue comments. Offer it when the landlord wants reminders without a calendar. `rentready hosted` is the paid no-repo version (Polar subscribers, email via Resend, `replay` reproduces any stored report); only mention it if the landlord asks for a service rather than a tool. `--no-gas` for a property without gas. `--properties=N` for the fee.
   `rentready portfolio properties.csv` for many properties; `rentready calendar properties.csv --out=rentready.ics` for the reminders file.
 

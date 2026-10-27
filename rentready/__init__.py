@@ -16,8 +16,13 @@ Usage:
   rentready hosted run|replay|launchd   the paid monthly watch with no repo: polls Polar for subscribers, emails
                                     the first report within the hour, alerts on change, a monthly digest otherwise;
                                     `replay` re-runs a stored report from its stored inputs (see rentready/hosted.py)
+  rentready pack FILE.csv [--organisation] [--out=pack.md] [--json]
+                                    the registration pack: every question the service asks, pre-filled from the CSV,
+                                    GATHER where it is missing, and each file to scan with a name; flags certificates
+                                    to renew before you upload (optional columns: see rentready/pack.py)
   rentready regions                 print the rollout timetable
-  rentready mcp                     run as an MCP server over stdio (tools: check_property, check_portfolio, make_calendar)
+  rentready mcp                     run as an MCP server over stdio (tools: check_property, check_portfolio, make_calendar,
+                                    registration_pack)
 
 Zero dependencies. Region comes from postcodes.io (no key) unless --region is given.
 Timetable, fee and required information: Private Rented Sector Database Regulations 2026 as summarised by
@@ -32,7 +37,7 @@ import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
-__version__ = "0.4.1"
+__version__ = "0.5.0"
 
 FEE_PER_PROPERTY_GBP = 65
 
@@ -422,6 +427,17 @@ MCP_TOOLS: List[Dict[str, Any]] = [{
         "gas": {"type": "string"}, "no_gas": {"type": "boolean"}, "eicr": {"type": "string"}, "epc": {"type": "string"},
         "reminder_days": {"type": "array", "items": {"type": "integer"}, "description": "Days before each event to alarm, default [60, 14]"},
     }},
+}, {
+    "name": "registration_pack",
+    "description": "Prepare the registration pack for England's 'Register your rental property' service: every question the service asks "
+                   "(landlord, dwelling, tenancy, rent, health and safety), pre-filled from the portfolio where known and marked GATHER where not, "
+                   "and each certificate to scan with a suggested file name, flagging any that must be renewed before upload. Returns a markdown checklist. "
+                   "Extra optional columns: bedrooms, dwelling_type, ownership, let, occupants, households, licence, furnished, rent, rent_frequency, bills, freeholder, manager.",
+    "inputSchema": {"type": "object", "required": ["portfolio"], "properties": {
+        "portfolio": {"type": "string", "description": "CSV text or JSON list of properties"},
+        "organisation": {"type": "boolean", "description": "True if the landlord is a company, trust or other organisation"},
+        "today": {"type": "string", "description": "Override today's date YYYY-MM-DD"},
+    }},
 }]
 
 
@@ -473,6 +489,10 @@ def mcp_serve() -> None:
                     ev = calendar_events(reports)
                     ics = format_ics(ev, a.get("reminder_days"))
                     result = {"content": [{"type": "text", "text": ics}], "structuredContent": {"events": ev, "ics": ics}, "isError": False}
+                elif name == "registration_pack":
+                    from rentready.pack import build_pack, format_pack
+                    pk = build_pack(read_portfolio(a["portfolio"]), today=a.get("today"), organisation=bool(a.get("organisation")))
+                    result = {"content": [{"type": "text", "text": format_pack(pk)}], "structuredContent": pk, "isError": False}
                 else:
                     raise KeyError(f"unknown tool {name}")
             else:
@@ -499,6 +519,22 @@ def main(argv: Optional[List[str]] = None) -> int:
     if argv[0] == "hosted":
         from rentready.hosted import main as hosted_main
         return hosted_main(argv[1:])
+    if argv[0] == "pack":
+        from rentready.pack import build_pack, format_pack
+        files = [a for a in argv[1:] if not a.startswith("--")]
+        o = dict(a[2:].split("=", 1) if "=" in a else (a[2:], "1") for a in argv[1:] if a.startswith("--"))
+        if not files:
+            print("pack: give a portfolio CSV", file=sys.stderr); return 2
+        with open(files[0], encoding="utf-8") as fh:
+            pk = build_pack(read_portfolio(fh.read()), today=o.get("today"), organisation="organisation" in o)
+        text = json.dumps(pk, indent=2) if "json" in o else format_pack(pk)
+        if o.get("out"):
+            with open(o["out"], "w", encoding="utf-8") as fh:
+                fh.write(text + "\n")
+            print(f"wrote {o['out']}: {pk['ready_to_register']} of {pk['in_scope']} ready to register", file=sys.stderr)
+        else:
+            print(text)
+        return 0
     if argv[0] not in ("check", "portfolio", "calendar"):
         print(__doc__.strip(), file=sys.stderr); return 2
     rest = argv[1:]
