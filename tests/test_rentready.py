@@ -122,7 +122,7 @@ class Calendar(unittest.TestCase):
         # deterministic UIDs: same input, same calendar
         self.assertEqual(ics, rr.format_ics(rr.calendar_events([r]), [60, 14], stamp="20261026T000000Z"))
     def test_escape(self):
-        self.assertEqual(rr._ics_escape("a,b;c\nd"), "a\\,b\;c\\nd")
+        self.assertEqual(rr._ics_escape("a,b;c\nd"), "a\\,b\\;c\\nd")
     def test_cli_calendar_single(self):
         out = subprocess.run([sys.executable, "-m", "rentready", "calendar", "--region=London", "--gas=2026-09-01", "--eicr=2024-03-01", "--epc=2020-01-01", "--today=" + T, "--reminders=30"],
                              capture_output=True, text=True, cwd=os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
