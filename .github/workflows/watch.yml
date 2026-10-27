@@ -1,0 +1,21 @@
+# Dogfood: the example portfolio runs the same monthly watch we tell landlords to copy (docs/watch.yml),
+# against the code on main. Results live in issue #1.
+name: rentready watch
+
+on:
+  schedule:
+    - cron: "23 7 1 * *"
+  workflow_dispatch:
+
+permissions:
+  issues: write
+  contents: read
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./
+        with:
+          portfolio: docs/example.csv
