@@ -32,7 +32,7 @@ import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
-__version__ = "0.4.0"
+__version__ = "0.4.1"
 
 FEE_PER_PROPERTY_GBP = 65
 

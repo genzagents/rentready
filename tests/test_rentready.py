@@ -75,6 +75,39 @@ class Cli(unittest.TestCase):
         self.assertEqual(out[1]["result"]["tools"][0]["name"], "check_property")
         self.assertTrue(out[2]["result"]["structuredContent"]["ready"])
 
+class FindIssueTests(unittest.TestCase):
+    """find_issue reads the label listing first (search lags new issues) and picks the oldest duplicate."""
+
+    def _run(self, by_label, by_search):
+        from rentready import watch
+        calls = []
+
+        def fake_gh(*args, input_=None):
+            calls.append(args)
+            return json.dumps(by_label if "--label" in args else by_search)
+
+        orig, watch.gh = watch.gh, fake_gh
+        try:
+            return watch.find_issue("o/r", "rentready watch: x", "rentready"), calls
+        finally:
+            watch.gh = orig
+
+    def test_oldest_duplicate_from_label_listing(self):
+        dup = [{"number": n, "title": "rentready watch: x", "body": "", "state": "OPEN"} for n in (2, 1)]
+        it, calls = self._run(dup, [])
+        self.assertEqual(it["number"], 1)
+        self.assertEqual(len(calls), 1)
+
+    def test_falls_back_to_search_when_label_removed(self):
+        it, calls = self._run([], [{"number": 7, "title": "rentready watch: X", "body": "", "state": "CLOSED"}])
+        self.assertEqual(it["number"], 7)
+        self.assertEqual(len(calls), 2)
+
+    def test_none_when_absent(self):
+        it, _ = self._run([{"number": 3, "title": "other", "body": "", "state": "OPEN"}], [])
+        self.assertIsNone(it)
+
+
 if __name__ == "__main__":
     unittest.main()
 

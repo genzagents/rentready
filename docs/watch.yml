@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: genzagents/rentready@v0.4.0
+      - uses: genzagents/rentready@v0.4.1
         with:
           portfolio: properties.csv
           # warn-days: 90              # alert earlier
