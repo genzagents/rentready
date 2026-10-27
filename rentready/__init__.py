@@ -13,6 +13,9 @@ Usage:
   rentready watch FILE.csv          re-check monthly and raise the alarm only when something changes: a certificate
                                     comes within 60 days of expiring, a window opens, a deadline nears, a property
                                     stops being ready; remembers the last run in a GitHub issue (Actions) or --state=FILE
+  rentready hosted run|replay|launchd   the paid monthly watch with no repo: polls Polar for subscribers, emails
+                                    the first report within the hour, alerts on change, a monthly digest otherwise;
+                                    `replay` re-runs a stored report from its stored inputs (see rentready/hosted.py)
   rentready regions                 print the rollout timetable
   rentready mcp                     run as an MCP server over stdio (tools: check_property, check_portfolio, make_calendar)
 
@@ -29,7 +32,7 @@ import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
-__version__ = "0.3.0"
+__version__ = "0.4.0"
 
 FEE_PER_PROPERTY_GBP = 65
 
@@ -493,6 +496,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     if argv[0] == "watch":
         from rentready.watch import main as watch_main
         return watch_main(argv[1:])
+    if argv[0] == "hosted":
+        from rentready.hosted import main as hosted_main
+        return hosted_main(argv[1:])
     if argv[0] not in ("check", "portfolio", "calendar"):
         print(__doc__.strip(), file=sys.stderr); return 2
     rest = argv[1:]

@@ -112,7 +112,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: genzagents/rentready@v0.3.0
+      - uses: genzagents/rentready@v0.4.0
         with:
           portfolio: properties.csv
           # warn-days: 90
@@ -142,6 +142,20 @@ Or add to any MCP client: `python3 /path/to/rentready/__init__.py mcp` (stdio). 
 - EPC rating against the current E minimum and the proposed C minimum.
 - The fee for N properties, the renewal rule, the full list of details the service asks for, and the penalties.
 
+### Hosted monthly watch (0.4.0)
+
+The paid step for landlords who do not want a GitHub repo: pay once a year, paste your properties into the checkout,
+and get the same alerts in your inbox. The runner is in this repo and needs no server:
+
+```bash
+rentready hosted run --dry-run        # polls Polar for subscribers, prints every email it would send
+rentready hosted run                  # sends through Resend: first report within the hour, alerts on change, a monthly digest
+rentready hosted replay ~/.rentready-hosted/<id>.json   # re-runs a stored report from its stored inputs: IDENTICAL or DIFFERENT
+```
+
+Every email is reproducible from the inputs and date stored beside it. Setup and prices: [docs/HOSTED.md](docs/HOSTED.md).
+Letting agents can run it for their landlords from a file with `--subscribers=subs.json`, no payment provider needed.
+
 ## What it does not do
 
 It does not register for you, fetch certificates, or hold any data. It never sends your dates anywhere; the only network call
@@ -149,7 +163,7 @@ is the postcode lookup. Not legal advice.
 
 ## Roadmap
 
-`rentready calendar` puts every date in your calendar and `rentready watch` emails you from GitHub when something needs action, both free. A hosted monthly watch (no repo, no CSV to keep, the same alerts to your inbox) is the
-paid step, a few pounds a year. EPC lookup by address from the official open-data register is next (the register's API moved to get-energy-performance-data.communities.gov.uk in 2026 and needs a free key). Press the button on the [project page](https://genzagents.github.io/rentready/) if you want it.
+`rentready calendar` puts every date in your calendar and `rentready watch` emails you from GitHub when something needs action, both free. The hosted monthly watch (no repo, no CSV to keep, the same alerts to your inbox) is the
+paid step, £12 a year for up to 10 properties; the runner shipped in 0.4.0 and the checkout opens when payments are set up. EPC lookup by address from the official open-data register is next (the register's API moved to get-energy-performance-data.communities.gov.uk in 2026 and needs a free key). Press the button on the [project page](https://genzagents.github.io/rentready/) if you want it.
 
 MIT. Built by [genzagents](https://github.com/genzagents); sibling of [citable](https://github.com/genzagents/citable).
