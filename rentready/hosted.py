@@ -173,7 +173,7 @@ def render_email(kind: str, sub: Dict[str, Any], p: Dict[str, Any], alerts: List
     if sub.get("dropped"):
         lines += [f"Note: your plan covers {sub['limit']} properties; {sub['dropped']} more in your list were not checked.", ""]
     lines += ["--", f"rentready {__version__} hosted watch. Reply to this email to change your portfolio;",
-              "manage or cancel the subscription from the Polar receipt. Dates are the regulations' as published; check gov.uk.",
+              "manage or cancel the subscription from the Polar receipt. Dates are the draft regulations' as published; check gov.uk.",
               "https://genzagents.github.io/rentready/"]
     text = "\n".join(lines)
     esc = text.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")

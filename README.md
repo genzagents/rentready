@@ -23,16 +23,16 @@ curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/_
 ```
 
 ```
-rentready 0.7.0  B3 2TA  region: West Midlands
+rentready 0.7.1  B3 2TA  region: West Midlands
 Window: requirement starts 2026-12-15, deadline 2027-03-14 (139 days from 2026-10-26); the service opens for everyone on 2026-12-15
   PASS registration deadline: West Midlands requirement starts 2026-12-15, deadline 2027-03-14; you can register from 2026-12-15
   WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (98 days)
   PASS EICR: valid to 2028-06-01
   PASS EPC: valid to 2027-05-01
-  INFO EPC rating: rating D meets today's E minimum; the proposed C minimum for new tenancies from 2028 and all tenancies from 2030 would not be met
+  INFO EPC rating: rating D meets today's E minimum; it would not meet the C minimum set for all tenancies from 1 October 2030 (government response, 21 Jan 2026; not yet law)
 Do next:
   - Book before 2027-02-01: annual gas safety check by a Gas Safe engineer; upload the record and issue date
-Fee: £65 a year (65 per property); renewal annual, on the anniversary of the first property registered (one date for the whole portfolio); later properties pay pro rata
+Fee: £65 a year (65 per property); renewal every 12 months: the renewal date is the last day of the 12 months from your first entry, one date for the whole portfolio (draft regulation 10); later properties pay pro rata
 Upload at registration (within 28 days of the entry):
   - Latest gas safety record (CP12) and its issue date, if the property has gas
   - EICR (or EIC if no EICR yet) and its expiry date
@@ -145,7 +145,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: genzagents/rentready@v0.7.0
+      - uses: genzagents/rentready@v0.7.1
         with:
           portfolio: properties.csv
           # warn-days: 90
@@ -172,7 +172,8 @@ Or add to any MCP client: `python3 /path/to/rentready/__init__.py mcp` (stdio). 
 - Region from the postcode (postcodes.io, no key; `--region=` to skip the lookup). Wales and Scotland are flagged out of scope.
 - Registration window and deadline for that region; whether it is open, upcoming or missed.
 - Gas safety record (annual), EICR (five-yearly), EPC (ten-yearly): valid at the deadline, expiring before it, expired, or missing.
-- EPC rating against the current E minimum and the proposed C minimum.
+- EPC rating against the current E minimum and the C minimum for all tenancies from 1 October 2030
+  ([government response, 21 Jan 2026](https://www.gov.uk/government/consultations/improving-the-energy-performance-of-privately-rented-homes-2025-update/outcome/improving-the-energy-performance-of-privately-rented-homes-government-response-html); not yet law).
 - The fee for N properties, the renewal rule, the full list of details the service asks for, and the penalties.
 
 ### Hosted monthly watch (0.4.0)
@@ -193,6 +194,17 @@ Letting agents can run it for their landlords from a file with `--subscribers=su
 
 It does not register for you, fetch certificates, or hold any data. It never sends your dates anywhere; the only network call
 is the postcode lookup. Not legal advice.
+
+## Changes
+
+**0.7.1** (accuracy fixes, no new features)
+- EPC: the C minimum applies to all private tenancies from 1 October 2030; the government dropped the proposed 2028 date
+  for new tenancies ([government response, 21 Jan 2026](https://www.gov.uk/government/consultations/improving-the-energy-performance-of-privately-rented-homes-2025-update/outcome/improving-the-energy-performance-of-privately-rented-homes-government-response-html); not yet law).
+- Penalties: up to £40,000 covers the [section 92](https://www.legislation.gov.uk/ukpga/2025/26/section/92) offences (false information, continuing a breach after a
+  penalty, a repeat within five years), not only repeats; no possession order without an active entry except on
+  Ground 7A or Ground 14 ([section 90](https://www.legislation.gov.uk/ukpga/2025/26/section/90)).
+- Renewal: the last day of the 12 months from your first entry ([draft regulation 10](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/10)); the program text now
+  says the regulations are a draft (laid 9 September 2026, awaiting approval).
 
 ## Roadmap
 

@@ -25,8 +25,11 @@ Usage:
                                     registration_pack)
 
 Zero dependencies. Region comes from postcodes.io (no key) unless --region is given.
-Timetable, fee and required information: Private Rented Sector Database Regulations 2026 as summarised by
-NRLA and HCR Law (Oct 2026). Dates are the regulations' as published; check gov.uk before relying on them.
+Timetable, fee and required information: the draft Private Rented Sector Database Regulations 2026 (laid before
+Parliament on 9 Sep 2026, awaiting approval by both Houses) as summarised by NRLA and HCR Law (Oct 2026). Dates are
+the draft regulations' as published; check gov.uk before relying on them.
+EPC C minimum: all private tenancies by 1 October 2030, no earlier date for new tenancies (government response,
+21 Jan 2026, not yet law): https://www.gov.uk/government/consultations/improving-the-energy-performance-of-privately-rented-homes-2025-update/outcome/improving-the-energy-performance-of-privately-rented-homes-government-response-html
 """
 from __future__ import annotations
 
@@ -37,7 +40,7 @@ import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
-__version__ = "0.7.0"
+__version__ = "0.7.1"
 
 FEE_PER_PROPERTY_GBP = 65
 
@@ -69,9 +72,10 @@ DETAILS = [
 ]
 PENALTIES = [
     "Up to £7,000 civil penalty for letting or marketing without an active entry, omitting the reference from adverts, or not updating within 28 days",
-    "Up to £40,000 for a repeat breach; rent repayment orders for false information",
-    "No possession order from the court while the landlord or dwelling entry is inactive (anti-social behaviour cases excepted)",
+    "Up to £40,000 for the section 92 offences: knowingly or recklessly giving false or misleading information, continuing a breach 28 days after a penalty, or a different breach within five years of one; rent repayment orders can also apply",
+    "No possession order from the court while the landlord or dwelling entry is inactive, except on Ground 7A or Ground 14 (section 90)",
 ]
+RENEWAL = "every 12 months: the renewal date is the last day of the 12 months from your first entry, one date for the whole portfolio (draft regulation 10); later properties pay pro rata"
 
 
 def _d(s: Optional[str]) -> Optional[date]:
@@ -137,7 +141,7 @@ def check_property(postcode: str = "", *, region: Optional[str] = None, gas: Opt
     out["window"] = {"opens": opens.isoformat(), "deadline": deadline.isoformat(),
                      "days_to_deadline": (deadline - t).days, "service_opens_everywhere": "2026-12-15"}
     if t > deadline:
-        out["findings"].append({"status": "FAIL", "check": "registration deadline", "detail": f"{reg} deadline {deadline} has passed; register now, penalties up to £7,000 and no possession orders apply"})
+        out["findings"].append({"status": "FAIL", "check": "registration deadline", "detail": f"{reg} deadline {deadline} has passed; register now: penalties up to £7,000, and no possession order except on Ground 7A or Ground 14"})
     elif t >= opens:
         out["findings"].append({"status": "WARN", "check": "registration deadline", "detail": f"{reg} window is open: register by {deadline} ({(deadline - t).days} days)"})
     else:
@@ -176,7 +180,7 @@ def check_property(postcode: str = "", *, region: Optional[str] = None, gas: Opt
         if r in ("F", "G"):
             out["findings"].append({"status": "FAIL", "check": "EPC rating", "detail": f"rating {r} is below the current E minimum (MEES); register an exemption or improve"})
         elif r in ("D", "E"):
-            out["findings"].append({"status": "INFO", "check": "EPC rating", "detail": f"rating {r} meets today's E minimum; the proposed C minimum for new tenancies from 2028 and all tenancies from 2030 would not be met"})
+            out["findings"].append({"status": "INFO", "check": "EPC rating", "detail": f"rating {r} meets today's E minimum; it would not meet the C minimum set for all tenancies from 1 October 2030 (government response, 21 Jan 2026; not yet law)"})
         else:
             out["findings"].append({"status": "PASS", "check": "EPC rating", "detail": f"rating {r}"})
     if tenancy_start:
@@ -185,7 +189,7 @@ def check_property(postcode: str = "", *, region: Optional[str] = None, gas: Opt
     out["uploads"] = UPLOADS
     out["details_required"] = DETAILS
     out["penalties"] = PENALTIES
-    out["renewal"] = "annual, on the anniversary of the first property registered (one date for the whole portfolio); later properties pay pro rata"
+    out["renewal"] = RENEWAL
     fails = [f for f in out["findings"] if f["status"] == "FAIL"]
     out["ready"] = not fails
     return out
@@ -294,7 +298,7 @@ def check_portfolio(rows: List[Dict[str, str]], today: Optional[str] = None) -> 
            "earliest_deadline": deadlines[0] if deadlines else None,
            "ready": sum(1 for p in in_scope if p.get("ready") is True),
            "not_ready": sum(1 for p in in_scope if p.get("ready") is False),
-           "renewal": "annual, on the anniversary of the first property registered (one date for the whole portfolio); later properties pay pro rata"}
+           "renewal": RENEWAL}
     return out
 
 
@@ -346,7 +350,7 @@ def calendar_events(reports: List[Dict[str, Any]]) -> List[Dict[str, str]]:
             events.append({"date": w["opens"], "summary": f"Landlord database: register {name} (window opens)",
                            "description": f"{r.get('region')}: the registration requirement starts today; register at gov.uk Register your rental property. Deadline {w['deadline']}. Fee £{FEE_PER_PROPERTY_GBP} per property per year. Upload: " + "; ".join(UPLOADS), "property": name, "kind": "opens"})
             events.append({"date": w["deadline"], "summary": f"Landlord database DEADLINE: {name}",
-                           "description": f"{r.get('region')}: last day to register. After this: up to £7,000 penalty, no possession order.", "property": name, "kind": "deadline"})
+                           "description": f"{r.get('region')}: last day to register. After this: up to £7,000 penalty, and no possession order except on Ground 7A or Ground 14.", "property": name, "kind": "deadline"})
         for cert, iso in (r.get("expiries") or {}).items():
             what = {"gas safety record": "book the annual Gas Safe check before this date and upload the new CP12",
                     "EICR": "book an electrician for the five-yearly EICR before this date and upload the new report",

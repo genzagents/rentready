@@ -160,7 +160,7 @@ def render_body(path: str, p: Dict[str, Any], snap: Dict[str, Any], run_url: str
     out += ["", f"<sub>Kept up to date by [rentready watch](https://github.com/genzagents/rentready#watch) "
                 f"{__version__}. It comments here only when something changes (a certificate comes within "
                 f"{snap['warn_days']} days of expiring, a window opens, a deadline nears, a property stops being ready), "
-                f"so subscribe to this issue to get the email. Dates are the regulations' as published; check gov.uk.</sub>",
+                f"so subscribe to this issue to get the email. Dates are the draft regulations' as published; check gov.uk.</sub>",
             "", f"<!-- rentready-state {json.dumps(snap, separators=(',', ':'))} -->"]
     return "\n".join(out)
 

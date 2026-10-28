@@ -1,9 +1,12 @@
 // rentready in the browser: the same check, portfolio, calendar and registration pack as rentready/__init__.py, line for line.
 // Runs on the page with no server; the only network call is the postcode lookup at postcodes.io.
 // tests/test_web.py runs this file under node and compares its output with the Python's.
+// Dates and fee: the draft Private Rented Sector Database Regulations 2026 (laid 9 Sep 2026, awaiting approval).
+// EPC C minimum: all private tenancies by 1 October 2030 (government response, 21 Jan 2026, not yet law):
+// https://www.gov.uk/government/consultations/improving-the-energy-performance-of-privately-rented-homes-2025-update/outcome/improving-the-energy-performance-of-privately-rented-homes-government-response-html
 (function (root) {
   "use strict";
-  const VERSION = "0.7.0";
+  const VERSION = "0.7.1";
   const FEE_PER_PROPERTY_GBP = 65;
   const ROLLOUT = {
     "West Midlands": { opens: "2026-12-15", deadline: "2027-03-14" },
@@ -23,7 +26,7 @@
     "EICR (or EIC if no EICR yet) and its expiry date",
     "Latest EPC, and any MEES exemption; if the EPC has lapsed, the start date of the current tenancy",
   ];
-  const RENEWAL = "annual, on the anniversary of the first property registered (one date for the whole portfolio); later properties pay pro rata";
+  const RENEWAL = "every 12 months: the renewal date is the last day of the 12 months from your first entry, one date for the whole portfolio (draft regulation 10); later properties pay pro rata";
 
   // Dates are YYYY-MM-DD strings; arithmetic in UTC days so time zones never move a date.
   const DAY = 86400000;
@@ -90,7 +93,7 @@
     const opens = ROLLOUT[reg].opens, deadline = ROLLOUT[reg].deadline;
     out.window = { opens, deadline, days_to_deadline: days(t, deadline), service_opens_everywhere: "2026-12-15" };
     if (t > deadline) {
-      out.findings.push({ status: "FAIL", check: "registration deadline", detail: `${reg} deadline ${deadline} has passed; register now, penalties up to £7,000 and no possession orders apply` });
+      out.findings.push({ status: "FAIL", check: "registration deadline", detail: `${reg} deadline ${deadline} has passed; register now: penalties up to £7,000, and no possession order except on Ground 7A or Ground 14` });
     } else if (t >= opens) {
       out.findings.push({ status: "WARN", check: "registration deadline", detail: `${reg} window is open: register by ${deadline} (${days(t, deadline)} days)` });
     } else {
@@ -126,7 +129,7 @@
       if (r === "F" || r === "G") {
         out.findings.push({ status: "FAIL", check: "EPC rating", detail: `rating ${r} is below the current E minimum (MEES); register an exemption or improve` });
       } else if (r === "D" || r === "E") {
-        out.findings.push({ status: "INFO", check: "EPC rating", detail: `rating ${r} meets today's E minimum; the proposed C minimum for new tenancies from 2028 and all tenancies from 2030 would not be met` });
+        out.findings.push({ status: "INFO", check: "EPC rating", detail: `rating ${r} meets today's E minimum; it would not meet the C minimum set for all tenancies from 1 October 2030 (government response, 21 Jan 2026; not yet law)` });
       } else {
         out.findings.push({ status: "PASS", check: "EPC rating", detail: `rating ${r}` });
       }
@@ -242,7 +245,7 @@
         ev.push({ date: w.opens, summary: `Landlord database: register ${name} (window opens)`,
           description: `${r.region}: the registration requirement starts today; register at gov.uk Register your rental property. Deadline ${w.deadline}. Fee £${FEE_PER_PROPERTY_GBP} per property per year. Upload: ` + UPLOADS.join("; "), property: name, kind: "opens" });
         ev.push({ date: w.deadline, summary: `Landlord database DEADLINE: ${name}`,
-          description: `${r.region}: last day to register. After this: up to £7,000 penalty, no possession order.`, property: name, kind: "deadline" });
+          description: `${r.region}: last day to register. After this: up to £7,000 penalty, and no possession order except on Ground 7A or Ground 14.`, property: name, kind: "deadline" });
       }
       for (const [c, d] of Object.entries(r.expiries || {})) {
         const what = { "gas safety record": "book the annual Gas Safe check before this date and upload the new CP12",

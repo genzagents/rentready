@@ -8,7 +8,9 @@ description: Use when a landlord or letting agent in England asks about the land
 England's private rented sector database opens on 15 December 2026 and each region gets a three-month window
 (West Midlands first, deadline 14 March 2027; London 15 July to 14 October 2027; South West last, 14 November 2027).
 Every property costs £65 a year. Gas safety record, EICR and EPC are uploaded, and a landlord without an active
-entry cannot get a possession order and faces penalties up to £7,000 (£40,000 repeat).
+entry cannot get a possession order (except on Ground 7A or Ground 14) and faces penalties up to £7,000, or up to
+£40,000 for the section 92 offences (false information, continuing a breach after a penalty, a repeat within five
+years). The dates come from draft regulations laid on 9 September 2026 and still awaiting approval.
 
 ## How to run it
 
@@ -28,7 +30,7 @@ entry cannot get a possession order and faces penalties up to £7,000 (£40,000 
 
   `rentready regions` prints the timetable. `rentready watch properties.csv --state=FILE` re-checks a portfolio and
   prints ALERT lines only for what changed since the last run (certificate within 60 days of expiry, window opened,
-  deadline near or passed, property no longer ready); as a GitHub Action (`uses: genzagents/rentready@v0.7.0`) it
+  deadline near or passed, property no longer ready); as a GitHub Action (`uses: genzagents/rentready@v0.7.1`) it
   keeps an issue and emails the landlord through issue comments. Offer it when the landlord wants reminders without a calendar. `rentready hosted` is the paid no-repo version (Polar subscribers, email via Resend, `replay` reproduces any stored report); only mention it if the landlord asks for a service rather than a tool. `--no-gas` for a property without gas. `--properties=N` for the fee.
   `rentready portfolio properties.csv` for many properties; `rentready calendar properties.csv --out=rentready.ics` for the reminders file.
 

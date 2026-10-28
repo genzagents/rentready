@@ -49,16 +49,16 @@ button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:6
 </section>
 <h2>For you or your agent, in the terminal</h2>
 <pre>curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/__init__.py | python3 - check "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --epc=2017-05-01 --epc-rating=D</pre>
-<pre>rentready 0.7.0  B3 2TA  region: West Midlands
+<pre>rentready 0.7.1  B3 2TA  region: West Midlands
 Window: requirement starts 2026-12-15, deadline 2027-03-14 (139 days from 2026-10-26); the service opens for everyone on 2026-12-15
   PASS registration deadline: West Midlands requirement starts 2026-12-15, deadline 2027-03-14; you can register from 2026-12-15
   WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (98 days)
   PASS EICR: valid to 2028-06-01
   PASS EPC: valid to 2027-05-01
-  INFO EPC rating: rating D meets today's E minimum; the proposed C minimum for new tenancies from 2028 and all tenancies from 2030 would not be met
+  INFO EPC rating: rating D meets today's E minimum; it would not meet the C minimum set for all tenancies from 1 October 2030 (government response, 21 Jan 2026; not yet law)
 Do next:
   - Book before 2027-02-01: annual gas safety check by a Gas Safe engineer; upload the record and issue date
-Fee: £65 a year (65 per property); renewal annual, on the anniversary of the first property registered (one date for the whole portfolio); later properties pay pro rata
+Fee: £65 a year (65 per property); renewal every 12 months: the renewal date is the last day of the 12 months from your first entry, one date for the whole portfolio (draft regulation 10); later properties pay pro rata
 Upload at registration (within 28 days of the entry):
   - Latest gas safety record (CP12) and its issue date, if the property has gas
   - EICR (or EIC if no EICR yet) and its expiry date
@@ -68,7 +68,7 @@ READY: nothing expires before your deadline. Gather the details above and regist
 <p>New in 0.2.0. Put your properties in a CSV (<code>name, postcode, gas, no_gas, eicr, epc, epc_rating</code>) and get one table with every warning, the total fee and the earliest deadline. Then write an <code>.ics</code> file with the day your region's window opens, the deadline and every gas, EICR and EPC expiry, each with reminders 60 and 14 days before, and import it into Google, Apple or Outlook calendar. Nothing is stored anywhere but your own calendar.</p>
 <pre>rentready portfolio properties.csv
 rentready calendar properties.csv --out=rentready.ics</pre>
-<pre>rentready 0.7.0  portfolio of 3 (3 in England)  today 2026-10-27
+<pre>rentready 0.7.1  portfolio of 3 (3 in England)  today 2026-10-27
 Property                     Postcode  Region                   Deadline    Status    Next
 12 Example St                B3 2TA    West Midlands            2027-03-14  READY     2026-12-15 registration window opens (49d)
 Flat 4                       SW1A 1AA  London                   2027-10-14  READY     2027-07-15 registration window opens (261d)
@@ -78,7 +78,7 @@ No EICR                      M1 1AE    North West               2027-08-14  NOT 
 No EICR:
   WARN gas safety record: expires 2027-05-01, before the 2027-08-14 deadline (186 days)
   FAIL EICR: no EICR date given (five-yearly report is required and uploaded with its expiry)
-Fee: £195 a year for 3 properties (£65 each); renewal annual, on the anniversary of the first property registered (one date for the whole portfolio); later properties pay pro rata
+Fee: £195 a year for 3 properties (£65 each); renewal every 12 months: the renewal date is the last day of the 12 months from your first entry, one date for the whole portfolio (draft regulation 10); later properties pay pro rata
 Earliest deadline: 2027-03-14. 2 ready, 1 not ready.</pre>
 <p>Your own agent can do the same: the MCP server has <code>check_property</code>, <code>check_portfolio</code>, <code>make_calendar</code> and <code>registration_pack</code>.</p>
 <h2>The registration pack (in the browser from 0.7.0)</h2>
@@ -88,7 +88,7 @@ Earliest deadline: 2027-03-14. 2 ready, 1 not ready.</pre>
 <p>Put <code>properties.csv</code> in a private GitHub repo and add one workflow file. On the first of every month <code>rentready watch</code> re-checks every property, keeps one issue up to date with the whole table, and comments on it only when a gas safety record, EICR or EPC comes within 60 days of expiring, your region's window opens, a deadline nears or passes, or a property stops being ready. GitHub emails you the comment. Free, no server, no account beyond GitHub. <a href="https://github.com/genzagents/rentready/issues/1">Issue #1</a> watches the example portfolio.</p>
 <pre>steps:
   - uses: actions/checkout@v4
-  - uses: genzagents/rentready@v0.7.0
+  - uses: genzagents/rentready@v0.7.1
     with:
       portfolio: properties.csv</pre>
 <p class="mut">Full template: <a href="https://github.com/genzagents/rentready/blob/main/docs/watch.yml">docs/watch.yml</a>. Or from cron on your own machine: <code>rentready watch properties.csv --state=state.json</code>.</p>
