@@ -18,6 +18,8 @@ sys.path.insert(0, str(ROOT))
 import rentready as rr  # noqa: E402
 
 BASE = "https://genzagents.github.io/rentready/"
+REGS = "https://www.legislation.gov.uk/ukdsi/2026/9780348286861"
+WP = "https://api.parliament.uk/procedure-browser/work-packages/mNlSJVmc"
 UPDATED = "2026-10-28"  # bump when the wording or the data changes
 FIRST = "2026-12-15"  # the service opens to every landlord in England
 
@@ -96,6 +98,9 @@ def region_page(region: str, w: dict) -> tuple:
             f"<h2>What it costs</h2><p>£{fee} per property per year; five properties cost £{fee * 5}. Renewal is "
             f"{esc(rr.RENEWAL)}. <a href=\"landlord-database-fee.html\">The fee explained</a>.</p>\n"
             f"<h2>What you upload for each property</h2>{ul(rr.UPLOADS)}"
+            f"<p><strong>Two 28-day rules.</strong> Upload these within 28 days of making the entry, or the entry becomes inactive "
+            f"(<a href=\"{REGS}/regulation/11\">draft regulation 11(2)(a)</a>), which counts as not registered. Afterwards, update the entry within "
+            f"28 days whenever something goes out of date, such as each new annual gas safety record (<a href=\"{REGS}/regulation/9\">draft regulation 9(4)</a>).</p>\n"
             f"<p>Check the dates now: a certificate that lapses before {dl} has to be renewed first. A gas safety record lasts "
             f"12 months, an EICR five years, an EPC ten years. Guides: <a href=\"gas-safety-certificate-landlord-database.html\">gas safety</a>, "
             f"<a href=\"eicr-landlord-database.html\">EICR</a>, <a href=\"epc-rating-landlord-database.html\">EPC and rating</a>.</p>\n"
@@ -119,7 +124,7 @@ def region_page(region: str, w: dict) -> tuple:
 <a class="btn" href="../index.html#tool">Check my properties</a></div>
 <h2>Sources</h2>
 <ul class="mut">{''.join(f'<li><a href="{u}">{esc(t)}</a></li>' for u, t in SOURCES)}</ul>
-<p class="mut">Dates and fee are the draft Private Rented Sector Database Regulations 2026 (laid 9 September 2026, awaiting approval by both Houses) as summarised by the NRLA and HCR Law. Not legal advice; check gov.uk before relying on this. Last checked {long(UPDATED)}.</p>
+<p class="mut">Dates: the draft Private Rented Sector Database Regulations 2026 and the official guidance. Fee (£{fee}, pro-rated during the rollout): the official guidance; the draft leaves the amount to the database operator (<a href="{REGS}/regulation/14">regulation 14</a>). The 28-day rules: draft <a href="{REGS}/regulation/6">regulations 6(2)</a>, <a href="{REGS}/regulation/9">9(4)</a> and <a href="{REGS}/regulation/11">11(2)(a)</a>. The regulations were laid on 9 September 2026 and are not yet approved: the Lords Secondary Legislation Scrutiny Committee drew them to the special attention of the House on 22 October 2026, and committees of both Houses debated them on 28 October 2026 (<a href="{WP}">Parliament record</a>). Not legal advice; check gov.uk before relying on this. Last checked {long(UPDATED)}.</p>
 </main></body></html>
 """
     return name, doc

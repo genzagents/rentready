@@ -33,7 +33,7 @@ Window: requirement starts 2026-12-15, deadline 2027-03-14 (137 days from 2026-1
 Do next:
   - Book before 2027-02-01: annual gas safety check by a Gas Safe engineer; upload the record and issue date
 Fee: £65 a year (65 per property); renewal every 12 months: the renewal date is the last day of the 12 months from your first entry, one date for the whole portfolio (draft regulation 10); later properties pay pro rata
-Upload at registration (within 28 days of the entry):
+Upload at registration (within 28 days of the entry, or it becomes inactive):
   - Latest gas safety record (CP12) and its issue date, if the property has gas
   - EICR (or EIC if no EICR yet) and its expiry date
   - Latest EPC, and any MEES exemption; if the EPC has lapsed, the start date of the current tenancy
@@ -55,13 +55,18 @@ READY: nothing expires before your deadline. Gather the details above and regist
 | South West | 15 Aug 2027 | 14 Nov 2027 |
 
 Registration opens for all of England on 15 December 2026. Source: the draft
-[Private Rented Sector Database Regulations 2026](https://www.legislation.gov.uk/ukdsi/2026/9780348286861), laid before Parliament on 9 September 2026 and awaiting
-approval by both Houses as of 28 October 2026 ([Parliament record](https://api.parliament.uk/procedure-browser/work-packages/mNlSJVmc)), as summarised by the [NRLA](https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service)
+[Private Rented Sector Database Regulations 2026](https://www.legislation.gov.uk/ukdsi/2026/9780348286861), laid before Parliament on 9 September 2026 and not yet
+approved: the Lords Secondary Legislation Scrutiny Committee drew them to the special attention of the House ([13th report](https://publications.parliament.uk/pa/ld5902/ldselect/ldsecleg/68/6803.htm), 22 October 2026)
+and committees of both Houses debated them on 28 October 2026 ([Parliament record](https://api.parliament.uk/procedure-browser/work-packages/mNlSJVmc)), as summarised by the [NRLA](https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service)
 and [HCR Law](https://www.hcrlaw.com/news-and-insights/renters-rights-act-2025-private-rented-sector-database-to-go-live-from-15-december-2026/);
 the same dates are in the official guidance at [housinghub.campaign.gov.uk](https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/), which names the region "Yorkshire and Humber".
 Upload within 28 days of the entry and one renewal date for every property are in the draft regulations
-([regulation 6(2)](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6), [regulation 10](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/10)) and reported by the NRLA; pro rata fees for
-later properties are reported by the NRLA. None of the three is in the official guidance yet. Check gov.uk before relying on a date.
+([regulation 6(2)](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6), [regulation 10](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/10)) and reported by the NRLA; the official guidance
+says the fee is pro-rated during the rollout, and the method for later properties is reported by the NRLA. The £65 fee is
+from the official guidance; the draft leaves the amount to the database operator ([regulation 14](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/14)).
+Miss the 28-day upload and the entry becomes inactive ([regulation 11(2)(a)](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/11)); any later change
+must be updated within 28 days ([regulation 9(4)](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/9)). The two 28-day rules and the single renewal date
+are not in the official guidance yet. Check gov.uk before relying on a date.
 
 ## Install
 
@@ -216,7 +221,7 @@ is the postcode lookup. Not legal advice.
   penalty, a repeat within five years), not only repeats; no possession order without an active entry except on
   Ground 7A or Ground 14 ([section 90](https://www.legislation.gov.uk/ukpga/2025/26/section/90)).
 - Renewal: the last day of the 12 months from your first entry ([draft regulation 10](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/10)); the program text now
-  says the regulations are a draft (laid 9 September 2026, awaiting approval).
+  says the regulations are a draft (laid 9 September 2026, not yet approved).
 
 ## Roadmap
 

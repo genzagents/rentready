@@ -31,6 +31,7 @@ button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:6
 #packout h3{margin:1.2em 0 .2em}#packout table{font-size:14px;margin:.4em 0}#packout td:first-child{width:55%}
 .GATHER,.RENEW{background:#d332;color:var(--fg)}.RENEWSOON{background:#e902;color:var(--fg)}.FILLED{background:#0b52;color:var(--fg)}.IFANY{background:#8882;color:var(--fg)}
 @media print{body *{visibility:hidden}#packout,#packout *{visibility:visible}#packout{position:absolute;left:0;top:0;width:100%}#packout .bar{display:none}}
+.rules{background:var(--box);border:1px solid var(--bd);border-radius:8px;padding:4px 16px;margin:1.5em 0}.rules h2{margin-top:.6em}
 </style>
 <script type="application/ld+json">
 {
@@ -88,13 +89,21 @@ button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:6
 <li><strong>Already lapsed, or you cannot find it.</strong> Book a check now, so you have a current record to upload.</li>
 </ul>
 <h2>Keeping the entry up to date</h2>
-<p>Registration is not a one-off. Section 78 of the Renters' Rights Act 2025 lets the government require active entries to be kept up to date, with the time limit set in regulations (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/78">section 78</a>). When a certificate is renewed, the entry should show the new one.</p>
+<p>Registration is not a one-off. Section 78 of the Renters' Rights Act 2025 lets regulations require active entries to be kept up to date (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/78">section 78</a>), and the draft regulations set the limit: 28 days from the day the information goes out of date (<a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/9">draft regulation 9(4)</a>). When a certificate is renewed, upload the new one within 28 days. See <a href="#28-day-rules">the two 28-day rules</a> below.</p>
 <p>The gas record renews every year, so this is the certificate you will update most often. rentready's calendar file puts every gas expiry in your calendar, with reminders 60 and 14 days before.</p>
 <h2>Scanning and naming</h2>
 <p>Scan each record as a PDF before you start the entry. rentready's registration pack gives each certificate a file name to scan it as, for example <code>12-example-st_gas-safety-record_2026-02-01.pdf</code>, so the right record goes with the right property.</p>
 <h2>Several properties</h2>
 <p>With a portfolio, gas checks fall on different dates for each property. Put every property into rentready, or paste a CSV with a <code>gas</code> column holding each record's issue date and a <code>no_gas</code> column for properties without a supply. You get one table showing which records expire before each property's deadline, and what to book first.</p>
 <p><a class="btn" href="../index.html">Check your properties free</a> <span class="mut">Runs in your browser. Only the postcode leaves it, to find the region.</span></p>
+<div class="rules" id="28-day-rules">
+<h2>The two 28-day rules</h2>
+<ul>
+<li><strong>Upload within 28 days, or the entry goes inactive.</strong> You can make a property's entry before you have the tenancy and safety details (occupiers, licences, gas safety record, EICR, EPC, rent), but they must be added within 28 days of making the entry (<a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6">draft regulation 6(2)</a>). If they are not, the entry becomes inactive (<a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/11">draft regulation 11(2)(a)</a>). An inactive entry is the same as no entry: letting the property risks a penalty of up to £7,000, and the court cannot make a possession order except on Ground 7A or Ground 14 (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/90">section 90</a>).</li>
+<li><strong>Update within 28 days of any change.</strong> When information or a document in the entry goes out of date, for example when the annual gas safety check replaces last year's record, or a new EICR replaces the old one, the entry must be updated within 28 days of the day it went out of date (<a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/9">draft regulation 9(4)</a>). For gas, that is every year.</li>
+</ul>
+<p class="mut">Both rules are in the draft Private Rented Sector Database Regulations 2026, which Parliament has not yet approved; the official guidance does not mention them yet.</p>
+</div>
 <h2>Questions</h2>
 <h3>Do I upload the gas safety certificate to the landlord database?</h3>
 <p>Yes, if the property has gas. You upload the latest gas safety record and its issue date.</p>

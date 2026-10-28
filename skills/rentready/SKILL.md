@@ -10,7 +10,7 @@ England's private rented sector database opens on 15 December 2026 and each regi
 Every property costs £65 a year. Gas safety record, EICR and EPC are uploaded, and a landlord without an active
 entry cannot get a possession order (except on Ground 7A or Ground 14) and faces penalties up to £7,000, or up to
 £40,000 for the section 92 offences (false information, continuing a breach after a penalty, a repeat within five
-years). The dates come from draft regulations laid on 9 September 2026 and still awaiting approval.
+years). The dates come from draft regulations laid on 9 September 2026 and not yet approved (Lords scrutiny committee flagged them on 22 October 2026; committee debates 28 October 2026).
 
 ## How to run it
 
@@ -42,5 +42,6 @@ years). The dates come from draft regulations laid on 9 September 2026 and still
 3. **WARN** means it expires before the deadline: book it for before that date so the uploaded record is in date.
 4. Ask for anything you do not know (dates, whether there is gas, EPC rating) rather than guessing; re-run with the answers.
 5. Always add: each joint landlord needs their own entry, an agent cannot register for the landlord, and all details
-   are due within 28 days of creating the entry. Point to https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/
+   are due within 28 days of creating the entry or the entry becomes inactive (draft reg 11(2)(a)); any change, such as each
+   new annual gas safety record, must be updated within 28 days (draft reg 9(4)). Point to https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/
    and https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service.

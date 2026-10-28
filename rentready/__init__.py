@@ -29,9 +29,11 @@ EICR: --eicr is the report's issue date, --eicr-due the date the report gives fo
 requires inspection at least every 5 years, or sooner if the report says so (SI 2020/312 reg 3(2)), and the service
 asks for the expiry date, so the report's date is used when given; issue date + 5 years is only a fallback, and the
 result says so.
-Timetable, fee and required information: the draft Private Rented Sector Database Regulations 2026 (laid before
-Parliament on 9 Sep 2026, awaiting approval by both Houses) as summarised by NRLA and HCR Law (Oct 2026). Dates are
-the draft regulations' as published; check gov.uk before relying on them.
+Timetable and required information: the draft Private Rented Sector Database Regulations 2026 (laid before
+Parliament on 9 Sep 2026; not yet approved as of 28 Oct 2026) and the official guidance at housinghub.campaign.gov.uk.
+The £65 fee is from the official guidance; the draft leaves the amount to the database operator (reg 14). Upload
+within 28 days or the entry becomes inactive (draft regs 6(2), 11(2)(a)); update within 28 days of a change (reg 9(4)).
+Check gov.uk before relying on a date.
 EPC C minimum: all private tenancies by 1 October 2030, no earlier date for new tenancies (government response,
 21 Jan 2026, not yet law): https://www.gov.uk/government/consultations/improving-the-energy-performance-of-privately-rented-homes-2025-update/outcome/improving-the-energy-performance-of-privately-rented-homes-government-response-html
 """
@@ -226,7 +228,7 @@ def format_report(r: Dict[str, Any]) -> str:
     if "fee_gbp_per_year" in r and r.get("region"):
         lines.append(f"Fee: £{r['fee_gbp_per_year']} a year ({FEE_PER_PROPERTY_GBP} per property); renewal {r.get('renewal','')}")
     if r.get("uploads"):
-        lines.append("Upload at registration (within 28 days of the entry):")
+        lines.append("Upload at registration (within 28 days of the entry, or it becomes inactive):")
         lines += [f"  - {u}" for u in r["uploads"]]
     if r.get("ready") is True:
         lines.append("READY: nothing expires before your deadline. Gather the details above and register when your window opens.")

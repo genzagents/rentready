@@ -31,6 +31,7 @@ button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:6
 #packout h3{margin:1.2em 0 .2em}#packout table{font-size:14px;margin:.4em 0}#packout td:first-child{width:55%}
 .GATHER,.RENEW{background:#d332;color:var(--fg)}.RENEWSOON{background:#e902;color:var(--fg)}.FILLED{background:#0b52;color:var(--fg)}.IFANY{background:#8882;color:var(--fg)}
 @media print{body *{visibility:hidden}#packout,#packout *{visibility:visible}#packout{position:absolute;left:0;top:0;width:100%}#packout .bar{display:none}}
+.rules{background:var(--box);border:1px solid var(--bd);border-radius:8px;padding:4px 16px;margin:1.5em 0}.rules h2{margin-top:.6em}
 </style>
 <script type="application/ld+json">
 {
@@ -93,12 +94,12 @@ button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:6
 <h2>Registering</h2>
 <ol start="12">
 <li><strong>Register</strong> any time from 15 December 2026, and by your region's deadline. You can register properties in several regions at once.</li>
-<li><strong>Upload</strong> the gas safety record, EICR and EPC within 28 days of making each property's entry <span class="mut">(in the draft regulations, <a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6">regulation 6(2)</a>, and reported by the NRLA; not yet in official guidance)</span>.</li>
+<li><strong>Upload</strong> the gas safety record, EICR and EPC within 28 days of making each property's entry, or the entry becomes inactive <span class="mut">(in the draft regulations, <a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6">regulation 6(2)</a> and <a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/11">regulation 11(2)(a)</a>; not yet in official guidance)</span>.</li>
 <li><strong>Agree with your agent</strong> which information they will upload, if you use one. You still start and finish the entry yourself.</li>
 </ol>
 <h2>After registering</h2>
 <ol start="15">
-<li><strong>Keep each entry up to date</strong> when a certificate is renewed. Section 78 of the Act lets the government set the time limit for this in regulations (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/78">section 78</a>).</li>
+<li><strong>Keep each entry up to date</strong>: when a certificate is renewed or any detail changes, update the entry within 28 days of the old information going out of date (<a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/9">draft regulation 9(4)</a>, under <a href="https://www.legislation.gov.uk/ukpga/2025/26/section/78">section 78</a>).</li>
 <li><strong>Renew every 12 months</strong> from your first entry. Properties added later share that renewal date <span class="mut">(in the draft regulations, <a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/10">regulation 10</a>, and reported by the NRLA; not yet in official guidance)</span>.</li>
 <li><strong>Put the database identifiers in every written advert</strong>, and do not market a property without active entries (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/82">section 82</a>).</li>
 <li><strong>Check what you enter.</strong> Knowingly or recklessly giving false information is an offence (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/92">section 92</a>).</li>
@@ -108,6 +109,14 @@ button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:6
 <h2>Let rentready do steps 1 to 6</h2>
 <p>Add each property's postcode, certificate dates and EPC rating. rentready works out the region and deadline, checks every certificate against it, and tells you what to book and by when. The registration pack then covers steps 7 to 11: every question in the service's own words, with the gaps marked. The calendar file covers the dates for the rest.</p>
 <p><a class="btn" href="../index.html">Check your properties free</a> <span class="mut">Runs in your browser. Only the postcode leaves it, to find the region.</span></p>
+<div class="rules" id="28-day-rules">
+<h2>The two 28-day rules</h2>
+<ul>
+<li><strong>Upload within 28 days, or the entry goes inactive.</strong> You can make a property's entry before you have the tenancy and safety details (occupiers, licences, gas safety record, EICR, EPC, rent), but they must be added within 28 days of making the entry (<a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6">draft regulation 6(2)</a>). If they are not, the entry becomes inactive (<a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/11">draft regulation 11(2)(a)</a>). An inactive entry is the same as no entry: letting the property risks a penalty of up to £7,000, and the court cannot make a possession order except on Ground 7A or Ground 14 (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/90">section 90</a>).</li>
+<li><strong>Update within 28 days of any change.</strong> When information or a document in the entry goes out of date, for example when the annual gas safety check replaces last year's record, or a new EICR replaces the old one, the entry must be updated within 28 days of the day it went out of date (<a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/9">draft regulation 9(4)</a>). For gas, that is every year.</li>
+</ul>
+<p class="mut">Both rules are in the draft Private Rented Sector Database Regulations 2026, which Parliament has not yet approved; the official guidance does not mention them yet.</p>
+</div>
 <h2>Questions</h2>
 <h3>What must landlords do under the Renters&#x27; Rights Act by 2027?</h3>
 <p>Register themselves and each let property in England on the Register your rental property service, by their region&#x27;s deadline. Deadlines run from 14 March 2027 to 14 November 2027.</p>

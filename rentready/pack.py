@@ -174,7 +174,7 @@ def format_pack(pk: Dict[str, Any]) -> str:
                 L.append(f"- [ ] {a['question']}: leave blank if none")
             else:
                 L.append(f"- [ ] {a['question']}: GATHER")
-        L += ["", "**Files to scan and upload** (within 28 days of the entry)", ""]
+        L += ["", "**Files to scan and upload** (within 28 days of the entry, or it becomes inactive)", ""]
         for f in x["files"]:
             box = "x" if f["state"] in ("READY", "N/A") else " "
             fn = f" → `{f['file']}`" if f.get("file") else ""
