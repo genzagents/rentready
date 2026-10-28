@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>rentready for developers: CLI, Python and MCP server</title>
+<meta name="description" content="Run the rentready landlord database check from the terminal, as a Python package, a GitHub Action or an MCP server for your own AI agent. MIT licensed.">
+<link rel="canonical" href="https://genzagents.github.io/rentready/developers.html">
+<style>
+:root{--bg:#fff;--fg:#111;--mut:#555;--acc:#087a3a;--link:#0645ad;--box:#f4f4f4;--bd:#ddd}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111;--fg:#eee;--mut:#aaa;--box:#1c1c1c;--bd:#333;--link:#8ab4f8}} a{color:var(--link)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px}
+h1{font-size:2rem;margin:.2em 0}h2{margin-top:2em}
+pre{background:var(--box);border:1px solid var(--bd);padding:12px;overflow:auto;font-size:13px}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:left}
+.btn{display:inline-block;background:var(--acc);color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600}
+.mut{color:var(--mut)}
+#tool{background:var(--box);border:1px solid var(--bd);border-radius:8px;padding:16px;margin:1.5em 0}
+#tool h2{margin-top:0}
+#rows{width:100%;overflow-x:auto}
+#rows table{min-width:640px}
+#rows input,#rows select,#paste{font:inherit;font-size:14px;background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:4px 6px;box-sizing:border-box}
+#rows input[type=text]{width:100%;min-width:7em}#rows input[type=date]{width:9.5em}
+#rows td{padding:4px}
+#paste{width:100%;min-height:90px;font-family:ui-monospace,monospace;font-size:12px}
+button{font:inherit;cursor:pointer;border-radius:6px;padding:8px 14px;border:1px solid var(--bd);background:var(--bg);color:var(--fg)}
+button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.st{font-weight:700;font-size:12px;padding:1px 6px;border-radius:4px;white-space:nowrap}
+.PASS,.READY{background:#0b52;color:var(--fg)}.WARN{background:#e902;color:var(--fg)}.FAIL,.NOT{background:#d332;color:var(--fg)}.INFO,.NA{background:#8882;color:var(--fg)}
+.prop{border-top:1px solid var(--bd);padding:8px 0}.prop ul{margin:4px 0;padding-left:1.2em}
+#sum{font-weight:600}
+#packout h3{margin:1.2em 0 .2em}#packout table{font-size:14px;margin:.4em 0}#packout td:first-child{width:55%}
+.GATHER,.RENEW{background:#d332;color:var(--fg)}.RENEWSOON{background:#e902;color:var(--fg)}.FILLED{background:#0b52;color:var(--fg)}.IFANY{background:#8882;color:var(--fg)}
+@media print{body *{visibility:hidden}#packout,#packout *{visibility:visible}#packout{position:absolute;left:0;top:0;width:100%}#packout .bar{display:none}}
+.lead{font-size:1.1rem}
+.foot{border-top:1px solid var(--bd);margin-top:3em;padding-top:1em;font-size:14px}
+@media(max-width:640px){#rows table{min-width:0}#rows thead{display:none}#rows tr{display:block;border:1px solid var(--bd);border-radius:8px;padding:8px 10px;margin:0 0 10px;background:var(--bg)}#rows td{display:flex;align-items:center;justify-content:space-between;gap:10px;border:0;padding:4px 0}#rows td::before{content:attr(data-label);font-size:14px;color:var(--mut)}#rows td.rm{justify-content:flex-end}#rows td.rm::before{content:none}#rows input[type=text],#rows input[type=date],#rows select{width:58%;min-width:0;font-size:16px}h1{font-size:1.6rem}}
+</style></head><body><main>
+<p class="mut"><a href="https://genzagents.github.io/rentready/">rentready</a> / Developers</p>
+<h1>rentready for developers and AI agents</h1>
+<p class="lead">The same check as the <a href="https://genzagents.github.io/rentready/#tool">browser tool</a>, from the terminal, as a Python package, a GitHub Action or an MCP server. Zero dependencies, one Python file, MIT licensed (<a href="https://github.com/genzagents/rentready">source</a>). The browser version, <code>rentready.js</code>, is a line-for-line port held to identical answers by the test suite.</p>
+<h2>In the terminal</h2>
+<pre>curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/__init__.py | python3 - check "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --eicr-due=2028-06-01 --epc=2017-05-01 --epc-rating=D</pre>
+<pre>rentready 0.8.0  B3 2TA  region: West Midlands
+Window: requirement starts 2026-12-15, deadline 2027-03-14 (137 days from 2026-10-28); the service opens for everyone on 2026-12-15
+  PASS registration deadline: West Midlands requirement starts 2026-12-15, deadline 2027-03-14; you can register from 2026-12-15
+  WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (96 days)
+  PASS EICR: valid to 2028-06-01
+  PASS EPC: valid to 2027-05-01
+  INFO EPC rating: rating D meets today's E minimum; it would not meet the C minimum set for all tenancies from 1 October 2030 (government response, 21 Jan 2026; not yet law)
+Do next:
+  - Book before 2027-02-01: annual gas safety check by a Gas Safe engineer; upload the record and issue date
+Fee: £65 a year (65 per property); renewal every 12 months: the renewal date is the last day of the 12 months from your first entry, one date for the whole portfolio (draft regulation 10); later properties pay pro rata
+Upload at registration (within 28 days of the entry, or it becomes inactive):
+  - Latest gas safety record (CP12) and its issue date, if the property has gas
+  - EICR (or EIC if no EICR yet) and its expiry date
+  - Latest EPC, and any MEES exemption; if the EPC has lapsed, the start date of the current tenancy
+READY: nothing expires before your deadline. Gather the details above and register when your window opens.</pre>
+<h2>Several properties, and the dates in your calendar</h2>
+<p>New in 0.2.0. Put your properties in a CSV (<code>name, postcode, gas, no_gas, eicr, eicr_due, epc, epc_rating</code>) and get one table with every warning, the total fee and the earliest deadline. Then write an <code>.ics</code> file with the day your region's window opens, the deadline and every gas, EICR and EPC expiry, each with reminders 60 and 14 days before, and import it into Google, Apple or Outlook calendar. Nothing is stored anywhere but your own calendar.</p>
+<pre>rentready portfolio properties.csv
+rentready calendar properties.csv --out=rentready.ics</pre>
+<pre>rentready 0.8.0  portfolio of 3 (3 in England)  today 2026-10-28
+Property                     Postcode  Region                   Deadline    Status    Next
+12 Example St                B3 2TA    West Midlands            2027-03-14  READY     2026-12-15 registration window opens (48d)
+Flat 4                       SW1A 1AA  London                   2027-10-14  READY     2027-01-01 EICR expires (65d)
+No EICR                      M1 1AE    North West               2027-08-14  NOT READY 2027-05-01 gas safety record expires (185d)
+12 Example St:
+  WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (96 days)
+Flat 4:
+  WARN EICR: expires 2027-01-01, before the 2027-10-14 deadline (65 days)
+No EICR:
+  WARN gas safety record: expires 2027-05-01, before the 2027-08-14 deadline (185 days)
+  FAIL EICR: no EICR date given (an EICR is required at least every 5 years, sooner if the report says so, and uploaded with its expiry date)
+Fee: £195 a year for 3 properties (£65 each); renewal every 12 months: the renewal date is the last day of the 12 months from your first entry, one date for the whole portfolio (draft regulation 10); later properties pay pro rata
+Earliest deadline: 2027-03-14. 2 ready, 1 not ready.</pre>
+<p>Your own agent can do the same: the MCP server has <code>check_property</code>, <code>check_portfolio</code>, <code>make_calendar</code> and <code>registration_pack</code>.</p>
+<h2>The registration pack (in the browser from 0.7.0)</h2>
+<p>Press <strong>Show my registration pack</strong> after a check on the <a href="https://genzagents.github.io/rentready/#tool">main page</a>, print it or save it. Every question the service asks, in its own words, for you once and for each property: dwelling, tenancy, rent, gas, EICR and EPC. Answers come pre-filled from your CSV, each gap is marked GATHER with the column to add, and each certificate gets a file name to scan it as and a state: ready, renew soon, or renew before you upload. A property is ready to register only when every answer and file is in hand.</p>
+<pre>rentready pack properties.csv --out=pack.md</pre>
+<h2>An email when something needs action (0.3.0)</h2>
+<p>Put <code>properties.csv</code> in a private GitHub repo and add one workflow file. On the first of every month <code>rentready watch</code> re-checks every property, keeps one issue up to date with the whole table, and comments on it only when a gas safety record, EICR or EPC comes within 60 days of expiring, your region's window opens, a deadline nears or passes, or a property stops being ready. GitHub emails you the comment. Free, no server, no account beyond GitHub. <a href="https://github.com/genzagents/rentready/issues/1">Issue #1</a> watches the example portfolio.</p>
+<pre>steps:
+  - uses: actions/checkout@v4
+  - uses: genzagents/rentready@v0.7.1
+    with:
+      portfolio: properties.csv</pre>
+<p class="mut">Full template: <a href="https://github.com/genzagents/rentready/blob/main/docs/watch.yml">docs/watch.yml</a>. Or from cron on your own machine: <code>rentready watch properties.csv --state=state.json</code>.</p>
+<h2>Install</h2>
+<pre>pip install git+https://github.com/genzagents/rentready
+claude plugin marketplace add genzagents/marketplace && claude plugin install rentready@genzagents</pre>
+<p class="mut">MIT. <a href="https://github.com/genzagents/rentready">Source</a>. Sibling of <a href="https://genzagents.github.io/citable/">citable</a>. Your dates never leave your machine; the only network call is the postcode lookup.</p>
+<p class="mut">The only network call is the postcode lookup at postcodes.io (skip it with <code>--region=</code>). Your dates stay on your machine.</p>
+<footer class="foot mut"><a href="https://genzagents.github.io/rentready/about.html">About</a> · <a href="https://genzagents.github.io/rentready/guides/">Guides</a> · <a href="https://genzagents.github.io/rentready/developers.html">Developers</a> · <a href="https://genzagents.github.io/rentready/privacy.html">Privacy</a> · <a href="https://genzagents.github.io/rentready/terms.html">Terms</a> · <a href="https://github.com/genzagents/rentready/issues">Contact (GitHub issues)</a><br>rentready is made by GenZAgents in London. Not legal advice.</footer>
+</main></body></html>

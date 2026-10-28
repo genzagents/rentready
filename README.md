@@ -202,8 +202,16 @@ Letting agents can run it for their landlords from a file with `--subscribers=su
 
 ## What it does not do
 
-It does not register for you, fetch certificates, or hold any data. It never sends your dates anywhere; the only network call
-is the postcode lookup. Not legal advice.
+It does not register for you, fetch certificates, or hold any data. It never sends your dates anywhere. Not legal advice.
+
+## Privacy
+
+The check runs on your machine or, on the website, in your browser. The one network call sends the postcode (and nothing
+else) to [postcodes.io](https://postcodes.io/) to find the region, so postcodes.io sees that postcode and your IP address;
+pass `--region=` to skip it. The website is hosted on GitHub Pages, which may log visitors' IP addresses; it sets no
+cookies and runs no analytics. Details: [privacy](https://genzagents.github.io/rentready/privacy.html). Made by
+GenZAgents, London ([about](https://genzagents.github.io/rentready/about.html)); questions and corrections via
+[GitHub issues](https://github.com/genzagents/rentready/issues).
 
 ## Changes
 

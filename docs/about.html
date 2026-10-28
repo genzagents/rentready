@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>About rentready and GenZAgents</title>
+<meta name="description" content="Who makes rentready, the free landlord database checker: GenZAgents, London. How the check works, where the facts come from, and how to contact us.">
+<link rel="canonical" href="https://genzagents.github.io/rentready/about.html">
+<style>
+:root{--bg:#fff;--fg:#111;--mut:#555;--acc:#087a3a;--link:#0645ad;--box:#f4f4f4;--bd:#ddd}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111;--fg:#eee;--mut:#aaa;--box:#1c1c1c;--bd:#333;--link:#8ab4f8}} a{color:var(--link)}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px}
+h1{font-size:2rem;margin:.2em 0}h2{margin-top:2em}
+pre{background:var(--box);border:1px solid var(--bd);padding:12px;overflow:auto;font-size:13px}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:left}
+.btn{display:inline-block;background:var(--acc);color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600}
+.mut{color:var(--mut)}
+#tool{background:var(--box);border:1px solid var(--bd);border-radius:8px;padding:16px;margin:1.5em 0}
+#tool h2{margin-top:0}
+#rows{width:100%;overflow-x:auto}
+#rows table{min-width:640px}
+#rows input,#rows select,#paste{font:inherit;font-size:14px;background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:4px 6px;box-sizing:border-box}
+#rows input[type=text]{width:100%;min-width:7em}#rows input[type=date]{width:9.5em}
+#rows td{padding:4px}
+#paste{width:100%;min-height:90px;font-family:ui-monospace,monospace;font-size:12px}
+button{font:inherit;cursor:pointer;border-radius:6px;padding:8px 14px;border:1px solid var(--bd);background:var(--bg);color:var(--fg)}
+button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.st{font-weight:700;font-size:12px;padding:1px 6px;border-radius:4px;white-space:nowrap}
+.PASS,.READY{background:#0b52;color:var(--fg)}.WARN{background:#e902;color:var(--fg)}.FAIL,.NOT{background:#d332;color:var(--fg)}.INFO,.NA{background:#8882;color:var(--fg)}
+.prop{border-top:1px solid var(--bd);padding:8px 0}.prop ul{margin:4px 0;padding-left:1.2em}
+#sum{font-weight:600}
+#packout h3{margin:1.2em 0 .2em}#packout table{font-size:14px;margin:.4em 0}#packout td:first-child{width:55%}
+.GATHER,.RENEW{background:#d332;color:var(--fg)}.RENEWSOON{background:#e902;color:var(--fg)}.FILLED{background:#0b52;color:var(--fg)}.IFANY{background:#8882;color:var(--fg)}
+@media print{body *{visibility:hidden}#packout,#packout *{visibility:visible}#packout{position:absolute;left:0;top:0;width:100%}#packout .bar{display:none}}
+.lead{font-size:1.1rem}
+.foot{border-top:1px solid var(--bd);margin-top:3em;padding-top:1em;font-size:14px}
+@media(max-width:640px){#rows table{min-width:0}#rows thead{display:none}#rows tr{display:block;border:1px solid var(--bd);border-radius:8px;padding:8px 10px;margin:0 0 10px;background:var(--bg)}#rows td{display:flex;align-items:center;justify-content:space-between;gap:10px;border:0;padding:4px 0}#rows td::before{content:attr(data-label);font-size:14px;color:var(--mut)}#rows td.rm{justify-content:flex-end}#rows td.rm::before{content:none}#rows input[type=text],#rows input[type=date],#rows select{width:58%;min-width:0;font-size:16px}h1{font-size:1.6rem}}
+</style></head><body><main>
+<p class="mut"><a href="https://genzagents.github.io/rentready/">rentready</a> / About rentready</p>
+<h1>About rentready</h1>
+<p>rentready is a free tool that checks whether a rental property in England is ready for the landlord database (<em>Register your rental property</em>, also called the PRS Database), which opens on 15 December 2026.</p>
+<h2>Who makes it</h2>
+<p>rentready is made by <strong>GenZAgents</strong>, based in London and founded by <strong>Manraj Singh Dhillon</strong>. GenZAgents builds open-source tools, and rentready is the one for landlords. The code is on <a href="https://github.com/genzagents/rentready">GitHub</a>.</p>
+<h2>How the check works</h2>
+<ul>
+<li>You enter each property's postcode and the dates on its gas safety record, EICR and EPC.</li>
+<li>The postcode gives the region (looked up at postcodes.io), and the region gives the registration window and deadline from the official timetable.</li>
+<li>Each certificate's expiry is compared with that deadline: a gas safety record lasts 12 months, an EPC 10 years, and an EICR runs to the next-inspection date on the report (at most 5 years; if you give only the issue date, the check assumes 5 years and says so).</li>
+<li>Everything runs in your browser; nothing is stored on our side. See <a href="https://genzagents.github.io/rentready/privacy.html">privacy</a>.</li>
+</ul>
+<h2>Where the facts come from</h2>
+<p>Every guide cites its sources: the official guidance at housinghub.campaign.gov.uk, the Renters' Rights Act 2025 and the draft Private Rented Sector Database Regulations 2026 on legislation.gov.uk, the Parliament record, and councils' own websites for local licensing. Each guide shows when it was written and last reviewed. Where something is only in the draft regulations, or reported by a third party such as the NRLA, the page says so.</p>
+<h2>Not legal advice</h2>
+<p>rentready and its guides are general information, not legal advice. The regulations are still in draft and dates can change. Check gov.uk, and take professional advice for your own situation.</p>
+<h2>Contact</h2>
+<p>Open an issue on <a href="https://github.com/genzagents/rentready/issues">GitHub</a> to report a mistake, ask a question or request a feature. Issues are public, so do not include addresses or other personal details.</p>
+<footer class="foot mut"><a href="https://genzagents.github.io/rentready/about.html">About</a> · <a href="https://genzagents.github.io/rentready/guides/">Guides</a> · <a href="https://genzagents.github.io/rentready/developers.html">Developers</a> · <a href="https://genzagents.github.io/rentready/privacy.html">Privacy</a> · <a href="https://genzagents.github.io/rentready/terms.html">Terms</a> · <a href="https://github.com/genzagents/rentready/issues">Contact (GitHub issues)</a><br>rentready is made by GenZAgents in London. Not legal advice.</footer>
+</main></body></html>

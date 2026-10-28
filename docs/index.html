@@ -31,69 +31,30 @@ button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:6
 #packout h3{margin:1.2em 0 .2em}#packout table{font-size:14px;margin:.4em 0}#packout td:first-child{width:55%}
 .GATHER,.RENEW{background:#d332;color:var(--fg)}.RENEWSOON{background:#e902;color:var(--fg)}.FILLED{background:#0b52;color:var(--fg)}.IFANY{background:#8882;color:var(--fg)}
 @media print{body *{visibility:hidden}#packout,#packout *{visibility:visible}#packout{position:absolute;left:0;top:0;width:100%}#packout .bar{display:none}}
+.lead{font-size:1.1rem}
+.foot{border-top:1px solid var(--bd);margin-top:3em;padding-top:1em;font-size:14px}
+@media(max-width:640px){#rows table{min-width:0}#rows thead{display:none}#rows tr{display:block;border:1px solid var(--bd);border-radius:8px;padding:8px 10px;margin:0 0 10px;background:var(--bg)}#rows td{display:flex;align-items:center;justify-content:space-between;gap:10px;border:0;padding:4px 0}#rows td::before{content:attr(data-label);font-size:14px;color:var(--mut)}#rows td.rm{justify-content:flex-end}#rows td.rm::before{content:none}#rows input[type=text],#rows input[type=date],#rows select{width:58%;min-width:0;font-size:16px}h1{font-size:1.6rem}}
 </style></head><body><main>
+<p class="mut">rentready · free · by <a href="https://genzagents.github.io/rentready/about.html">GenZAgents</a></p>
 <h1>Is your rental ready for the landlord database (PRS Database)?</h1>
-<p><strong>Is your rental ready for England's landlord database?</strong> From 15 December 2026 every private landlord in England registers each let property on <em>Register your rental property</em> (Renters' Rights Act), region by region, at £65 a property a year, uploading the gas safety record, EICR and EPC. Unoccupied properties need not be registered yet, and supported exempt accommodation is excluded (<a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">official guidance</a>). No active entry, no possession order, except on Ground 7A or Ground 14 (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/90">section 90</a>). Penalties up to £7,000 for a breach (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/91">section 91</a>) and up to £40,000 for the offences in <a href="https://www.legislation.gov.uk/ukpga/2025/26/section/92">section 92</a>: false information, continuing a breach after a penalty, or a repeat within five years.</p>
-<p>rentready tells you your region's window and deadline, whether your certificates will still be in date, what to book, what to upload and what it costs. Free. Check right here in the browser, or from the terminal: zero dependencies, one Python file, and an MCP server so your own Claude or ChatGPT agent can run it.</p>
-<p><strong>Your deadline:</strong> <a href="guides/west-midlands.html">West Midlands</a> · <a href="guides/east-of-england.html">East of England</a> · <a href="guides/east-midlands.html">East Midlands</a> · <a href="guides/south-east.html">South East</a> · <a href="guides/yorkshire-and-the-humber.html">Yorkshire and The Humber</a> · <a href="guides/north-west.html">North West</a> · <a href="guides/landlord-database-deadline-by-region.html#north-east">North East</a> · <a href="guides/london.html">London</a> · <a href="guides/landlord-database-deadline-by-region.html#south-west">South West</a>.</p>
-<p><a href="https://genzagents.github.io/rentready/guides/">Guides</a>: deadlines by region, the £65 fee, what to upload, gas, EICR and EPC, penalties, letting agents and a checklist.</p>
+<p class="lead">Check each property's registration deadline and whether its gas safety record, EICR and EPC will still be in date when you register. Then download every date to your calendar and print a pre-filled registration pack. Free, in your browser, no sign-up.</p>
 <section id="tool">
-<h2>Check your properties now</h2>
-<p class="mut">Add each property with the dates on its certificates. For the EICR, give the date the report sets for the next inspection if it has one: a report can ask for the next inspection sooner than five years. Nothing is sent anywhere except the postcode, to postcodes.io, to find the region. Your list is kept in this browser only.</p>
+<h2>Check your properties</h2>
+<p class="mut">Add each property with the dates on its certificates. For the EICR, give the date the report sets for the next inspection if it has one: a report can ask for the next inspection sooner than five years. The check runs in your browser. Only the postcode is sent, to postcodes.io, to find the region; your list is kept in this browser only (<a href="https://genzagents.github.io/rentready/privacy.html">privacy</a>).</p>
 <div id="rows"><table><thead><tr><th>Property</th><th>Postcode</th><th>Gas safety record</th><th>No gas</th><th>EICR issued</th><th>EICR next inspection due</th><th>EPC</th><th>EPC rating</th><th></th></tr></thead><tbody></tbody></table></div>
 <div class="bar"><button type="button" id="add">+ Add a property</button><button type="button" class="go" id="check">Check</button></div>
 <details><summary>Or paste a spreadsheet (CSV)</summary>
 <p class="mut">Columns: <code>name, postcode, gas, no_gas, eicr, eicr_due, epc, epc_rating</code> (<code>eicr_due</code> is the report's next-inspection date); dates as YYYY-MM-DD. Copy from Excel or Google Sheets after saving as CSV. For the registration pack add any of <code>tenancy_start, ownership, dwelling_type, bedrooms, let, freeholder, manager, occupants, households, licence, furnished, rent, rent_frequency, bills</code>; they are kept with your list.</p>
-<textarea id="paste" placeholder="name,postcode,gas,no_gas,eicr,epc,epc_rating&#10;12 Example St,B3 2TA,2026-02-01,,2023-06-01,2017-05-01,D"></textarea>
+<textarea id="paste" aria-label="Paste a CSV of your properties" placeholder="name,postcode,gas,no_gas,eicr,eicr_due,epc,epc_rating&#10;12 Example St,B3 2TA,2026-02-01,,2023-06-01,2028-06-01,2017-05-01,D"></textarea>
 <div class="bar"><button type="button" id="load">Use this list</button></div></details>
 <div id="out" aria-live="polite"></div>
 <div id="packout" aria-live="polite"></div>
 </section>
-<h2>For you or your agent, in the terminal</h2>
-<pre>curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/__init__.py | python3 - check "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --eicr-due=2028-06-01 --epc=2017-05-01 --epc-rating=D</pre>
-<pre>rentready 0.8.0  B3 2TA  region: West Midlands
-Window: requirement starts 2026-12-15, deadline 2027-03-14 (137 days from 2026-10-28); the service opens for everyone on 2026-12-15
-  PASS registration deadline: West Midlands requirement starts 2026-12-15, deadline 2027-03-14; you can register from 2026-12-15
-  WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (96 days)
-  PASS EICR: valid to 2028-06-01
-  PASS EPC: valid to 2027-05-01
-  INFO EPC rating: rating D meets today's E minimum; it would not meet the C minimum set for all tenancies from 1 October 2030 (government response, 21 Jan 2026; not yet law)
-Do next:
-  - Book before 2027-02-01: annual gas safety check by a Gas Safe engineer; upload the record and issue date
-Fee: £65 a year (65 per property); renewal every 12 months: the renewal date is the last day of the 12 months from your first entry, one date for the whole portfolio (draft regulation 10); later properties pay pro rata
-Upload at registration (within 28 days of the entry, or it becomes inactive):
-  - Latest gas safety record (CP12) and its issue date, if the property has gas
-  - EICR (or EIC if no EICR yet) and its expiry date
-  - Latest EPC, and any MEES exemption; if the EPC has lapsed, the start date of the current tenancy
-READY: nothing expires before your deadline. Gather the details above and register when your window opens.</pre>
-<h2>Several properties, and the dates in your calendar</h2>
-<p>New in 0.2.0. Put your properties in a CSV (<code>name, postcode, gas, no_gas, eicr, epc, epc_rating</code>) and get one table with every warning, the total fee and the earliest deadline. Then write an <code>.ics</code> file with the day your region's window opens, the deadline and every gas, EICR and EPC expiry, each with reminders 60 and 14 days before, and import it into Google, Apple or Outlook calendar. Nothing is stored anywhere but your own calendar.</p>
-<pre>rentready portfolio properties.csv
-rentready calendar properties.csv --out=rentready.ics</pre>
-<pre>rentready 0.7.1  portfolio of 3 (3 in England)  today 2026-10-27
-Property                     Postcode  Region                   Deadline    Status    Next
-12 Example St                B3 2TA    West Midlands            2027-03-14  READY     2026-12-15 registration window opens (49d)
-Flat 4                       SW1A 1AA  London                   2027-10-14  READY     2027-07-15 registration window opens (261d)
-No EICR                      M1 1AE    North West               2027-08-14  NOT READY 2027-05-01 gas safety record expires (186d)
-12 Example St:
-  WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (97 days)
-No EICR:
-  WARN gas safety record: expires 2027-05-01, before the 2027-08-14 deadline (186 days)
-  FAIL EICR: no EICR date given (five-yearly report is required and uploaded with its expiry)
-Fee: £195 a year for 3 properties (£65 each); renewal every 12 months: the renewal date is the last day of the 12 months from your first entry, one date for the whole portfolio (draft regulation 10); later properties pay pro rata
-Earliest deadline: 2027-03-14. 2 ready, 1 not ready.</pre>
-<p>Your own agent can do the same: the MCP server has <code>check_property</code>, <code>check_portfolio</code>, <code>make_calendar</code> and <code>registration_pack</code>.</p>
-<h2>The registration pack (in the browser from 0.7.0)</h2>
-<p>Press <strong>Show my registration pack</strong> after a check above, print it or save it. Every question the service asks, in its own words, for you once and for each property: dwelling, tenancy, rent, gas, EICR and EPC. Answers come pre-filled from your CSV, each gap is marked GATHER with the column to add, and each certificate gets a file name to scan it as and a state: ready, renew soon, or renew before you upload. A property is ready to register only when every answer and file is in hand.</p>
-<pre>rentready pack properties.csv --out=pack.md</pre>
-<h2>An email when something needs action (0.3.0)</h2>
-<p>Put <code>properties.csv</code> in a private GitHub repo and add one workflow file. On the first of every month <code>rentready watch</code> re-checks every property, keeps one issue up to date with the whole table, and comments on it only when a gas safety record, EICR or EPC comes within 60 days of expiring, your region's window opens, a deadline nears or passes, or a property stops being ready. GitHub emails you the comment. Free, no server, no account beyond GitHub. <a href="https://github.com/genzagents/rentready/issues/1">Issue #1</a> watches the example portfolio.</p>
-<pre>steps:
-  - uses: actions/checkout@v4
-  - uses: genzagents/rentready@v0.7.1
-    with:
-      portfolio: properties.csv</pre>
-<p class="mut">Full template: <a href="https://github.com/genzagents/rentready/blob/main/docs/watch.yml">docs/watch.yml</a>. Or from cron on your own machine: <code>rentready watch properties.csv --state=state.json</code>.</p>
+<h2>What the landlord database is</h2>
+<p>From 15 December 2026 every private landlord in England registers each let property on <em>Register your rental property</em> (Renters' Rights Act), region by region, at £65 a property a year, uploading the gas safety record, EICR and EPC. Unoccupied properties need not be registered yet, and supported exempt accommodation is excluded (<a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">official guidance</a>). No active entry, no possession order, except on Ground 7A or Ground 14 (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/90">section 90</a>). Penalties up to £7,000 for a breach (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/91">section 91</a>) and up to £40,000 for the offences in <a href="https://www.legislation.gov.uk/ukpga/2025/26/section/92">section 92</a>: false information, continuing a breach after a penalty, or a repeat within five years.</p>
+<p>Upload the tenancy and safety documents within 28 days of making the entry, or the entry becomes inactive; afterwards, update it within 28 days whenever something goes out of date, such as each new gas safety record (<a href="guides/gas-safety-certificate-landlord-database.html#28-day-rules">the two 28-day rules</a>).</p>
+<p><strong>Your deadline:</strong> <a href="guides/west-midlands.html">West Midlands</a> · <a href="guides/east-of-england.html">East of England</a> · <a href="guides/east-midlands.html">East Midlands</a> · <a href="guides/south-east.html">South East</a> · <a href="guides/yorkshire-and-the-humber.html">Yorkshire and The Humber</a> · <a href="guides/north-west.html">North West</a> · <a href="guides/landlord-database-deadline-by-region.html#north-east">North East</a> · <a href="guides/london.html">London</a> · <a href="guides/landlord-database-deadline-by-region.html#south-west">South West</a>.</p>
+<p><strong>Guides:</strong> <a href="guides/landlord-database-registration.html">registration explained</a> · <a href="guides/landlord-database-fee.html">the £65 fee</a> · <a href="guides/what-you-need-to-register.html">what you need</a> · <a href="guides/landlord-database-penalties.html">penalties</a> · <a href="guides/eicr-landlord-database.html">EICR and the 30 November 2026 change</a> · <a href="https://genzagents.github.io/rentready/guides/">all guides</a>.</p>
 <h2>The timetable</h2>
 <table><tr><th>Region</th><th>Requirement starts</th><th>Deadline</th></tr>
 <tr><td>West Midlands</td><td>15 Dec 2026</td><td>14 Mar 2027</td></tr><tr><td>East of England</td><td>15 Jan 2027</td><td>14 Apr 2027</td></tr>
@@ -102,26 +63,23 @@ Earliest deadline: 2027-03-14. 2 ready, 1 not ready.</pre>
 <tr><td>North East</td><td>15 Jun 2027</td><td>14 Sep 2027</td></tr><tr><td>London</td><td>15 Jul 2027</td><td>14 Oct 2027</td></tr>
 <tr><td>South West</td><td>15 Aug 2027</td><td>14 Nov 2027</td></tr></table>
 <p class="mut">Source: the draft <a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861">Private Rented Sector Database Regulations 2026</a>, laid before Parliament on 9 September 2026 and not yet approved. The House of Lords Secondary Legislation Scrutiny Committee drew them to the special attention of the House (<a href="https://publications.parliament.uk/pa/ld5902/ldselect/ldsecleg/68/6803.htm">13th report</a>, 22 October 2026), and a Commons Delegated Legislation Committee and the Lords Grand Committee debated them on 28 October 2026; both Houses still have to approve them (<a href="https://api.parliament.uk/procedure-browser/work-packages/mNlSJVmc">Parliament record</a>, checked 28 October 2026), as summarised by the <a href="https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service">NRLA</a> and <a href="https://www.hcrlaw.com/news-and-insights/renters-rights-act-2025-private-rented-sector-database-to-go-live-from-15-december-2026/">HCR Law</a>; the same dates are in the official guidance at <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">housinghub.campaign.gov.uk</a>, which names the region "Yorkshire and Humber". Upload within 28 days of the entry and one renewal date for every property are in the draft regulations (<a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6">regulation 6(2)</a>, <a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/10">regulation 10</a>) and reported by the NRLA; the official guidance says the fee is pro-rated during the rollout, and how that works for later properties is reported by the NRLA. The 28-day upload rule and the single renewal date are not in the official guidance yet. The £65 fee is from the official guidance: the draft regulations leave the amount to the database operator (<a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/14">regulation 14</a>). If the tenancy and safety documents are not uploaded within 28 days, the entry becomes inactive (<a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/11">regulation 11(2)(a)</a>), and any later change must be updated within 28 days (<a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/9">regulation 9(4)</a>). Check gov.uk before relying on a date. Not legal advice.</p>
-<h2 id="watch">Want the hosted monthly watch?</h2>
-<p>The paid step for landlords who do not want a GitHub repo: pay once a year, paste your properties into the checkout, and get the first report within the hour, an email the moment something needs action, and a short digest once a month. Nothing to install or keep. <strong>£12 a year for up to 10 properties</strong>, not £15 a month. Every email is reproducible: the inputs and date are stored beside it and <code>rentready hosted replay</code> re-runs it. Letting agents can run the same watch for every landlord they manage from one file (<a href="https://github.com/genzagents/rentready/blob/main/docs/HOSTED.md">how</a>).</p>
-<p><a class="btn" href="https://github.com/genzagents/rentready/issues/new?title=I%20want%20the%20monthly%20watch&body=Properties%3A%20%0ARegion%3A%20%0AWhat%20I%27d%20pay%20a%20year%3A%20">I want the monthly watch</a> <span class="mut">(the checkout opens shortly; press the button and you get the link first)</span></p>
-<h2>Install</h2>
-<pre>pip install git+https://github.com/genzagents/rentready
-claude plugin marketplace add genzagents/marketplace && claude plugin install rentready@genzagents</pre>
-<p class="mut">MIT. <a href="https://github.com/genzagents/rentready">Source</a>. Sibling of <a href="https://genzagents.github.io/citable/">citable</a>. Your dates never leave your machine; the only network call is the postcode lookup.</p>
+<h2 id="watch">The hosted monthly watch (not on sale yet)</h2>
+<p>For landlords who would rather not run anything: you would paste your properties once and get an email the moment something needs action, plus a short monthly digest. <strong>Payments are not live yet, so you cannot buy it today.</strong> The planned price is £12 a year for up to 10 properties. The free check above and its calendar file do the same date arithmetic now.</p>
+<p><a class="btn" href="https://github.com/genzagents/rentready/issues/new?title=Interested%20in%20the%20hosted%20monthly%20watch&body=Number%20of%20properties%3A%20%0A%0A(This%20issue%20is%20public.%20Please%20do%20not%20post%20addresses%20or%20other%20personal%20details.)">Tell us you want it</a> <span class="mut">This opens a public GitHub issue (it needs a GitHub account). Do not post addresses or personal details there. We reply on the issue when the checkout opens.</span></p>
+<footer class="foot mut"><a href="https://genzagents.github.io/rentready/about.html">About</a> · <a href="https://genzagents.github.io/rentready/guides/">Guides</a> · <a href="https://genzagents.github.io/rentready/developers.html">Developers</a> · <a href="https://genzagents.github.io/rentready/privacy.html">Privacy</a> · <a href="https://genzagents.github.io/rentready/terms.html">Terms</a> · <a href="https://github.com/genzagents/rentready/issues">Contact (GitHub issues)</a><br>rentready is made by GenZAgents in London. Not legal advice.</footer>
 <script src="rentready.js"></script>
 <script>
 (function(){
   var rr=window.rentready, tb=document.querySelector("#rows tbody"), out=document.getElementById("out"), KEY="rentready.rows.v1", last=null;
-  var EX=[{name:"12 Example St",postcode:"B3 2TA",gas:"2026-02-01",no_gas:"",eicr:"2023-06-01",epc:"2017-05-01",epc_rating:"D"}];
+  var EX=[{name:"12 Example St",postcode:"B3 2TA",gas:"2026-02-01",no_gas:"",eicr:"2023-06-01",eicr_due:"2028-06-01",epc:"2017-05-01",epc_rating:"D"}];
   function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
   function addRow(r){
     r=r||{}; var tr=document.createElement("tr");
-    tr.innerHTML='<td><input type="text" data-k="name" placeholder="Flat 1"></td><td><input type="text" data-k="postcode" placeholder="B3 2TA" size="8"></td>'+
-      '<td><input type="date" data-k="gas"></td><td><input type="checkbox" data-k="no_gas" aria-label="No gas supply"></td>'+
-      '<td><input type="date" data-k="eicr"></td><td><input type="date" data-k="eicr_due"></td><td><input type="date" data-k="epc"></td>'+
-      '<td><select data-k="epc_rating"><option value="">?</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></td>'+
-      '<td><button type="button" aria-label="Remove">&times;</button></td>';
+    tr.innerHTML='<td data-label="Property"><input type="text" data-k="name" placeholder="Flat 1" aria-label="Property name"></td><td data-label="Postcode"><input type="text" data-k="postcode" placeholder="B3 2TA" size="8" aria-label="Postcode"></td>'+
+      '<td data-label="Gas safety record issued"><input type="date" data-k="gas" aria-label="Gas safety record issue date"></td><td data-label="No gas supply"><input type="checkbox" data-k="no_gas" aria-label="No gas supply"></td>'+
+      '<td data-label="EICR issued"><input type="date" data-k="eicr" aria-label="EICR issue date"></td><td data-label="EICR next inspection due"><input type="date" data-k="eicr_due" aria-label="EICR next inspection due date"></td><td data-label="EPC issued"><input type="date" data-k="epc" aria-label="EPC issue date"></td>'+
+      '<td data-label="EPC rating"><select data-k="epc_rating" aria-label="EPC rating"><option value="">?</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></td>'+
+      '<td class="rm"><button type="button" aria-label="Remove this property">&times; Remove</button></td>';
     tr.querySelectorAll("[data-k]").forEach(function(el){var v=r[el.dataset.k]||""; if(el.type==="checkbox") el.checked=["1","true","yes","y","x"].indexOf(String(v).toLowerCase())>=0; else el.value=v.trim?v.trim():v;});
     tr._extra={}; Object.keys(r).forEach(function(k){if(["name","postcode","gas","no_gas","eicr","eicr_due","epc","epc_rating"].indexOf(k)<0) tr._extra[k]=r[k];});
     tr.querySelector("button").onclick=function(){tr.remove();save();};
@@ -155,7 +113,7 @@ claude plugin marketplace add genzagents/marketplace && claude plugin install re
     });
     h+='<div class="bar"><button type="button" class="go" id="ics">Add every date to my calendar (.ics)</button><button type="button" id="csv">Save my list (CSV)</button><button type="button" id="packbtn">Show my registration pack</button><label class="mut"><input type="checkbox" id="org"> I register as a company, charity or trust</label></div>'+
       '<p class="mut">The calendar has the day your window opens, your deadline and every gas, EICR and EPC expiry, each with reminders 60 and 14 days before. Import it into Google, Apple or Outlook calendar; importing again updates rather than duplicates.</p>'+
-      '<p class="mut">Upload with each registration: '+rr.UPLOADS.map(esc).join("; ")+'. Want an email instead when something needs action? See the <a href="#watch">monthly watch</a>.</p>';
+      '<p class="mut">Upload with each registration: '+rr.UPLOADS.map(esc).join("; ")+'. Want an email instead when something needs action? See the <a href="#watch">monthly watch</a> (not on sale yet).</p>';
     out.innerHTML=h;
     document.getElementById("ics").onclick=async function(){download("rentready.ics",await rr.formatIcs(rr.calendarEvents(last.p.properties)),"text/calendar");};
     document.getElementById("csv").onclick=function(){download("properties.csv",csv(last.list),"text/csv");};

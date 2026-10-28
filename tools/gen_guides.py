@@ -44,6 +44,7 @@ h1{font-size:2rem;margin:.2em 0}h2{margin-top:2em}
 table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:left}
 .wrap{overflow-x:auto}.mut{color:var(--mut)}.now{font-weight:700}
 h3{margin-bottom:.2em}h3+ul{margin-top:.2em}
+.foot{border-top:1px solid var(--bd);margin-top:3em;padding-top:1em;font-size:14px}
 .cta{background:var(--box);border:1px solid var(--bd);border-radius:8px;padding:16px;margin:1.5em 0}
 .btn{display:inline-block;background:var(--acc);color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600}"""
 
@@ -209,11 +210,13 @@ def region_page(region: str, w: dict) -> tuple:
 </head><body><main>
 <p class="mut"><a href="{BASE}">rentready</a> / <a href="{BASE}guides/">Landlord database guides</a></p>
 <h1>{esc(h1)}</h1>
+<p class="mut">Written by <a href="https://genzagents.github.io/rentready/about.html">GenZAgents</a>, reviewed {long(UPDATED)}. <a href="#sources">Sources</a> below.</p>
 {body}<div class="cta"><p><strong>Check your properties against {dl}.</strong> Postcode and certificate dates in; deadline, what lapses first and a registration pack out. Free, in your browser.</p>
 <a class="btn" href="{BASE}#tool">Check my properties</a></div>
-<h2>Sources</h2>
+<h2 id="sources">Sources</h2>
 <ul class="mut">{''.join(f'<li><a href="{u}">{esc(t)}</a></li>' for u, t in sources)}</ul>
 <p class="mut">Dates: official guidance and the draft regulations, which Parliament has not yet approved (<a href="landlord-database-registration.html">status</a>). Fee: official guidance. Councils and schemes: read on each council's own website on {long(COUNCILS[region]['checked'])}. Not legal advice. Last checked {long(UPDATED)}.</p>
+<footer class="foot mut"><a href="https://genzagents.github.io/rentready/about.html">About</a> · <a href="https://genzagents.github.io/rentready/guides/">Guides</a> · <a href="https://genzagents.github.io/rentready/developers.html">Developers</a> · <a href="https://genzagents.github.io/rentready/privacy.html">Privacy</a> · <a href="https://genzagents.github.io/rentready/terms.html">Terms</a> · <a href="https://github.com/genzagents/rentready/issues">Contact (GitHub issues)</a><br>rentready is made by GenZAgents in London. Not legal advice.</footer>
 </main></body></html>
 """
     return name, doc
