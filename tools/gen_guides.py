@@ -17,6 +17,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 import rentready as rr  # noqa: E402
+import schema  # noqa: E402  (tools/schema.py, same folder)
 
 BASE = "https://genzagents.github.io/rentready/"
 REGS = "https://www.legislation.gov.uk/ukdsi/2026/9780348286861"
@@ -172,9 +173,7 @@ def region_page(region: str, w: dict) -> tuple:
             f"Its {n} councils and their licensing schemes.")
     faq = [(f"When do landlords in {the(region)} have to register?",
             f"The requirement starts on {o} and the deadline is {dl}. The service opens to every landlord in England on {long(FIRST)}, so you can register earlier.")] + council_faq
-    ld = [{"@context": "https://schema.org", "@type": "Article", "headline": h1, "dateModified": UPDATED,
-           "author": {"@type": "Organization", "name": "GenZAgents", "url": BASE + "about.html"}, "mainEntityOfPage": BASE + "guides/" + name},
-          {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+    ld = [{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
               {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}]
     body = (f"<p><strong>If your rental is in {esc(the(region))}, you must register it on the government's "
             f"<em>Register your rental property</em> service (the landlord database, or PRS Database) by {dl}.</strong> The requirement for {esc(the(region))} starts on {o}; "
@@ -268,6 +267,7 @@ def build() -> dict:
     files = {f"docs/guides/{n}": doc for n, doc in (region_page(r, w) for r, w in rr.ROLLOUT.items() if r not in MERGED)}
     files.update({f"docs/guides/{slug(r)}.html": redirect_stub(r) for r in MERGED})
     files[f"docs/guides/{DEADLINE_PAGE}"] = deadline_page((ROOT / "docs" / "guides" / DEADLINE_PAGE).read_text(encoding="utf-8"))
+    files = {rel: schema.apply(rel, t) if rel.endswith(".html") else t for rel, t in files.items()}  # Article, breadcrumbs
     files["docs/sitemap.xml"] = sitemap((ROOT / "docs" / "sitemap.xml").read_text(encoding="utf-8"))
     return files
 
