@@ -81,7 +81,7 @@ Earliest deadline: 2027-03-14. 2 ready, 1 not ready.</pre>
 <p>Put <code>properties.csv</code> in a private GitHub repo and add one workflow file. On the first of every month <code>rentready watch</code> re-checks every property, keeps one issue up to date with the whole table, and comments on it only when a gas safety record, EICR or EPC comes within 60 days of expiring, your region's window opens, a deadline nears or passes, or a property stops being ready. GitHub emails you the comment. Free, no server, no account beyond GitHub. <a href="https://github.com/genzagents/rentready/issues/1">Issue #1</a> watches the example portfolio.</p>
 <pre>steps:
   - uses: actions/checkout@v4
-  - uses: genzagents/rentready@v0.7.1
+  - uses: genzagents/rentready@v0.8.0
     with:
       portfolio: properties.csv</pre>
 <p class="mut">Full template: <a href="https://github.com/genzagents/rentready/blob/main/docs/watch.yml">docs/watch.yml</a>. Or from cron on your own machine: <code>rentready watch properties.csv --state=state.json</code>.</p>

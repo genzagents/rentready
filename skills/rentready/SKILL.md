@@ -30,7 +30,7 @@ years). The dates come from draft regulations laid on 9 September 2026 and not y
 
   `rentready regions` prints the timetable. `rentready watch properties.csv --state=FILE` re-checks a portfolio and
   prints ALERT lines only for what changed since the last run (certificate within 60 days of expiry, window opened,
-  deadline near or passed, property no longer ready); as a GitHub Action (`uses: genzagents/rentready@v0.7.1`) it
+  deadline near or passed, property no longer ready); as a GitHub Action (`uses: genzagents/rentready@v0.8.0`) it
   keeps an issue and emails the landlord through issue comments. Offer it when the landlord wants reminders without a calendar. `rentready hosted` is the paid no-repo version (Polar subscribers, email via Resend, `replay` reproduces any stored report); only mention it if the landlord asks for a service rather than a tool. `--no-gas` for a property without gas. `--properties=N` for the fee.
   `rentready portfolio properties.csv` for many properties; `rentready calendar properties.csv --out=rentready.ics` for the reminders file.
 
