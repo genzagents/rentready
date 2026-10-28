@@ -36,17 +36,8 @@ PLACES = {
     "South West": "Bristol, Plymouth, Exeter, Bath, Bournemouth, Swindon, Gloucester, Cheltenham and Truro",
 }
 
-CSS = """:root{--bg:#fff;--fg:#111;--mut:#555;--acc:#087a3a;--link:#0645ad;--box:#f4f4f4;--bd:#ddd}
-@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111;--fg:#eee;--mut:#aaa;--box:#1c1c1c;--bd:#333;--link:#8ab4f8}} a{color:var(--link)}
-body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif}
-main{max-width:760px;margin:0 auto;padding:32px 16px}
-h1{font-size:2rem;margin:.2em 0}h2{margin-top:2em}
-table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:left}
-.wrap{overflow-x:auto}.mut{color:var(--mut)}.now{font-weight:700}
-h3{margin-bottom:.2em}h3+ul{margin-top:.2em}
-.foot{border-top:1px solid var(--bd);margin-top:3em;padding-top:1em;font-size:14px}
-.cta{background:var(--box);border:1px solid var(--bd);border-radius:8px;padding:16px;margin:1.5em 0}
-.btn{display:inline-block;background:var(--acc);color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600}"""
+HEAD_TAGS = '<meta name="theme-color" content="#0e5a44">\n<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 32 32\'%3E%3Crect width=\'32\' height=\'32\' rx=\'8\' fill=\'%230e5a44\'/%3E%3Cpath d=\'M8 15.5 16 9l8 6.5V24H8z\' fill=\'none\' stroke=\'%23fff\' stroke-width=\'2.2\' stroke-linejoin=\'round\'/%3E%3Cpath d=\'m12.5 18.5 2.6 2.6 4.6-5\' fill=\'none\' stroke=\'%23fff\' stroke-width=\'2.2\' stroke-linecap=\'round\' stroke-linejoin=\'round\'/%3E%3C/svg%3E">\n<link rel="stylesheet" href="../assets/site.css">'
+SITE_HEADER = '<header class="site-head"><div class="container">\n<a class="brand" href="https://genzagents.github.io/rentready/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0e5a44"/><path d="M8 15.5 16 9l8 6.5V24H8z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="m12.5 18.5 2.6 2.6 4.6-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>rentready</a>\n<nav class="site-nav"><a href="https://genzagents.github.io/rentready/guides/">Guides</a><a href="https://genzagents.github.io/rentready/guides/landlord-database-deadline-by-region.html">Deadlines</a><a href="https://genzagents.github.io/rentready/about.html">About</a></nav>\n<a class="btn sm" href="https://genzagents.github.io/rentready/#tool">Check a property</a>\n</div></header>'
 
 SOURCES = [
     ("https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/", "Get ready to register: Register your rental property (official guidance)"),
@@ -203,14 +194,14 @@ def region_page(region: str, w: dict) -> tuple:
 <title>{esc(title)}</title>
 <meta name="description" content="{html.escape(desc)}">
 <link rel="canonical" href="{BASE}guides/{name}">
-<style>
-{CSS}
-</style>
+{HEAD_TAGS}
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
-</head><body><main>
-<p class="mut"><a href="{BASE}">rentready</a> / <a href="{BASE}guides/">Landlord database guides</a></p>
+</head><body>
+{SITE_HEADER}
+<main>
+<p class="crumbs"><a href="{BASE}">rentready</a> / <a href="{BASE}guides/">Landlord database guides</a></p>
 <h1>{esc(h1)}</h1>
-<p class="mut">Written by <a href="https://genzagents.github.io/rentready/about.html">GenZAgents</a>, reviewed {long(UPDATED)}. <a href="#sources">Sources</a> below.</p>
+<p class="mut byline">Written by <a href="https://genzagents.github.io/rentready/about.html">GenZAgents</a>, reviewed {long(UPDATED)}. <a href="#sources">Sources</a> below.</p>
 {body}<div class="cta"><p><strong>Check your properties against {dl}.</strong> Postcode and certificate dates in; deadline, what lapses first and a registration pack out. Free, in your browser.</p>
 <a class="btn" href="{BASE}#tool">Check my properties</a></div>
 <h2 id="sources">Sources</h2>

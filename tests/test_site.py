@@ -1,5 +1,5 @@
 """Trust and layout: about/privacy/terms/developers pages, footer and byline on every page, tool first on the main
-page with developer content moved out, honest paid-watch wording, and the link/button colours from 3c8be85."""
+page with developer content moved out, honest paid-watch wording, and one shared stylesheet with readable, non-blue colours."""
 import re
 import unittest
 from pathlib import Path
@@ -39,25 +39,32 @@ class SiteTest(unittest.TestCase):
 
     def test_main_page_tool_first_developer_content_moved(self):
         t = (DOCS / "index.html").read_text(encoding="utf-8")
-        self.assertLess(t.index('<section id="tool">'), t.index("What the landlord database is"))
+        self.assertLess(t.index('<section id="tool"'), t.index("What the landlord database is"))
         for dev in ("curl -sL", "pip install", "claude plugin", "uses: genzagents/rentready"):
             self.assertNotIn(dev, t)
             self.assertIn(dev, (DOCS / "developers.html").read_text(encoding="utf-8"))
-        self.assertIn("@media(max-width:640px)", t)
         self.assertIn('data-label="EICR next inspection due"', t)
+        self.assertIn("@media (max-width:520px){.fields{grid-template-columns:minmax(0,1fr)}", (DOCS / "assets" / "site.css").read_text(encoding="utf-8"))
 
     def test_paid_watch_is_worded_honestly(self):
         t = (DOCS / "index.html").read_text(encoding="utf-8")
         self.assertIn("Payments are not live yet", t)
         self.assertNotIn("checkout opens shortly", t)
 
-    def test_colours_from_3c8be85_kept(self):
+    def test_every_page_uses_the_shared_stylesheet(self):
         for p, t in pages():
-            self.assertIn("--acc:#087a3a", t, p.name)
-            self.assertIn("--link:#0645ad", t, p.name)
-            self.assertIn("--link:#8ab4f8", t, p.name)
-            self.assertIn("a{color:var(--link)}", t, p.name)
+            rel = "../" if p.parent.name == "guides" else ""
+            self.assertIn(f'<link rel="stylesheet" href="{rel}assets/site.css">', t, p.name)
+            self.assertNotIn("<style>", t, p.name)
+            self.assertIn('class="site-head"', t, p.name)
 
+    def test_colours_readable_and_not_blue(self):
+        css = (DOCS / "assets" / "site.css").read_text(encoding="utf-8")
+        for old in ("#0645ad", "#8ab4f8", "#1f6feb", "#58a6ff"):
+            self.assertNotIn(old, css)
+        self.assertIn("--brand:#0e5a44", css)
+        self.assertIn("prefers-color-scheme:dark", css)
+        self.assertIn("a{color:var(--brand-text)", css)
 
 if __name__ == "__main__":
     unittest.main()
