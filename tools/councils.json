@@ -1,0 +1,2689 @@
+{
+ "_about": "Local housing authorities per region (ONS ward-to-LAD-to-region lookup, May 2026) and their selective (Housing Act 2004 Part 3) and additional HMO (Part 2) licensing schemes, each read on the council's own website at the source URL on the date in 'checked'. 'until' is given only where the council's own document states it. 'none found': no scheme found on the council website (not published as a fact). 'not verified': the council website could not be read, so nothing is published. Regenerate pages with python3 tools/gen_guides.py.",
+ "East Midlands": {
+  "checked": "2026-10-28",
+  "councils": {
+   "Amber Valley": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Ashfield": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Stanton Hill and Sutton Central (New Cross)",
+     "source": "https://www.ashfield.gov.uk/housing/selective-licensing/",
+     "until": "2027-07-25"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Bassetlaw": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Blaby": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Bolsover": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   },
+   "Boston": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   },
+   "Broxtowe": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Charnwood": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Loughborough Hastings and Loughborough Lemyngton (pre-2023 ward boundaries)",
+     "source": "https://www.charnwood.gov.uk/pages/public_notice_designation_of_an_area_of_selective_licensing",
+     "until": "2028-03-31"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.charnwood.gov.uk/pages/public_notice_designation_of_an_area_for_additional_licensing_of_hmos",
+     "until": "2028-03-31"
+    }
+   },
+   "Chesterfield": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Derby": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Derbyshire Dales": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "East Lindsey": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   },
+   "Erewash": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Gedling": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Netherfield ward (Phase 1a); prescribed areas of Carlton Hill, Colwick, Daybrook and Newstead Village (Phase 2)",
+     "source": "https://www.gedling.gov.uk/selective-licensing"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Harborough": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "High Peak": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Hinckley and Bosworth": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Leicester": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Braunstone Park and Rowley Fields, Fosse, Westcotes, Stoneygate, Saffron",
+     "source": "https://www.leicester.gov.uk/housing/landlords/property-licensing/selective-licensing"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Lincoln": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Mansfield": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: streets in Central, West Bank, Wainwright, Market Warsop, Eakring, Rock Hill and Bancroft wards (5 areas)",
+     "source": "https://www.mansfield.gov.uk/downloads/file/6789/official-selective-licensing-notice",
+     "until": "2030-09-12"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Melton": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Newark and Sherwood": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "North East Derbyshire": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   },
+   "North Kesteven": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "North Northamptonshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "North West Leicestershire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Nottingham": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: some or all of Aspley, Basford, Berridge, Bulwell, Bulwell Forest, Castle, Dales, Hyson Green & Arboretum, Leen Valley, Lenton & Wollaton East, Mapperley, Meadows, Radford, Sherwood, St Anns wards",
+     "source": "https://www.nottinghamcity.gov.uk/media/wojdrsqs/selective-licensing-2-public-notice-2023.docx",
+     "until": "2028-11-30"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole city",
+     "source": "https://www.nottinghamcity.gov.uk/media/bgfhjo3b/al3-public-notice-final.pdf",
+     "until": "2028-12-31"
+    }
+   },
+   "Oadby and Wigston": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: part of Wigston and South Wigston",
+     "source": "https://www.oadby-wigston.gov.uk/pages/selective_licensing_scheme"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Rushcliffe": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Rutland": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "South Derbyshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "South Holland": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   },
+   "South Kesteven": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "West Lindsey": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "West Northamptonshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "parts: areas of Northampton (incl. the 2020-2025 scheme area) and Daventry",
+     "source": "https://www.westnorthants.gov.uk/private-housing-tenants-and-landlords/houses-multiple-occupation-hmos/types-hmo-licences"
+    }
+   }
+  }
+ },
+ "East of England": {
+  "checked": "2026-10-28",
+  "councils": {
+   "Babergh": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Basildon": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Bedford": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.bedford.gov.uk/files/designation-area-additional-licensing-hmos.pdf/download",
+     "until": "2028-05-20"
+    }
+   },
+   "Braintree": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Breckland": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Brentwood": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Broadland": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Broxbourne": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Cambridge": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Castle Point": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Central Bedfordshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Chelmsford": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Colchester": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Dacorum": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "East Cambridgeshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "East Hertfordshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "East Suffolk": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Epping Forest": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Fenland": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Great Yarmouth": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Harlow": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Hertsmere": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Huntingdonshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Ipswich": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "King's Lynn and West Norfolk": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Luton": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Town Centre and Park Town areas",
+     "source": "https://www.luton.gov.uk/selectivelicensing",
+     "note": "The council says its licence application system is currently unavailable and enforcement will not start yet."
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.luton.gov.uk/housing/private-tenants-homeowners-landlords/landlords/additional-licensing",
+     "note": "The council says its licence application system is currently unavailable and enforcement will not start yet."
+    }
+   },
+   "Maldon": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Mid Suffolk": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "North Hertfordshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "North Norfolk": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Norwich": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Peterborough": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: designated areas within Bretton, Central, East, Fletton and Stanground, Fletton and Woodston, North, Orton Waterville, Park, Paston and Walton, Stanground South wards",
+     "source": "https://www.peterborough.gov.uk/regulatory-services/housing-standards/selective-licensing-scheme",
+     "until": "2029-03-10"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole city",
+     "source": "https://www.peterborough.gov.uk/residents/housing/houses-in-multiple-occupation/additional-hmo-licensing",
+     "until": "2031-01-25"
+    }
+   },
+   "Rochford": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "South Cambridgeshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "South Norfolk": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Southend-on-Sea": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: designated neighbourhoods within Milton, Kursaal, Victoria and Chalkwell wards",
+     "source": "https://www.southend.gov.uk/downloads/file/6966/public-notice-designation-of-an-area-for-selective-licensing",
+     "until": "2026-11-30"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "St Albans": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Stevenage": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Tendring": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Three Rivers": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Thurrock": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: 16 of 20 wards (all except Little Thurrock Blackshots, Orsett, Stifford Clays, The Homesteads)",
+     "source": "https://www.thurrock.gov.uk/public-notices/notice-of-designation-of-an-area-for-selective-licensing-in-accordance-with-section",
+     "until": "2031-01-04"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.thurrock.gov.uk/houses-in-multiple-occupation/additional-licensing-for-hmos"
+    }
+   },
+   "Uttlesford": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Watford": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Welwyn Hatfield": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "West Suffolk": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   }
+  }
+ },
+ "London": {
+  "checked": "2026-10-28",
+  "councils": {
+   "Barking and Dagenham": {
+    "selective": {
+     "status": "in force",
+     "area": "whole borough (three designation areas covering all 19 wards)",
+     "source": "https://www.lbbd.gov.uk/sites/default/files/2025-01/Public%20Notice%20-%20Selective%20Licensing%20Designation.pdf",
+     "until": "2030-04-05"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.lbbd.gov.uk/sites/default/files/2025-01/Additional%20Licensing%20of%20Houses%20-%20FINAL.pdf",
+     "until": "2030-01-08"
+    }
+   },
+   "Barnet": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   },
+   "Bexley": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Belvedere ward",
+     "source": "https://www.bexley.gov.uk/services/housing/property-licensing/property-licensing-schemes",
+     "until": "2030-01-12"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Brent": {
+    "selective": {
+     "status": "in force",
+     "area": "whole borough except Wembley Park ward (Designation 1: Harlesden & Kensal Green, Dollis Hill, Willesden Green; Designation 2: other 18 wards)",
+     "source": "https://www.brent.gov.uk/getlicensed"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.brent.gov.uk/housing/landlords/property-licensing/notice-of-designation-of-an-area-for-additional-licensing-3-2025",
+     "until": "2031-02-02"
+    }
+   },
+   "Bromley": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Camden": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://prod-web-assets.camden.gov.uk/hmo-consultation-public-notice",
+     "until": "2030-12-08"
+    }
+   },
+   "City of London": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Croydon": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: 14 wards (Addiscombe East, Addiscombe West, Bensham Manor, Broad Green, Fairfield, Norbury and Pollards Hill, Norbury Park, Selhurst, South Croydon, South Norwood, Thornton Heath, Waddon, West Thornton, Woodside)",
+     "source": "https://www.croydon.gov.uk/housing/landlords-and-managing-agents/property-licensing-schemes/about-our-new-housing-licensing-schemes"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.croydon.gov.uk/housing/landlords-and-managing-agents/property-licensing-schemes/additional-hmo-licensing-scheme-2026"
+    }
+   },
+   "Ealing": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Designation 1 (East Acton, Southall Broadway, Southall Green) and Designation 2 (Acton Central, Dormers Wells, Greenford Broadway, Greenford Green, Hanger Hill, Hobbayne, Lady Margaret, North Greenford, Northolt Mandeville, Northolt West End, Perivale, South Acton), pre-May-2022 ward boundaries",
+     "source": "https://www.ealing.gov.uk/info/201086/housing/3306/private_rented_properties/8"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.ealing.gov.uk/info/201086/housing/3306/private_rented_properties/8"
+    }
+   },
+   "Enfield": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   },
+   "Greenwich": {
+    "selective": {
+     "status": "in force",
+     "area": "parts of Plumstead (Glyndon/Plumstead Common), Shooters Hill, Woolwich Common and Woolwich Riverside wards",
+     "source": "https://www.royalgreenwich.gov.uk/sites/default/files/2025-09/selective-licensing-designation-of-area-public%20notice.pdf",
+     "until": "2027-10-01"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.royalgreenwich.gov.uk/sites/default/files/2025-09/additional-licensing-designation-of-area-public-notice.pdf",
+     "until": "2028-12-31"
+    }
+   },
+   "Hackney": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: 17 of 21 wards (Brownswood, Cazenove, Clissold, Dalston, De Beauvoir, Hackney Central, Hackney Downs, Hackney Wick, Homerton, King's Park, Lea Bridge, London Fields, Shacklewell, Springfield, Stamford Hill West, Stoke Newington, Victoria)",
+     "source": "https://consultation.hackney.gov.uk/housing-strategy-and-policy/landlord-licensing-consultation/user_uploads/public-notice-sl.docx.pdf",
+     "until": "2031-04-30"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://news.hackney.gov.uk/news/landlords-in-hackney-to-meet-tighter-rules-as-hackney-approves-plans-to-introduce-property-licensing"
+    }
+   },
+   "Hammersmith and Fulham": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: 24 named streets",
+     "source": "https://www.lbhf.gov.uk/housing/private-housing/new-discretionary-licensing-schemes-approved"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.lbhf.gov.uk/housing/private-housing/new-discretionary-licensing-schemes-approved"
+    }
+   },
+   "Haringey": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: 14 wards (Bounds Green, Bruce Castle, Harringay, Hermitage and Gardens, Noel Park, Northumberland Park, Seven Sisters, South Tottenham, St Ann's, Tottenham Central, Tottenham Hale, West Green, White Hart Lane, Woodside)",
+     "source": "https://haringey.gov.uk/housing/private-sector-renting/property-licensing/selective-property-licensing"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://haringey.gov.uk/sites/default/files/2024-03/public_notice_additional_hmo_licensing.pdf",
+     "until": "2029-06-16"
+    }
+   },
+   "Harrow": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Edgware, Roxeth (from 2 May 2026); Greenhill, Marlborough (from 6 Jul 2026); Wealdstone North, Wealdstone South (from 1 Sep 2026)",
+     "source": "https://www.harrow.gov.uk/licences/selective-licensing/6"
+    },
+    "additional": {
+     "status": "designated",
+     "area": "",
+     "source": "https://www.harrow.gov.uk/licences/licences-houses-multiple-occupation-hmos",
+     "starts": "2027-01-06"
+    }
+   },
+   "Havering": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: 7 wards (Beam Park, Harold Wood, Rainham and Wennington, Rush Green and Crowlands, Squirrels Heath, St Albans, St Edwards)",
+     "source": "https://www.havering.gov.uk/propertylicensing",
+     "until": "2031-03-17"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.havering.gov.uk/propertylicensing",
+     "until": "2031-03-17"
+    }
+   },
+   "Hillingdon": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://pre.hillingdon.gov.uk/downloads/file/2425/public-notice-additional-licensing-of-hmos",
+     "until": "2031-08-23"
+    }
+   },
+   "Hounslow": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.hounslow.gov.uk/downloads/file/11545/public-notice-additional-licensing-of-hmos",
+     "until": "2030-12-10"
+    }
+   },
+   "Islington": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Finsbury Park, Hillrise and Tollington wards; Barnsbury, Caledonian, Highbury, Junction, Laycock, Mildmay and Tufnell Park wards are added from 23 November 2026",
+     "source": "https://www.islington.gov.uk/housing/private-sector-housing/landlords/property-licensing/check-what-type-of-property-licence-you-need"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   },
+   "Kensington and Chelsea": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.rbkc.gov.uk/housing/information-homeowners-private-rented-tenants-and-landlords/houses-multiple-occupation-hmo/additional-hmo-licensing-scheme"
+    }
+   },
+   "Kingston upon Thames": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Lambeth": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: all wards except Vauxhall and Waterloo & South Bank (Phase 1: 4 Streatham/Knights Hill wards from 2 Sep 2024; Phase 2: 19 wards from 1 Sep 2025)",
+     "source": "https://www.lambeth.gov.uk/housing/landlords-licensing/selective-licensing-scheme"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.lambeth.gov.uk/sites/default/files/2021-09/public-notice-additional-hmo-licensing.pdf",
+     "until": "2026-12-08"
+    }
+   },
+   "Lewisham": {
+    "selective": {
+     "status": "in force",
+     "area": "most of borough (excludes e.g. Telegraph Hill and parts of Blackheath; see council map)",
+     "source": "https://lewisham.gov.uk/myservices/housing/private-tenants-and-landlords/landlords/selective-licensing"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://lewisham.gov.uk/myservices/housing/private-tenants-and-landlords/landlords/hmo/which-houses-in-multiple-occupation--hmos--need-a-licence"
+    }
+   },
+   "Merton": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Figge's Marsh, Graveney, Longthornton, Pollards Hill wards",
+     "source": "https://www.merton.gov.uk/council-tax-benefits-and-housing/private-housing/licensing"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "parts: Colliers Wood, Cricket Green, Figge's Marsh, Graveney, Lavender Fields, Longthornton, Pollards Hill wards",
+     "source": "https://www.merton.gov.uk/council-tax-benefits-and-housing/private-housing/licensing"
+    }
+   },
+   "Newham": {
+    "selective": {
+     "status": "in force",
+     "area": "whole borough except Royal Victoria and Stratford Olympic Park wards",
+     "source": "https://www.newham.gov.uk/housing-homes-homelessness/rented-property-licensing/7"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough except Royal Victoria and Stratford Olympic Park wards",
+     "source": "https://www.newham.gov.uk/housing-homes-homelessness/rented-property-licensing/8"
+    }
+   },
+   "Redbridge": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Scheme 3 (Valentines, Ilford Town) and Scheme 4 (Aldborough, Barkingside, Chadwell, Churchfields, Clementswood, Cranbrook, Fairlop, Goodmayes, Hainault, Loxford, Mayfield, Newbury, Seven Kings, South Woodford, Wanstead Village)",
+     "source": "https://www.redbridge.gov.uk/housing/landlords/selective-licensing/"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.redbridge.gov.uk/media/rxtl3gqa/notice-of-designation-for-additional-hmo-licensing-scheme.pdf",
+     "until": "2028-09-17"
+    }
+   },
+   "Richmond upon Thames": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Southwark": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: 19 wards in Designations 1-4 (incl. Champion Hill, Newington, Faraday, Goose Green, St Giles, North Walworth, Nunhead & Queens Road, Old Kent Road, Peckham, Camberwell Green, Chaucer, Dulwich Hill, Dulwich Wood, London Bridge & West Bermondsey, Peckham Rye, Rotherhithe, Rye Lane, South Bermondsey, Surrey Docks)",
+     "source": "https://www.southwark.gov.uk/housing/private-tenants-and-landlords/private-rented-property-licensing/property-licensing-3"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.southwark.gov.uk/sites/default/files/2024-11/Additional%20Licensing%20Final%20Designation%20Declaration%2028%2010%2021.pdf",
+     "until": "2027-03-01"
+    }
+   },
+   "Sutton": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.sutton.gov.uk/businesses-and-licensing/licensing/houses-multiple-occupation/houses-multiple-occupation-hmo"
+    }
+   },
+   "Tower Hamlets": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.towerhamlets.gov.uk/lgnl/housing/Private-tenants-landlords-and-homeowners/Property-licensing/Licences/Additional-licensing.aspx",
+     "until": "2029-03-31"
+    }
+   },
+   "Waltham Forest": {
+    "selective": {
+     "status": "in force",
+     "area": "whole borough except Hatch Lane, Highams Park North and Endlebury wards",
+     "source": "https://www.walthamforest.gov.uk/housing/private-rented-property-licensing-prpl/choose-type-property-licence-you-need/check-if-you-need-selective-licence-your-property",
+     "until": "2030-04-30"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "HMOs with 3 or more people outside mandatory licensing, including flats in purpose-built blocks of more than two flats",
+     "source": "https://www.walthamforest.gov.uk/housing/private-rented-property-licensing-prpl/choose-type-property-licence-you-need/check-if-you-need-additional-hmo-licence",
+     "until": "2030-05-31"
+    }
+   },
+   "Wandsworth": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Designation 1 (Furzedown, Tooting Bec, Tooting Broadway, South Balham) from 1 Jul 2025; Designation 2 (East Putney, West Putney, Northcote) from 1 Apr 2026",
+     "source": "https://www.wandsworth.gov.uk/housing/private-housing/private-rented-property-licences/property-licence-check/"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.wandsworth.gov.uk/media/klpjttfb/public_notice_on_additional_licencing_across_wandsworth.pdf",
+     "until": "2030-06-30"
+    }
+   },
+   "Westminster": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: 15 of 18 wards (excludes Pimlico South, St James's, Vincent Square)",
+     "source": "https://www.westminster.gov.uk/housing/private-sector-housing/selective-property-licensing/do-i-need-licence"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.westminster.gov.uk/housing/private-sector-housing/houses-multiple-occupation-hmo/additional-licensing-scheme-renewal",
+     "until": "2031-08-30"
+    }
+   }
+  }
+ },
+ "North East": {
+  "checked": "2026-10-28",
+  "councils": {
+   "County Durham": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: 103 designated areas (LSOAs) across the county",
+     "source": "https://durham.gov.uk/selectivelicensing",
+     "until": "2027-03-31"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Darlington": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Gateshead": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   },
+   "Hartlepool": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Middlesbrough": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: the Newport area",
+     "source": "https://www.middlesbrough.gov.uk/media/aidkhavb/newport-sll-sealed-order-apr24.pdf"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   },
+   "Newcastle upon Tyne": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Cowgate, West End Terraces, Howdene Road/Howlett Hall Road area (Benwell), Lemington, Denton Court, Columbia Grange (2025 scheme); Byker and Greater High Cross (2026 scheme)",
+     "source": "https://new.newcastle.gov.uk/property-licensing-schemes-newcastle/selective-licensing"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole city",
+     "source": "https://new.newcastle.gov.uk/property-licensing-schemes-newcastle/additional-hmo-licensing"
+    }
+   },
+   "North Tyneside": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Northumberland": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Croft ward area of Blyth",
+     "source": "https://www.northumberland.gov.uk/housing/private-landlords-and-tenants",
+     "until": "2029-10-13"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Redcar and Cleveland": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "South Tyneside": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Stockton-on-Tees": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   },
+   "Sunderland": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   }
+  }
+ },
+ "North West": {
+  "checked": "2026-10-28",
+  "councils": {
+   "Blackburn with Darwen": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Blackpool": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: eight inner wards (Bloomfield, Brunswick, Claremont, Talbot, Tyldesley, Victoria, Warbreck, Waterloo)",
+     "source": "https://www.blackpool.gov.uk/business/licensing-and-permits/housing-licences/selective-licensing/central-area-selective-licence-public-notice",
+     "until": "2030-03-31"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Bolton": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Burnley": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Burnley Wood with Healey Wood, Leyland Road area (2022-2027); Trinity, Queensgate, Gannow, Daneshouse and Stoneyholme, Padiham (2025-2030)",
+     "source": "https://burnley.gov.uk/housing/private-rented-sector/selective-licensing/selective-licensing-in-burnley/"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Bury": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Cheshire East": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Cheshire West and Chester": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Chorley": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Cumberland": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Fylde": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Halton": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Hyndburn": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Knowsley": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Lancaster": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Liverpool": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Manchester": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   },
+   "Oldham": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: five areas within Alexandra, St Mary's, St James, Waterhead, Coldhurst, Werneth, Chadderton South, Hollinwood and Medlock Vale wards",
+     "source": "https://www.oldham.gov.uk/info/201198/information_for_landlords/1450/selective_licensing_of_private_landlords"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Pendle": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Preston": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Ribble Valley": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Rochdale": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Rossendale": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Salford": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Eccles, Barton and Winton area (2022-2027); Broughton, Kersal and Broughton Park area (2026-2031)",
+     "source": "https://www.salford.gov.uk/housing/information-for-landlords/landlord-licensing/areas-covered-by-selective-licensing/selective-licensing-in-broughton-kersal-and-broughton-park/"
+    },
+    "additional": {
+     "status": "designated",
+     "area": "whole city, Section 257 HMOs (converted blocks of flats) only",
+     "source": "https://www.salford.gov.uk/housing/information-for-landlords/landlord-licensing/section-257-additional-hmo-licensing-designation/",
+     "until": "2031-11-24",
+     "starts": "2026-11-24"
+    }
+   },
+   "Sefton": {
+    "selective": {
+     "status": "in force",
+     "area": "parts of Bootle",
+     "source": "https://www.sefton.gov.uk/housing/private-sector-housing/landlord-licensing-and-accreditation/selective-licensing-2023-2028/",
+     "until": "2028-02-29"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "parts of Seaforth, Waterloo, Brighton-le-Sands and Southport",
+     "source": "https://www.sefton.gov.uk/housing/private-sector-housing/landlord-licensing-and-accreditation/additional-hmo-licensing-2023-2028/",
+     "until": "2028-02-29"
+    }
+   },
+   "South Ribble": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "St. Helens": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Stockport": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Tameside": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Trafford": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Warrington": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "West Lancashire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Westmorland and Furness": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Wigan": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Wirral": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Bidston and St James West, Birkenhead West, Egremont North, Seacombe St Paul's (2024 scheme); six LSOA areas in parts of Birkenhead and Wallasey (2025 scheme)",
+     "source": "https://www.wirral.gov.uk/housing/housing-information-and-advice/private-landlords-and-managing-agents/selective-licensing-2"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Wyre": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   }
+  }
+ },
+ "South East": {
+  "checked": "2026-10-28",
+  "councils": {
+   "Adur": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Arun": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "parts: River ward (Littlehampton); Hotham and Marine wards (Bognor Regis)",
+     "source": "https://www.arun.gov.uk/additional-hmo-licensing-scheme-designation-2024/",
+     "until": "2030-01-31"
+    }
+   },
+   "Ashford": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Basingstoke and Deane": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Bracknell Forest": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Brighton and Hove": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Kemptown, Moulsecoomb and Bevendean, Queens Park, Whitehawk and Marina wards",
+     "source": "https://www.brighton-hove.gov.uk/housing/private-housing/private-landlords/selective-licensing",
+     "until": "2029-09-01",
+     "note": "A further designation for Central Hove and Regency wards, made on 6 July 2026, is paused pending a legal challenge."
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole city",
+     "source": "https://www.brighton-hove.gov.uk/housing/private-housing/private-landlords/notice-designation-area-additional-licensing",
+     "until": "2029-06-30"
+    }
+   },
+   "Buckinghamshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Canterbury": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Cherwell": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Chichester": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Crawley": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Dartford": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Dover": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "East Hampshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Eastbourne": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Eastleigh": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Elmbridge": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Epsom and Ewell": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Fareham": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Folkestone and Hythe": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Gosport": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Gravesham": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Guildford": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Hart": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Hastings": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Havant": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Horsham": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Isle of Wight": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Lewes": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Maidstone": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Medway": {
+    "selective": {
+     "status": "designated",
+     "area": "parts: Chatham Central and Brompton, Fort Pitt, Gillingham North, Gillingham South, Luton, Strood North and Frindsbury, Watling wards",
+     "source": "https://www.medway.gov.uk/propertylicensing",
+     "until": "2032-01-03",
+     "starts": "2027-01-04"
+    },
+    "additional": {
+     "status": "designated",
+     "area": "parts: Chatham Central and Brompton, Fort Pitt, Gillingham North, Gillingham South, Luton, Watling wards",
+     "source": "https://www.medway.gov.uk/propertylicensing",
+     "until": "2032-01-03",
+     "starts": "2027-01-04"
+    }
+   },
+   "Mid Sussex": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Milton Keynes": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Mole Valley": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "New Forest": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Oxford": {
+    "selective": {
+     "status": "in force",
+     "area": "whole city",
+     "source": "https://www.oxford.gov.uk/selective-licensing/designation-public-notice-selective-licensing",
+     "until": "2027-08-31"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole city",
+     "source": "https://www.oxford.gov.uk/houses-multiple-occupation-hmos/additional-licensing-scheme"
+    }
+   },
+   "Portsmouth": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole city",
+     "source": "https://democracy.portsmouth.gov.uk/documents/s42668/Additional%20Licensing%20of%20HMOs%20-%20Appendix%2010%20-%20Designation%20of%20area%20for%20additional%20licensing%20of%20HMOs.pdf",
+     "until": "2028-08-31"
+    }
+   },
+   "Reading": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.reading.gov.uk/housing/private-renting/extension-of-property-licensing/"
+    }
+   },
+   "Reigate and Banstead": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Rother": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Runnymede": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Rushmoor": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Sevenoaks": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Slough": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "South Oxfordshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Southampton": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "parts: Bevois, Bargate, Banister & Polygon, Portswood, Swaythling, Shirley, Bassett, Freemantle & Millbrook wards",
+     "source": "https://www.southampton.gov.uk/media/fdenxzhi/additional-hmo-licensing-scheme-designation-notice-july-2025.pdf",
+     "until": "2030-09-30"
+    }
+   },
+   "Spelthorne": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Surrey Heath": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Swale": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Tandridge": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Test Valley": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Thanet": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Tonbridge and Malling": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Tunbridge Wells": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Vale of White Horse": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Waverley": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Wealden": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "West Berkshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "West Oxfordshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Winchester": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Windsor and Maidenhead": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Woking": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.woking.gov.uk/sites/default/files/2025-09/Designation%20for%20Additional%20Houses%20in%20Multiple%20Occupation%20%28HMOs%29%20Licensing%20Scheme.pdf",
+     "until": "2031-01-04"
+    }
+   },
+   "Wokingham": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Worthing": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   }
+  }
+ },
+ "South West": {
+  "checked": "2026-10-28",
+  "councils": {
+   "Bath and North East Somerset": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Bournemouth, Christchurch and Poole": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Bristol, City of": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Bishopston and Ashley Down, Cotham, Easton wards (from 6 Aug 2024); Bedminster and Brislington West wards (from 6 Apr 2022)",
+     "source": "https://www.bristol.gov.uk/licences-permits/types-of-licence"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole city",
+     "source": "https://www.bristol.gov.uk/licences-permits/types-of-licence"
+    }
+   },
+   "Cheltenham": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Cornwall": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Cotswold": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Dorset": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "East Devon": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Exeter": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Forest of Dean": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Gloucester": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole city",
+     "source": "https://www.gloucester.gov.uk/housing/housing-and-multiple-occupancy-hmo/hmo-licensing-information/"
+    }
+   },
+   "Isles of Scilly": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Mid Devon": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "North Devon": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "North Somerset": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Plymouth": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Somerset": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "South Gloucestershire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "South Hams": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Stroud": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Swindon": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Teignbridge": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Tewkesbury": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Torbay": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Torridge": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "West Devon": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Wiltshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   }
+  }
+ },
+ "West Midlands": {
+  "checked": "2026-10-28",
+  "councils": {
+   "Birmingham": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: 25 of the city's 69 wards",
+     "source": "https://www.birmingham.gov.uk/info/20175/private_housing/2649/selective_licensing"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole city (all wards)",
+     "source": "https://www.birmingham.gov.uk/download/downloads/id/25380/designation_of_an_area_for_additional_licensing_of_houses_in_multiple_occupation_2023.pdf",
+     "until": "2028-06-04"
+    }
+   },
+   "Bromsgrove": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Cannock Chase": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Coventry": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole city",
+     "source": "https://www.coventry.gov.uk/housing-enforcement/additional-licensing-scheme-2025",
+     "until": "2030-05-03"
+    }
+   },
+   "Dudley": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "East Staffordshire": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: 8 streets in Burton upon Trent (incl. Blackpool St, Broadway St, Goodman St, King St, Queen St, Shobnall St, Uxbridge St, Waterloo St)",
+     "source": "https://www.eaststaffsbc.gov.uk/housing-and-property/landlords/selective-licensing-scheme",
+     "until": "2027-09-11",
+     "note": "A second scheme covering 16 more Burton streets is due to start on 1 January 2027."
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Herefordshire, County of": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Lichfield": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Malvern Hills": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Newcastle-under-Lyme": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "North Warwickshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Nuneaton and Bedworth": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Redditch": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Rugby": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Sandwell": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole borough",
+     "source": "https://www.sandwell.gov.uk/downloads/file/2839/additional-licensing-scheme-designation-public-notice-2024",
+     "until": "2029-09-30"
+    }
+   },
+   "Shropshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Solihull": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "South Staffordshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Stafford": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Staffordshire Moorlands": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Stoke-on-Trent": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Stratford-on-Avon": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Tamworth": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Telford and Wrekin": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Walsall": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "parts: Palfrey, Paddock, Pleck and St Matthews wards (Scheme One)",
+     "source": "https://go.walsall.gov.uk/housing/information-landlords/houses-multiple-occupation-hmo/additional-hmo-licensing",
+     "until": "2027-08-31"
+    }
+   },
+   "Warwick": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "whole district",
+     "source": "https://www.warwickdc.gov.uk/info/20163/private_housing/179/houses_in_multiple_occupation/4"
+    }
+   },
+   "Wolverhampton": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Worcester": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   },
+   "Wychavon": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Wyre Forest": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   }
+  }
+ },
+ "Yorkshire and The Humber": {
+  "checked": "2026-10-28",
+  "councils": {
+   "Barnsley": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Bradford": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Calderdale": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "not verified"
+    }
+   },
+   "Doncaster": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Hexthorpe",
+     "source": "https://www.doncaster.gov.uk/services/business-investment/selective-licensing"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "East Riding of Yorkshire": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Kingston upon Hull, City of": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Kirklees": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Leeds": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: East, South and West Leeds designation (parts of Armley, Beeston & Holbeck, Burmantofts & Richmond Hill, Hunslet & Riverside, Gipton & Harehills, Farnley & Wortley wards)",
+     "source": "https://www.leeds.gov.uk/housing/information-for-landlords/selective-licensing-guidance-notes",
+     "until": "2031-02-08"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "North East Lincolnshire": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: East Marsh ward, Grimsby",
+     "source": "https://www.nelincs.gov.uk/homes-and-property/selective-licensing/",
+     "until": "2031-04-07"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "North Lincolnshire": {
+    "selective": {
+     "status": "not verified"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "North Yorkshire": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: Scarborough South (parts of Weaponness and Ramshill ward) and Scarborough Town (parts of Castle, Falsgrave, Stepney and Northstead wards)",
+     "source": "https://www.northyorks.gov.uk/housing-and-homelessness/selective-licensing/selective-licensing-scarborough-town-1-june-2024/designation-area-selective-licensing-privately-rented-properties",
+     "note": "Scarborough South's designation runs until 30 April 2027; Scarborough Town's until 31 May 2029."
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Rotherham": {
+    "selective": {
+     "status": "in force",
+     "area": "parts: six areas (Town Centre/Eastwood/Clifton/Boston Castle; Masbrough/Kimberworth; Thurcroft; Dinnington; Brinsworth; Parkgate)",
+     "source": "https://www.rotherham.gov.uk/housing/selective-licensing-2026-2031",
+     "until": "2031-02-14"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Sheffield": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "Wakefield": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "none found"
+    }
+   },
+   "York": {
+    "selective": {
+     "status": "none found"
+    },
+    "additional": {
+     "status": "in force",
+     "area": "parts: Clifton, Fishergate, Fulford and Heslington, Guildhall, Heworth, Hull Road, Micklegate, Osbaldwick and Derwent wards",
+     "source": "https://www.york.gov.uk/downloads/file/8390/designation-of-an-area-for-hmo-additional-licensing-17th-august",
+     "until": "2028-03-31"
+    }
+   }
+  }
+ }
+}
