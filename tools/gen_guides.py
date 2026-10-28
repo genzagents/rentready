@@ -52,6 +52,21 @@ SOURCES = [
 ]
 
 
+# How each region reads in a sentence ("landlords in the East Midlands"), and its short name for titles.
+# ONS calls it "Yorkshire and The Humber"; the official guidance says "Yorkshire and Humber".
+NAMED = {"London": "London", "Yorkshire and The Humber": "Yorkshire and the Humber"}
+TITLE_NAME = {"Yorkshire and The Humber": "Yorkshire and Humber"}
+
+
+def the(region: str) -> str:
+    return NAMED.get(region, "the " + region)
+
+
+def The(region: str) -> str:
+    t = the(region)
+    return t[0].upper() + t[1:]
+
+
 def long(s: str) -> str:
     x = date.fromisoformat(s)
     return f"{x.day} {x.strftime('%B %Y')}"
@@ -72,7 +87,7 @@ def ul(items: list) -> str:
 def timetable(highlight: str) -> str:
     now = ' class="now"'
     rows = "".join(
-        f"<tr{now if r == highlight else ''}><td><a href=\"{slug(r)}.html\">{esc(r)}</a></td><td>{long(w['opens'])}</td><td>{long(w['deadline'])}</td></tr>\n"
+        f"<tr{now if r == highlight else ''}><td><a href=\"{slug(r)}.html\">{esc(NAMED.get(r, r))}</a></td><td>{long(w['opens'])}</td><td>{long(w['deadline'])}</td></tr>\n"
         for r, w in rr.ROLLOUT.items())
     return f'<div class="wrap"><table><thead><tr><th>Region</th><th>Requirement starts</th><th>Register by</th></tr></thead><tbody>\n{rows}</tbody></table></div>\n'
 
@@ -81,20 +96,23 @@ def region_page(region: str, w: dict) -> tuple:
     fee = rr.FEE_PER_PROPERTY_GBP
     o, dl = long(w["opens"]), long(w["deadline"])
     name = f"{slug(region)}.html"
-    h1 = f"Landlord database registration in {region}: deadline {dl}"
-    faq = [(f"When do landlords in {region} have to register?",
+    h1 = f"Landlord database registration in {the(region)}: deadline {dl}"
+    title = f"{TITLE_NAME.get(region, region)} landlord database deadline: {dl}"
+    desc = (f"Landlords in {the(region)} must register each rental on England's landlord database (PRS Database) by {dl}. "
+            f"£{fee} a property a year.")
+    faq = [(f"When do landlords in {the(region)} have to register?",
             f"The requirement starts on {o} and the deadline is {dl}. The service opens to every landlord in England on {long(FIRST)}, so you can register earlier."),
-           (f"How much is the landlord database fee in {region}?", f"£{fee} per property per year, the same in every region."),
+           (f"How much is the landlord database fee in {the(region)}?", f"£{fee} per property per year, the same in every region."),
            ("Does the deadline go by where I live or where the property is?",
             "Where the property is. A landlord living elsewhere with a property in this region meets this region's deadline.")]
     ld = [{"@context": "https://schema.org", "@type": "Article", "headline": h1, "dateModified": UPDATED,
            "author": {"@type": "Organization", "name": "genzagents"}, "mainEntityOfPage": BASE + "guides/" + name},
           {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
               {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}]
-    body = (f"<p><strong>If your rental is in {esc(region)}, you must register it on the government's "
-            f"<em>Register your rental property</em> service by {dl}.</strong> The requirement for {esc(region)} starts on {o}; "
+    body = (f"<p><strong>If your rental is in {esc(the(region))}, you must register it on the government's "
+            f"<em>Register your rental property</em> service (the landlord database, or PRS Database) by {dl}.</strong> The requirement for {esc(the(region))} starts on {o}; "
             f"the service opens to every landlord in England on {long(FIRST)}, so you can register earlier.</p>\n"
-            f"<p>The region goes by the property's address, not yours. {esc(region)} covers {esc(PLACES[region])}.</p>\n"
+            f"<p>The region goes by the property's address, not yours. {esc(The(region))} covers {esc(PLACES[region])}.</p>\n"
             f"<h2>What it costs</h2><p>£{fee} per property per year; five properties cost £{fee * 5}. Renewal is "
             f"{esc(rr.RENEWAL)}. <a href=\"landlord-database-fee.html\">The fee explained</a>.</p>\n"
             f"<h2>What you upload for each property</h2>{ul(rr.UPLOADS)}"
@@ -110,18 +128,18 @@ def region_page(region: str, w: dict) -> tuple:
             "<h2>Questions</h2>\n" + "".join(f"<h3>{esc(q)}</h3>\n<p>{esc(a)}</p>\n" for q, a in faq))
     doc = f"""<!doctype html>
 <html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Landlord database {esc(region)}: register by {dl}</title>
-<meta name="description" content="{html.escape(f'Landlords in {region} must register each rental on England’s landlord database by {dl} (requirement starts {o}). £{fee} a property a year. What to upload, what you are asked, penalties.')}">
+<title>{esc(title)}</title>
+<meta name="description" content="{html.escape(desc)}">
 <link rel="canonical" href="{BASE}guides/{name}">
 <style>
 {CSS}
 </style>
 <script type="application/ld+json">{json.dumps(ld, ensure_ascii=False)}</script>
 </head><body><main>
-<p class="mut"><a href="../index.html">rentready</a> / <a href="index.html">Landlord database guides</a></p>
+<p class="mut"><a href="{BASE}">rentready</a> / <a href="{BASE}guides/">Landlord database guides</a></p>
 <h1>{esc(h1)}</h1>
 {body}<div class="cta"><p><strong>Check your own properties in two minutes.</strong> Enter each postcode and the dates on your gas safety record, EICR and EPC: rentready shows your deadline, which certificates lapse before it, the fee, and a pre-filled registration pack to print. Free, in your browser; only the postcode leaves it, to find the region.</p>
-<a class="btn" href="../index.html#tool">Check my properties</a></div>
+<a class="btn" href="{BASE}#tool">Check my properties</a></div>
 <h2>Sources</h2>
 <ul class="mut">{''.join(f'<li><a href="{u}">{esc(t)}</a></li>' for u, t in SOURCES)}</ul>
 <p class="mut">Dates: the draft Private Rented Sector Database Regulations 2026 and the official guidance. Fee (£{fee}, pro-rated during the rollout): the official guidance; the draft leaves the amount to the database operator (<a href="{REGS}/regulation/14">regulation 14</a>). The 28-day rules: draft <a href="{REGS}/regulation/6">regulations 6(2)</a>, <a href="{REGS}/regulation/9">9(4)</a> and <a href="{REGS}/regulation/11">11(2)(a)</a>. The regulations were laid on 9 September 2026 and are not yet approved: the Lords Secondary Legislation Scrutiny Committee drew them to the special attention of the House on 22 October 2026, and committees of both Houses debated them on 28 October 2026 (<a href="{WP}">Parliament record</a>). Not legal advice; check gov.uk before relying on this. Last checked {long(UPDATED)}.</p>
