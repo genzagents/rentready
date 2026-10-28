@@ -1,9 +1,9 @@
-// rentready in the browser: the same check, portfolio and calendar as rentready/__init__.py, line for line.
+// rentready in the browser: the same check, portfolio, calendar and registration pack as rentready/__init__.py, line for line.
 // Runs on the page with no server; the only network call is the postcode lookup at postcodes.io.
 // tests/test_web.py runs this file under node and compares its output with the Python's.
 (function (root) {
   "use strict";
-  const VERSION = "0.6.0";
+  const VERSION = "0.7.0";
   const FEE_PER_PROPERTY_GBP = 65;
   const ROLLOUT = {
     "West Midlands": { opens: "2026-12-15", deadline: "2027-03-14" },
@@ -294,7 +294,145 @@
     return out.map(icsFold).join("\r\n") + "\r\n";
   }
 
-  const api = { VERSION, ROLLOUT, FEE_PER_PROPERTY_GBP, UPLOADS, normaliseRegion, lookupRegion, checkProperty, readPortfolio,
-    checkPortfolio, nextDate, calendarEvents, formatIcs, validDate, todayLocal };
+  // ---- registration pack: rentready/pack.py, line for line ----
+  const PACK_SOURCE = "https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/";
+  const LANDLORD_INDIVIDUAL = ["Name", "Date of birth", "Residential address", "Telephone number", "Email address"];
+  const LANDLORD_ORGANISATION = [
+    "Name of the organisation (or how it is known) and type of legal entity",
+    "Address (not a PO Box), telephone number, email address",
+    "Name, date of birth, email and phone of the person making the entry",
+    "Nominated contact for the database, with email and phone",
+    "Companies House or charity number; without one, names, dates of birth and addresses of all directors, trustees, partners or members",
+    "If a trust: name, date of birth, address, email and phone of the lead trustee",
+  ];
+  const CAPACITY = "If you register on someone else's behalf (power of attorney, executor, deputy, receiver, liquidator, " +
+    "mortgagee and similar): your name, address, phone, email, and a certified copy of the authority " +
+    "(power of attorney, grant of probate, court order, deed of appointment).";
+  const DWELLING = [["_address", "Address of dwelling"], ["ownership", "Ownership type"], ["dwelling_type", "Dwelling type"],
+    ["bedrooms", "Number of bedrooms"], ["let", "Currently let?"],
+    ["freeholder", "Freeholder / superior landlord (name and email), if any"], ["manager", "Property manager (name and email), if any"]];
+  const OPTIONAL = ["freeholder", "manager"];
+  const TENANCY = [["occupants", "Number of occupants"], ["households", "Number of households"],
+    ["licence", "HMO, additional or selective licence required? (and how many)"],
+    ["furnished", "Furnished, part furnished or unfurnished"], ["rent", "Rent charged"],
+    ["rent_frequency", "Rent payment frequency"], ["bills", "Utilities included in the rent (which)"]];
+  // Columns the pack reads on top of the check columns, in the order the service asks.
+  const PACK_COLUMNS = ["ownership", "dwelling_type", "bedrooms", "let", "freeholder", "manager"].concat(TENANCY.map(x => x[0]));
+
+  function slug(s) { return (s || "property").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40) || "property"; }
+  function findingOf(report, check) { return (report.findings || []).find(f => f.check === check) || null; }
+  function certLine(report, check, issued, label, fname) {
+    const f = findingOf(report, check);
+    const expiry = (report.expiries || {})[check];
+    if (!issued) return { item: label, file: fname, state: "GATHER", note: "no date in the CSV: find the certificate or book one" };
+    if (f && f.status === "FAIL") return { item: label, file: fname, state: "RENEW", note: `${f.detail}: renew before you register and upload the new one` };
+    if (f && f.status === "WARN") return { item: label, file: fname, state: "RENEW SOON", note: `${f.detail}: upload this one, then update the entry within 28 days of renewing` };
+    return { item: label, file: fname, state: "READY", note: `issued ${issued}` + (expiry ? `, valid to ${expiry}` : "") };
+  }
+
+  function propertyPack(row, report) {
+    const name = report.name || row.name || "property";
+    const sl = slug(name);
+    const answers = [];
+    const vals = Object.assign({}, row);
+    vals._address = [row.name, report.postcode || row.postcode].filter(x => x).join(", ");
+    if (vals.let) vals.let = truthy(vals.let) ? "yes" : "no";
+    for (const [section, fields] of [["Dwelling", DWELLING], ["Tenancy and rent", TENANCY]]) {
+      for (const [col, q] of fields) {
+        const v = String(vals[col] || "").trim();
+        const state = v ? "FILLED" : (OPTIONAL.includes(col) ? "IF ANY" : "GATHER");
+        answers.push({ section, question: q, answer: v, state, column: col.replace(/^_+/, "") });
+      }
+    }
+    const files = [];
+    if (truthy(row.no_gas)) {
+      files.push({ item: "Gas safety record", file: "", state: "N/A", note: "no gas supply: answer 'no gas supply' and upload nothing" });
+    } else {
+      const g = row.gas || "";
+      files.push(certLine(report, "gas safety record", g, "Gas safety record (CP12) and its issue date", `${sl}_gas-safety-record_${g || "DATE"}.pdf`));
+    }
+    const e = row.eicr || "";
+    files.push(certLine(report, "EICR", e, "EICR (or EIC) and its expiry date", `${sl}_eicr_${e || "DATE"}.pdf`));
+    const p = row.epc || "";
+    const epc = certLine(report, "EPC", p, "Most recent EPC (if one was required for the current tenant)", `${sl}_epc_${p || "DATE"}.pdf`);
+    if (epc.state === "RENEW") {
+      // The service accepts a lapsed EPC with the current tenancy's start date; a new tenancy needs a new EPC.
+      const ts = row.tenancy_start || "";
+      epc.note = epc.note.split(": renew")[0] + ": upload it with the current tenancy start date (" +
+        (ts ? ts : "GATHER it") + "); a new tenancy needs a new EPC first";
+      epc.state = ts ? "READY" : "GATHER";
+    }
+    files.push(epc);
+    const rating = findingOf(report, "EPC rating");
+    if (rating && rating.status === "FAIL") {
+      files.push({ item: "MEES exemption", file: `${sl}_mees-exemption.pdf`, state: "GATHER",
+        note: "rating below E: the service asks whether a registered MEES exemption applies and which type" });
+    }
+    if (!["", "none", "no", "n/a"].includes(String(row.licence || "").trim().toLowerCase())) {
+      files.push({ item: "Licence details", file: "", state: "GATHER", note: "licence number(s) from your council; the service asks how many licences apply" });
+    }
+    const todo = answers.filter(a => a.state === "GATHER").concat(files.filter(f => f.state === "GATHER" || f.state === "RENEW"));
+    return { name, slug: sl, postcode: report.postcode || (row.postcode === undefined ? null : row.postcode),
+      region: report.region || null, window: report.window || null, in_scope: report.ready !== null && report.ready !== undefined,
+      answers, files, to_do: todo.length, missing_columns: answers.filter(a => a.state === "GATHER").map(a => a.column),
+      ready_to_register: report.ready === true && !todo.length };
+  }
+
+  async function buildPack(rows, today, organisation, lookup) {
+    const p = await checkPortfolio(rows, today, lookup);
+    const props = rows.map((row, i) => propertyPack(row, p.properties[i]));
+    const missing = new Set();
+    props.filter(x => x.in_scope).forEach(x => x.missing_columns.forEach(c => missing.add(c)));
+    return { version: VERSION, today: p.today, source: PACK_SOURCE, organisation: !!organisation,
+      landlord: organisation ? LANDLORD_ORGANISATION : LANDLORD_INDIVIDUAL, capacity: CAPACITY,
+      properties: props, fee_gbp_per_year: p.fee_gbp_per_year, earliest_deadline: p.earliest_deadline,
+      ready_to_register: props.filter(x => x.ready_to_register).length, in_scope: props.filter(x => x.in_scope).length,
+      missing_columns: Array.from(missing).sort() };
+  }
+
+  function formatPack(pk) {
+    const L = [`# Registration pack (${pk.today})`, "",
+      `For gov.uk *Register your rental property*. ${pk.ready_to_register} of ${pk.in_scope} properties in England ` +
+      `have every answer and file ready. Fee £${pk.fee_gbp_per_year} a year (£${FEE_PER_PROPERTY_GBP} per property)` +
+      (pk.earliest_deadline ? `; earliest deadline ${pk.earliest_deadline}.` : "."),
+      "You start the entry yourself with GOV.UK One Login; an agent can upload some items but cannot register for you.", ""];
+    if (pk.missing_columns && pk.missing_columns.length) {
+      L.push(`Add these columns to your CSV and re-run to fill the GATHER lines: \`${pk.missing_columns.join(", ")}\`.`, "");
+    }
+    L.push("## You, once for every property", "");
+    pk.landlord.forEach(x => L.push(`- [ ] ${x}`));
+    L.push("", `*${pk.capacity}*`, "");
+    for (const x of pk.properties) {
+      L.push(`## ${x.name}`);
+      if (!x.in_scope) { L.push("", "Outside England: this database does not apply.", ""); continue; }
+      const w = x.window;
+      L.push("", `${x.postcode || ""} · ${x.region || "region unknown"}` +
+        (w ? ` · register ${w.opens} to ${w.deadline}` : "") +
+        (x.ready_to_register ? " · **ready to register**" : ` · ${x.to_do} to do`), "");
+      let section = null;
+      for (const a of x.answers) {
+        if (a.section !== section) {
+          section = a.section;
+          if (section !== x.answers[0].section) L.push("");
+          L.push(`**${section}**`, "");
+        }
+        if (a.state === "FILLED") L.push(`- [x] ${a.question}: ${a.answer}`);
+        else if (a.state === "IF ANY") L.push(`- [ ] ${a.question}: leave blank if none`);
+        else L.push(`- [ ] ${a.question}: GATHER`);
+      }
+      L.push("", "**Files to scan and upload** (within 28 days of the entry)", "");
+      for (const f of x.files) {
+        const box = (f.state === "READY" || f.state === "N/A") ? "x" : " ";
+        const fn = f.file ? ` → \`${f.file}\`` : "";
+        L.push(`- [${box}] ${f.item}${fn}: ${f.state}, ${f.note}`);
+      }
+      L.push("");
+    }
+    L.push(`Questions as published at ${pk.source} (checked Oct 2026). rentready ${pk.version}.`);
+    return L.join("\n");
+  }
+
+  const api = { VERSION, ROLLOUT, FEE_PER_PROPERTY_GBP, UPLOADS, PACK_COLUMNS, normaliseRegion, lookupRegion, checkProperty, readPortfolio,
+    checkPortfolio, nextDate, calendarEvents, formatIcs, validDate, todayLocal, propertyPack, buildPack, formatPack };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.rentready = api;
 })(typeof window !== "undefined" ? window : globalThis);

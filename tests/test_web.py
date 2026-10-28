@@ -39,6 +39,26 @@ const look = async pc => lookup[pc.toUpperCase().replace(/ /g, "")] || {error: "
 })();
 """
 
+PACK_CSV = """name,postcode,gas,no_gas,eicr,epc,epc_rating,tenancy_start,ownership,dwelling_type,bedrooms,let,freeholder,occupants,households,licence,furnished,rent,rent_frequency,bills
+12 Example St,B3 2TA,2026-02-01,,2023-06-01,2017-05-01,D,,freehold,house,3,Y,,4,1,none,unfurnished,1200,monthly,none
+Flat 4,SW1A 1AA,,yes,2024-01-01,2020-01-01,C,,leasehold,flat,1,no,"Acme Freeholds, a@b.c",1,1,,furnished,"1,850",monthly,"water, council tax"
+HMO,M1 1AE,2026-05-01,,2019-04-01,2015-09-01,G,,freehold,house,6,yes,,6,5,hmo,part,3000,monthly,all
+Lapsed EPC,LS1 1UR,2026-08-01,,2024-01-01,2014-01-01,E,2023-05-01,freehold,flat,2,yes,,2,1,no,unfurnished,900,monthly,
+Lapsed no tenancy,LS1 1UR,2026-08-01,,2024-01-01,2014-01-01,E,,,,,,,,,,,,,
+Cardiff,CF10 1AA,2026-06-01,,2024-01-01,2020-01-01,B,,,,,,,,,,,,,
+Typo,ZZ9 9ZZ,,,,,,,,,,,,,,,,,,
+"!!! ---  The   Very Long Property Name That Goes On And On",,,x,2019-01-01,,,,,,,,,,,,,,,
+"""
+PACK_RUNNER = r"""
+const rr = require(process.argv[1]);
+const [csv, today, org, lookup] = JSON.parse(require("fs").readFileSync(0, "utf8"));
+const look = async pc => lookup[pc.toUpperCase().replace(/ /g, "")] || {error: "postcode lookup failed: HTTPError: HTTP Error 404: Not Found"};
+(async () => {
+  const pk = await rr.buildPack(rr.readPortfolio(csv), today, org, look);
+  process.stdout.write(JSON.stringify({pk, md: rr.formatPack(pk)}));
+})();
+"""
+
 @unittest.skipUnless(NODE, "node not installed")
 class WebParity(unittest.TestCase):
     def run_both(self, today):
@@ -71,6 +91,37 @@ class WebParity(unittest.TestCase):
         self.assertEqual(by["Typo"]["findings"][0]["check"], "region")
         self.assertEqual(by["By region"]["region"], "South East")
         self.assertEqual(by["Empty"]["ready"], False)
+
+    def run_pack(self, csv, today, org):
+        from rentready import pack
+        orig = rr.lookup_region
+        rr.lookup_region = fake_lookup
+        try:
+            py = pack.build_pack(rr.read_portfolio(csv), today=today, organisation=org)
+        finally:
+            rr.lookup_region = orig
+        out = subprocess.run([NODE, "-e", PACK_RUNNER, JS], input=json.dumps([csv, today, org, LOOKUP]), capture_output=True, text=True, check=True)
+        js = json.loads(out.stdout)
+        return py, pack.format_pack(py), js["pk"], js["md"]
+
+    def test_same_registration_pack(self):
+        for csv in (PACK_CSV, CSV):
+            for today in ("2026-10-28", "2027-03-15", "2030-01-01"):
+                for org in (False, True):
+                    py, md, js, jmd = self.run_pack(csv, today, org)
+                    self.assertEqual(json.loads(json.dumps(py)), js, f"pack on {today} org={org}")
+                    self.assertEqual(md, jmd, f"markdown on {today} org={org}")
+
+    def test_pack_cases_cover_what_they_claim(self):
+        py, md, _, _ = self.run_pack(PACK_CSV, "2026-10-28", False)
+        by = {p["name"]: p for p in py["properties"]}
+        self.assertTrue(by["12 Example St"]["ready_to_register"])
+        self.assertIn("MEES exemption", [f["item"] for f in by["HMO"]["files"]])
+        self.assertIn("Licence details", [f["item"] for f in by["HMO"]["files"]])
+        self.assertEqual(by["Lapsed EPC"]["files"][-1]["state"], "READY")
+        self.assertEqual(by["Lapsed no tenancy"]["files"][-1]["state"], "GATHER")
+        self.assertFalse(by["Cardiff"]["in_scope"])
+        self.assertIn("Acme Freeholds, a@b.c", md)
 
     def test_versions_match(self):
         with open(JS) as f:

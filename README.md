@@ -9,7 +9,7 @@ and penalties run to £7,000 (£40,000 for a repeat). `rentready` tells you your
 your certificates will still be in date, what to book, what to upload and what it costs. Zero dependencies, one file,
 also an MCP server and a Claude Code plugin, so your own agent can run it.
 
-**No install: check in your browser at https://genzagents.github.io/rentready/** (0.6.0). Add your properties or
+**No install: check in your browser at https://genzagents.github.io/rentready/** (0.7.0: now with the registration pack). Add your properties or
 paste a CSV, see every property's window, deadline and certificate state, then download one `.ics` with every date and
 reminder. It runs `docs/rentready.js`, a line-for-line port of the Python that `tests/test_web.py` holds to identical
 answers and an identical calendar on five dates; the only network call is the postcode lookup at postcodes.io, and
@@ -95,11 +95,15 @@ EICR and EPC expiry, each with reminders 60 and 14 days before (change with `--r
 Apple or Outlook calendar; UIDs are deterministic, so re-importing after a renewal updates the events instead of duplicating them.
 This is the free, serverless version of the monthly watch: nothing is stored anywhere but your own calendar.
 
-### The registration pack (0.5.0)
+### The registration pack (0.5.0; in the browser from 0.7.0)
 
 ```bash
 rentready pack properties.csv --out=pack.md          # add --organisation for a company or trust
 ```
+
+No terminal? On https://genzagents.github.io/rentready/ press **Show my registration pack** after a check: the same pack
+(docs/rentready.js, parity-tested against pack.py), printable or saved as `registration-pack.md` for your agent. Extra
+columns pasted in the CSV are kept with your list in the browser.
 
 Every question *Register your rental property* asks, in the service's own words (gov.uk "Get ready to register", Oct 2026):
 you as the landlord once, then per property the dwelling, tenancy, rent and health-and-safety sections. Answers come
@@ -134,7 +138,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: genzagents/rentready@v0.5.0
+      - uses: genzagents/rentready@v0.7.0
         with:
           portfolio: properties.csv
           # warn-days: 90

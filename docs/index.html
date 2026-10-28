@@ -27,6 +27,9 @@ button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:6
 .PASS,.READY{background:#0b52;color:var(--fg)}.WARN{background:#e902;color:var(--fg)}.FAIL,.NOT{background:#d332;color:var(--fg)}.INFO,.NA{background:#8882;color:var(--fg)}
 .prop{border-top:1px solid var(--bd);padding:8px 0}.prop ul{margin:4px 0;padding-left:1.2em}
 #sum{font-weight:600}
+#packout h3{margin:1.2em 0 .2em}#packout table{font-size:14px;margin:.4em 0}#packout td:first-child{width:55%}
+.GATHER,.RENEW{background:#d332;color:var(--fg)}.RENEWSOON{background:#e902;color:var(--fg)}.FILLED{background:#0b52;color:var(--fg)}.IFANY{background:#8882;color:var(--fg)}
+@media print{body *{visibility:hidden}#packout,#packout *{visibility:visible}#packout{position:absolute;left:0;top:0;width:100%}#packout .bar{display:none}}
 </style></head><body><main>
 <h1>rentready</h1>
 <p><strong>Is your rental ready for England's landlord database?</strong> From 15 December 2026 every private landlord in England registers each property on <em>Register your rental property</em> (Renters' Rights Act), region by region, at £65 a property a year, uploading the gas safety record, EICR and EPC. No active entry, no possession order; penalties to £7,000.</p>
@@ -37,10 +40,11 @@ button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:6
 <div id="rows"><table><thead><tr><th>Property</th><th>Postcode</th><th>Gas safety record</th><th>No gas</th><th>EICR</th><th>EPC</th><th>EPC rating</th><th></th></tr></thead><tbody></tbody></table></div>
 <div class="bar"><button type="button" id="add">+ Add a property</button><button type="button" class="go" id="check">Check</button></div>
 <details><summary>Or paste a spreadsheet (CSV)</summary>
-<p class="mut">Columns: <code>name, postcode, gas, no_gas, eicr, epc, epc_rating</code>; dates as YYYY-MM-DD. Copy from Excel or Google Sheets after saving as CSV.</p>
+<p class="mut">Columns: <code>name, postcode, gas, no_gas, eicr, epc, epc_rating</code>; dates as YYYY-MM-DD. Copy from Excel or Google Sheets after saving as CSV. For the registration pack add any of <code>tenancy_start, ownership, dwelling_type, bedrooms, let, freeholder, manager, occupants, households, licence, furnished, rent, rent_frequency, bills</code>; they are kept with your list.</p>
 <textarea id="paste" placeholder="name,postcode,gas,no_gas,eicr,epc,epc_rating&#10;12 Example St,B3 2TA,2026-02-01,,2023-06-01,2017-05-01,D"></textarea>
 <div class="bar"><button type="button" id="load">Use this list</button></div></details>
 <div id="out" aria-live="polite"></div>
+<div id="packout" aria-live="polite"></div>
 </section>
 <h2>For you or your agent, in the terminal</h2>
 <pre>curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/__init__.py | python3 - check "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --epc=2017-05-01 --epc-rating=D</pre>
@@ -69,14 +73,14 @@ No EICR:
 Fee: £195 a year for 3 properties (£65 each)
 Earliest deadline: 2027-03-14. 2 ready, 1 not ready.</pre>
 <p>Your own agent can do the same: the MCP server has <code>check_property</code>, <code>check_portfolio</code>, <code>make_calendar</code> and <code>registration_pack</code>.</p>
-<h2>The registration pack (0.5.0)</h2>
-<p>Every question the service asks, in its own words, for you once and for each property: dwelling, tenancy, rent, gas, EICR and EPC. Answers come pre-filled from your CSV, each gap is marked GATHER with the column to add, and each certificate gets a file name to scan it as and a state: ready, renew soon, or renew before you upload. A property is ready to register only when every answer and file is in hand.</p>
+<h2>The registration pack (in the browser from 0.7.0)</h2>
+<p>Press <strong>Show my registration pack</strong> after a check above, print it or save it. Every question the service asks, in its own words, for you once and for each property: dwelling, tenancy, rent, gas, EICR and EPC. Answers come pre-filled from your CSV, each gap is marked GATHER with the column to add, and each certificate gets a file name to scan it as and a state: ready, renew soon, or renew before you upload. A property is ready to register only when every answer and file is in hand.</p>
 <pre>rentready pack properties.csv --out=pack.md</pre>
 <h2>An email when something needs action (0.3.0)</h2>
 <p>Put <code>properties.csv</code> in a private GitHub repo and add one workflow file. On the first of every month <code>rentready watch</code> re-checks every property, keeps one issue up to date with the whole table, and comments on it only when a gas safety record, EICR or EPC comes within 60 days of expiring, your region's window opens, a deadline nears or passes, or a property stops being ready. GitHub emails you the comment. Free, no server, no account beyond GitHub. <a href="https://github.com/genzagents/rentready/issues/1">Issue #1</a> watches the example portfolio.</p>
 <pre>steps:
   - uses: actions/checkout@v4
-  - uses: genzagents/rentready@v0.6.0
+  - uses: genzagents/rentready@v0.7.0
     with:
       portfolio: properties.csv</pre>
 <p class="mut">Full template: <a href="https://github.com/genzagents/rentready/blob/main/docs/watch.yml">docs/watch.yml</a>. Or from cron on your own machine: <code>rentready watch properties.csv --state=state.json</code>.</p>
@@ -109,10 +113,11 @@ claude plugin marketplace add genzagents/marketplace && claude plugin install re
       '<td><select data-k="epc_rating"><option value="">?</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></td>'+
       '<td><button type="button" aria-label="Remove">&times;</button></td>';
     tr.querySelectorAll("[data-k]").forEach(function(el){var v=r[el.dataset.k]||""; if(el.type==="checkbox") el.checked=["1","true","yes","y","x"].indexOf(String(v).toLowerCase())>=0; else el.value=v.trim?v.trim():v;});
+    tr._extra={}; Object.keys(r).forEach(function(k){if(["name","postcode","gas","no_gas","eicr","epc","epc_rating"].indexOf(k)<0) tr._extra[k]=r[k];});
     tr.querySelector("button").onclick=function(){tr.remove();save();};
     tr.addEventListener("change",save); tb.appendChild(tr);
   }
-  function rows(){return Array.prototype.map.call(tb.rows,function(tr){var o={};tr.querySelectorAll("[data-k]").forEach(function(el){o[el.dataset.k]=el.type==="checkbox"?(el.checked?"yes":""):el.value.trim();});return o;}).filter(function(o){return o.name||o.postcode;});}
+  function rows(){return Array.prototype.map.call(tb.rows,function(tr){var o=Object.assign({},tr._extra||{});tr.querySelectorAll("[data-k]").forEach(function(el){o[el.dataset.k]=el.type==="checkbox"?(el.checked?"yes":""):el.value.trim();});return o;}).filter(function(o){return o.name||o.postcode;});}
   function save(){try{localStorage.setItem(KEY,JSON.stringify(rows()));}catch(e){}}
   function load(list){tb.innerHTML="";(list.length?list:[{}]).forEach(addRow);save();}
   var saved=null; try{saved=JSON.parse(localStorage.getItem(KEY)||"null");}catch(e){}
@@ -122,7 +127,7 @@ claude plugin marketplace add genzagents/marketplace && claude plugin install re
     try{var l=rr.readPortfolio(document.getElementById("paste").value); if(!l.length) throw new Error("no rows under the header"); load(l); run();}
     catch(e){out.innerHTML='<p class="FAIL">Could not read that list: '+esc(e.message)+'</p>';}
   };
-  function csv(list){var cols=["name","postcode","gas","no_gas","eicr","epc","epc_rating"];return cols.join(",")+"\n"+list.map(function(r){return cols.map(function(c){var v=r[c]||"";return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}).join(",");}).join("\n")+"\n";}
+  function csv(list){var cols=["name","postcode","gas","no_gas","eicr","epc","epc_rating","tenancy_start"].concat(rr.PACK_COLUMNS);cols=cols.filter(function(c,i){return i<7||list.some(function(r){return r[c];});});return cols.join(",")+"\n"+list.map(function(r){return cols.map(function(c){var v=r[c]||"";return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}).join(",");}).join("\n")+"\n";}
   function download(name,text,type){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:type}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);}
   async function run(){
     var list=rows(); if(!list.length){out.innerHTML="<p>Add a property first.</p>";return;}
@@ -138,12 +143,42 @@ claude plugin marketplace add genzagents/marketplace && claude plugin install re
       h+='</ul>'; if(r.actions.length){h+='<p class="mut" style="margin:4px 0">Do next:</p><ul>'+r.actions.map(function(a){return '<li>'+esc(a)+'</li>';}).join("")+'</ul>';}
       h+='</div>';
     });
-    h+='<div class="bar"><button type="button" class="go" id="ics">Add every date to my calendar (.ics)</button><button type="button" id="csv">Save my list (CSV)</button></div>'+
+    h+='<div class="bar"><button type="button" class="go" id="ics">Add every date to my calendar (.ics)</button><button type="button" id="csv">Save my list (CSV)</button><button type="button" id="packbtn">Show my registration pack</button><label class="mut"><input type="checkbox" id="org"> I register as a company, charity or trust</label></div>'+
       '<p class="mut">The calendar has the day your window opens, your deadline and every gas, EICR and EPC expiry, each with reminders 60 and 14 days before. Import it into Google, Apple or Outlook calendar; importing again updates rather than duplicates.</p>'+
       '<p class="mut">Upload with each registration: '+rr.UPLOADS.map(esc).join("; ")+'. Want an email instead when something needs action? See the <a href="#watch">monthly watch</a>.</p>';
     out.innerHTML=h;
     document.getElementById("ics").onclick=async function(){download("rentready.ics",await rr.formatIcs(rr.calendarEvents(last.p.properties)),"text/calendar");};
     document.getElementById("csv").onclick=function(){download("properties.csv",csv(last.list),"text/csv");};
+    document.getElementById("packbtn").onclick=function(){pack(document.getElementById("org").checked);};
+    document.getElementById("packout").innerHTML="";
+  }
+  function badge(s){return '<span class="st '+s.replace(/[^A-Z]/g,"")+'">'+esc(s)+'</span>';}
+  async function pack(org){
+    var po=document.getElementById("packout"); po.innerHTML="<p>Building your pack...</p>";
+    var pk=await rr.buildPack(last.list,null,org);
+    var h='<h2>Your registration pack</h2><p>'+pk.ready_to_register+' of '+pk.in_scope+' properties in England have every answer and file ready. Fee £'+pk.fee_gbp_per_year+' a year'+
+      (pk.earliest_deadline?'; earliest deadline '+pk.earliest_deadline:'')+'. You start the entry yourself on gov.uk with GOV.UK One Login; nothing here registers for you.</p>';
+    if(pk.missing_columns.length) h+='<p class="mut">To fill the GATHER lines, add these columns to your spreadsheet and paste it again: <code>'+pk.missing_columns.map(esc).join(", ")+'</code>.</p>';
+    h+='<div class="bar"><button type="button" class="go" id="print">Print or save as PDF</button><button type="button" id="md">Download for my agent (.md)</button></div>';
+    h+='<h3>You, once for every property</h3><ul>'+pk.landlord.map(function(x){return '<li>'+esc(x)+'</li>';}).join("")+'</ul><p class="mut">'+esc(pk.capacity)+'</p>';
+    pk.properties.forEach(function(x){
+      h+='<h3>'+esc(x.name)+'</h3>';
+      if(!x.in_scope){h+='<p class="mut">Outside England: this database does not apply.</p>';return;}
+      h+='<p class="mut">'+esc(x.postcode||"")+' · '+esc(x.region||"region unknown")+(x.window?' · register '+x.window.opens+' to '+x.window.deadline:'')+' · '+
+        (x.ready_to_register?'<span class="st READY">READY TO REGISTER</span>':x.to_do+' to do')+'</p><table>';
+      var sec=null;
+      x.answers.forEach(function(a){
+        if(a.section!==sec){sec=a.section;h+='<tr><th colspan="2">'+esc(sec)+'</th></tr>';}
+        h+='<tr><td>'+esc(a.question)+'</td><td>'+(a.state==="FILLED"?esc(a.answer):a.state==="IF ANY"?'<span class="mut">leave blank if none</span>':badge("GATHER")+' <span class="mut">column '+esc(a.column)+'</span>')+'</td></tr>';
+      });
+      h+='<tr><th colspan="2">Files to scan and upload (within 28 days of the entry)</th></tr>';
+      x.files.forEach(function(f){h+='<tr><td>'+esc(f.item)+(f.file?'<br><code>'+esc(f.file)+'</code>':'')+'</td><td>'+badge(f.state)+' '+esc(f.note)+'</td></tr>';});
+      h+='</table>';
+    });
+    h+='<p class="mut">Questions as published at <a href="'+esc(pk.source)+'">gov.uk Get ready to register</a> (checked Oct 2026). rentready '+esc(pk.version)+'. Not legal advice.</p>';
+    po.innerHTML=h; po.scrollIntoView({behavior:"smooth"});
+    document.getElementById("print").onclick=function(){window.print();};
+    document.getElementById("md").onclick=function(){download("registration-pack.md",rr.formatPack(pk),"text/markdown");};
   }
   document.getElementById("check").onclick=run;
 })();
