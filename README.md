@@ -19,14 +19,14 @@ answers and an identical calendar on five dates; the only network call is the po
 your list stays in your browser.
 
 ```bash
-curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/__init__.py | python3 - check "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --epc=2017-05-01 --epc-rating=D
+curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/__init__.py | python3 - check "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --eicr-due=2028-06-01 --epc=2017-05-01 --epc-rating=D
 ```
 
 ```
-rentready 0.7.1  B3 2TA  region: West Midlands
-Window: requirement starts 2026-12-15, deadline 2027-03-14 (139 days from 2026-10-26); the service opens for everyone on 2026-12-15
+rentready 0.8.0  B3 2TA  region: West Midlands
+Window: requirement starts 2026-12-15, deadline 2027-03-14 (137 days from 2026-10-28); the service opens for everyone on 2026-12-15
   PASS registration deadline: West Midlands requirement starts 2026-12-15, deadline 2027-03-14; you can register from 2026-12-15
-  WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (98 days)
+  WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (96 days)
   PASS EICR: valid to 2028-06-01
   PASS EPC: valid to 2027-05-01
   INFO EPC rating: rating D meets today's E minimum; it would not meet the C minimum set for all tenancies from 1 October 2030 (government response, 21 Jan 2026; not yet law)
@@ -80,7 +80,8 @@ rentready portfolio properties.csv          # one line per property, every FAIL/
 rentready portfolio properties.csv --json
 ```
 
-`properties.csv` has a header row with any of `name, postcode, gas, no_gas, eicr, epc, epc_rating, tenancy_start, region`
+`properties.csv` has a header row with any of `name, postcode, gas, no_gas, eicr, eicr_due, epc, epc_rating, tenancy_start, region`
+(`eicr` is the report's issue date, `eicr_due` the date it gives for the next inspection)
 (common spellings like `Address`, `Post Code`, `Gas safety`, `Rating` are accepted; a JSON list of objects works too):
 
 ```csv
@@ -171,7 +172,11 @@ Or add to any MCP client: `python3 /path/to/rentready/__init__.py mcp` (stdio). 
 
 - Region from the postcode (postcodes.io, no key; `--region=` to skip the lookup). Wales and Scotland are flagged out of scope.
 - Registration window and deadline for that region; whether it is open, upcoming or missed.
-- Gas safety record (annual), EICR (five-yearly), EPC (ten-yearly): valid at the deadline, expiring before it, expired, or missing.
+- Gas safety record (annual), EICR, EPC (ten-yearly): valid at the deadline, expiring before it, expired, or missing.
+- EICR: the law requires an inspection at least every 5 years, or by an earlier date if the last report says so
+  ([SI 2020/312, regulation 3(2)](https://www.legislation.gov.uk/uksi/2020/312/regulation/3)), and the service asks for the report's expiry date.
+  Give the report's next-inspection date (`--eicr-due`, CSV column `eicr_due`) and rentready uses it; with only the
+  issue date it assumes 5 years and says so in the result.
 - EPC rating against the current E minimum and the C minimum for all tenancies from 1 October 2030
   ([government response, 21 Jan 2026](https://www.gov.uk/government/consultations/improving-the-energy-performance-of-privately-rented-homes-2025-update/outcome/improving-the-energy-performance-of-privately-rented-homes-government-response-html); not yet law).
 - The fee for N properties, the renewal rule, the full list of details the service asks for, and the penalties.
@@ -196,6 +201,13 @@ It does not register for you, fetch certificates, or hold any data. It never sen
 is the postcode lookup. Not legal advice.
 
 ## Changes
+
+**0.8.0** (EICR correctness)
+- EICR expiry comes from the report's own next-inspection date when you give it (`--eicr-due`, CSV `eicr_due`, MCP
+  `eicr_due`, a column in the browser), capped at 5 years from issue. Before, a report recommending 3 years got a false
+  PASS because expiry was always issue date + 5 years. Issue + 5 years is now only a fallback, labelled as an assumption
+  in the finding, in `assumptions`, and in the registration pack. Same logic in Python, the browser and the MCP server
+  (parity-tested).
 
 **0.7.1** (accuracy fixes, no new features)
 - EPC: the C minimum applies to all private tenancies from 1 October 2030; the government dropped the proposed 2028 date

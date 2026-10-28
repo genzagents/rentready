@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>EICR and the landlord database: what to upload</title>
-<meta name="description" content="The landlord database asks for your EICR (or EIC) and its expiry date. Check your electrical report is still in date at your region&#x27;s deadline.">
+<meta name="description" content="The landlord database asks for your EICR and its expiry date: the report&#x27;s next-inspection date, not always 5 years. Plus the 30 Nov 2026 EICR rule change.">
 <link rel="canonical" href="https://genzagents.github.io/rentready/guides/eicr-landlord-database.html">
 <style>
 :root{--bg:#fff;--fg:#111;--mut:#555;--acc:#087a3a;--link:#0645ad;--box:#f4f4f4;--bd:#ddd}
@@ -50,7 +50,7 @@ button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:6
    "name": "How long does an EICR last?",
    "acceptedAnswer": {
     "@type": "Answer",
-    "text": "Five years."
+    "text": "At most five years. If the report gives an earlier date for the next inspection, that earlier date applies."
    }
   },
   {
@@ -75,31 +75,41 @@ button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:6
 </head><body><main>
 <p class="mut"><a href="../index.html">rentready</a> / <a href="index.html">Landlord database guides</a></p>
 <h1>EICR and the landlord database</h1>
-<p><strong>When you register a property, you upload its electrical installation condition report (EICR) and the report's expiry date.</strong> If there is no EICR yet, you upload the electrical installation certificate (EIC) instead. Do it within 28 days of making the entry <span class="mut">(in the draft regulations, <a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6">regulation 6(2)</a>, and reported by the NRLA; not yet in official guidance)</span>. An EICR is needed every five years, so check yours will still be in date at your region's deadline.</p>
+<p><strong>When you register a property, you upload its electrical installation condition report (EICR) and the report's expiry date: the date the report gives for the next inspection.</strong> If there is no EICR yet, you upload the electrical installation certificate (EIC) instead. Do it within 28 days of making the entry <span class="mut">(in the draft regulations, <a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6">regulation 6(2)</a>, and reported by the NRLA; not yet in official guidance)</span>. An EICR is needed at least every five years, and sooner if the report says so, so check the date on your report against your region's deadline.</p>
 <h2>What the service asks for</h2>
-<p>The <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">official guidance</a> asks for a copy of the EICR or EIC, if one exists, and its expiry date. Note that it is the expiry date the service wants, not the issue date as for gas.</p>
-<h2>Five-yearly, so check the expiry</h2>
-<p>An EICR runs for five years. In rentready's example, a report issued on 1 June 2023 is valid to 1 June 2028. For a West Midlands property with a 14 March 2027 deadline, that passes.</p>
-<p>Older reports need more care. A report issued on 1 June 2022 runs to 1 June 2027. That is after the deadlines for the West Midlands, the East of England and the East Midlands. It is before the deadline for the South East (14 June 2027) and every region after it. A landlord in those regions would need a new report before registering.</p>
+<p>The <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">official guidance</a> asks for a copy of the EICR or EIC, if one exists, and the "EICR or EIC expiry date". Note that it is the expiry date the service wants, not the issue date as for gas. The draft regulations word it slightly differently: the EICR expiry date, or for an EIC its issue date (<a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/schedule/3/part/2">draft Schedule 3, paragraph 12</a>). Have both dates to hand.</p>
+<h2>Five years at most, sooner if the report says so</h2>
+<p>The law requires the electrical installation to be inspected and tested at intervals of no more than five years, or by an earlier date if the most recent report requires it (<a href="https://www.legislation.gov.uk/uksi/2020/312/regulation/3">Electrical Safety Standards Regulations 2020, regulation 3(2)</a>). The report must give the date by which the next inspection is required (regulation 3(3)(a)). So the expiry is the date printed on your report, not always the issue date plus five years. Electricians often set a shorter interval for older wiring.</p>
+<p>In rentready's example, a report issued on 1 June 2023 that sets the next inspection for 1 June 2028 is in date for a West Midlands property with a 14 March 2027 deadline.</p>
+<p>A shorter interval changes the answer. A report issued on 1 June 2024 that recommends the next inspection in three years runs to 1 June 2027, not 2029. That is after the deadlines for the West Midlands, the East of England and the East Midlands, but before the South East deadline (14 June 2027) and every region after it, including London (14 October 2027). A landlord in those regions needs a new report before registering. Counting five years from the issue date would have said the report was fine.</p>
+<p><strong>In rentready:</strong> enter the EICR's issue date and its next-inspection date (CSV column <code>eicr_due</code>). rentready uses the report's date, capped at five years from issue. If you give only the issue date, it assumes five years and labels the result as an assumption.</p>
+<h2>Rule change from 30 November 2026</h2>
+<p>The <a href="https://www.legislation.gov.uk/ukdsi/2026/9780348285703">Electrical Safety Standards in the Private Rented Sector and Social Rented Sector (England) (Amendment) Regulations 2026</a> were approved by the House of Lords on 14 October 2026 and the House of Commons on 20 October 2026 (<a href="https://api.parliament.uk/procedure-browser/work-packages/VpqKF4LP">Parliament record</a>). The draft says they come into force on 30 November 2026. As of 28 October 2026 legislation.gov.uk still shows the draft, not the signed instrument. What they change:</p>
+<ul>
+<li><strong>The standard.</strong> The electrical safety standards become those in BS 7671:2018+A4:2026, the updated IET Wiring Regulations, in place of BS 7671:2018 (regulation 3 of the amendment).</li>
+<li><strong>No more "further investigative work" in reports.</strong> References to further investigative work being required by a report are removed, in line with the updated Wiring Regulations (regulations 4(e) to (g) and 8(a)). For an inspection completed before 30 November 2026, the old rules on further investigation still apply (regulation 9).</li>
+<li><strong>New tenancies.</strong> A fresh inspection is not needed before a new tenancy starts if the last inspection was within five years and the next-inspection date on its report has not passed (new regulation 3(1A) and (1B)). This is the same "use the date on the report" rule rentready now applies.</li>
+</ul>
+<p>Nothing changes in what the landlord database asks you to upload: the report and its expiry date.</p>
 <h2>Three cases</h2>
 <ul>
 <li><strong>In date at your deadline.</strong> Upload it with its expiry date.</li>
 <li><strong>Expires before your deadline.</strong> Book a new inspection before it runs out, so you register with a current report.</li>
-<li><strong>No EICR on file.</strong> rentready marks this FAIL: the five-yearly report is required and uploaded with its expiry. Book an inspection early, because you cannot complete the property's entry without it.</li>
+<li><strong>No EICR on file.</strong> rentready marks this FAIL: a report is required at least every five years and uploaded with its expiry date. Book an inspection early, because you cannot complete the property's entry without it.</li>
 </ul>
 <h2>Keeping the entry up to date</h2>
 <p>Registration is not a one-off. Section 78 of the Renters' Rights Act 2025 lets the government require active entries to be kept up to date, with the time limit set in regulations (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/78">section 78</a>). When a certificate is renewed, the entry should show the new one.</p>
-<p>Because an EICR lasts five years, you will update it less often than the gas record. It is easy to forget for the same reason. rentready's calendar file adds each EICR expiry with reminders 60 and 14 days before.</p>
+<p>Because an EICR lasts up to five years, you will update it less often than the gas record. It is easy to forget for the same reason. rentready's calendar file adds each EICR expiry with reminders 60 and 14 days before.</p>
 <h2>Scanning and naming</h2>
 <p>Scan the report as a PDF before you start. rentready's registration pack gives it a file name such as <code>12-example-st_eicr_2023-06-01.pdf</code>, and marks it ready, renew soon or renew, depending on whether it is in date at your deadline.</p>
 <h2>Check every property at once</h2>
-<p>Put each property's EICR date into rentready, or paste a CSV with an <code>eicr</code> column. You see which reports expire before each property's deadline, and which properties have no report on file.</p>
+<p>Put each property's EICR dates into rentready, or paste a CSV with <code>eicr</code> (issue date) and <code>eicr_due</code> (next-inspection date) columns. You see which reports expire before each property's deadline, and which properties have no report on file.</p>
 <p><a class="btn" href="../index.html">Check your properties free</a> <span class="mut">Runs in your browser. Only the postcode leaves it, to find the region.</span></p>
 <h2>Questions</h2>
 <h3>Do I need an EICR to register on the landlord database?</h3>
 <p>The service asks for a copy of the EICR, or the EIC if there is no EICR yet, and its expiry date.</p>
 <h3>How long does an EICR last?</h3>
-<p>Five years.</p>
+<p>At most five years. If the report gives an earlier date for the next inspection, that earlier date applies.</p>
 <h3>What if I only have an EIC?</h3>
 <p>If there is no EICR yet, upload the EIC and its expiry date.</p>
 <h3>My EICR expires before my deadline. What should I do?</h3>
@@ -107,6 +117,6 @@ button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:6
 <h2>Related guides</h2>
 <ul><li><a href="landlord-database-deadline-by-region.html">Deadlines by region</a></li><li><a href="what-you-need-to-register.html">What you need to register</a></li><li><a href="gas-safety-certificate-landlord-database.html">Gas safety certificates</a></li><li><a href="epc-rating-landlord-database.html">EPC and rating</a></li></ul>
 <h2>Sources</h2>
-<ul class="mut"><li><a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">Get ready to register: Register your rental property (official guidance, housinghub.campaign.gov.uk)</a></li><li><a href="https://www.legislation.gov.uk/ukpga/2025/26/section/78">Renters' Rights Act 2025, section 78: keeping entries up to date</a></li><li><a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861">Draft Private Rented Sector Database Regulations 2026 (legislation.gov.uk; not yet made)</a></li><li><a href="https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service">NRLA: Register your rental property service (summary of the draft regulations)</a></li></ul>
+<ul class="mut"><li><a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">Get ready to register: Register your rental property (official guidance, housinghub.campaign.gov.uk)</a></li><li><a href="https://www.legislation.gov.uk/ukpga/2025/26/section/78">Renters' Rights Act 2025, section 78: keeping entries up to date</a></li><li><a href="https://www.legislation.gov.uk/uksi/2020/312/regulation/3">Electrical Safety Standards Regulations 2020, regulation 3 (inspection intervals)</a></li><li><a href="https://www.legislation.gov.uk/ukdsi/2026/9780348285703">Draft Electrical Safety Standards (Amendment) Regulations 2026</a> and the <a href="https://api.parliament.uk/procedure-browser/work-packages/VpqKF4LP">Parliament record</a> (approved 14 and 20 October 2026)</li><li><a href="https://www.gov.uk/government/publications/electrical-safety-standards-in-the-private-and-social-rented-sectors-guidance">GOV.UK: Electrical safety standards in the private and social rented sectors, guidance</a></li><li><a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861">Draft Private Rented Sector Database Regulations 2026 (legislation.gov.uk; not yet made)</a></li><li><a href="https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service">NRLA: Register your rental property service (summary of the draft regulations)</a></li></ul>
 <p class="mut">Not legal advice. Check gov.uk before relying on this. Last checked 28 Oct 2026.</p>
 </main></body></html>

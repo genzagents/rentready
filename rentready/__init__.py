@@ -2,11 +2,11 @@
 """rentready: is this rental ready for England's landlord database ("Register your rental property")?
 
 Usage:
-  rentready check POSTCODE [--gas=YYYY-MM-DD] [--eicr=YYYY-MM-DD] [--epc=YYYY-MM-DD] [--epc-rating=C]
+  rentready check POSTCODE [--gas=YYYY-MM-DD] [--eicr=YYYY-MM-DD] [--eicr-due=YYYY-MM-DD] [--epc=YYYY-MM-DD] [--epc-rating=C]
                            [--tenancy-start=YYYY-MM-DD] [--no-gas] [--properties=N] [--today=YYYY-MM-DD]
                            [--region="West Midlands"] [--json]
-  rentready portfolio FILE.csv      check every property in a CSV (columns: name, postcode, gas, no_gas, eicr, epc,
-                                    epc_rating, tenancy_start, region); one table, total fee, earliest deadline
+  rentready portfolio FILE.csv      check every property in a CSV (columns: name, postcode, gas, no_gas, eicr, eicr_due,
+                                    epc, epc_rating, tenancy_start, region); one table, total fee, earliest deadline
   rentready calendar FILE.csv|POSTCODE [check flags] [--reminders=60,14] [--out=rentready.ics]
                                     write an iCalendar file: window opens, deadline, each certificate expiry,
                                     with reminders; import into Google/Apple/Outlook calendar
@@ -25,6 +25,10 @@ Usage:
                                     registration_pack)
 
 Zero dependencies. Region comes from postcodes.io (no key) unless --region is given.
+EICR: --eicr is the report's issue date, --eicr-due the date the report gives for the next inspection. The law
+requires inspection at least every 5 years, or sooner if the report says so (SI 2020/312 reg 3(2)), and the service
+asks for the expiry date, so the report's date is used when given; issue date + 5 years is only a fallback, and the
+result says so.
 Timetable, fee and required information: the draft Private Rented Sector Database Regulations 2026 (laid before
 Parliament on 9 Sep 2026, awaiting approval by both Houses) as summarised by NRLA and HCR Law (Oct 2026). Dates are
 the draft regulations' as published; check gov.uk before relying on them.
@@ -40,7 +44,7 @@ import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
-__version__ = "0.7.1"
+__version__ = "0.8.0"
 
 FEE_PER_PROPERTY_GBP = 65
 
@@ -75,6 +79,7 @@ PENALTIES = [
     "Up to £40,000 for the section 92 offences: knowingly or recklessly giving false or misleading information, continuing a breach 28 days after a penalty, or a different breach within five years of one; rent repayment orders can also apply",
     "No possession order from the court while the landlord or dwelling entry is inactive, except on Ground 7A or Ground 14 (section 90)",
 ]
+EICR_ASSUMED = "assumed 5 years from issue; give the next-inspection date on the report if it sets one"
 RENEWAL = "every 12 months: the renewal date is the last day of the 12 months from your first entry, one date for the whole portfolio (draft regulation 10); later properties pay pro rata"
 
 
@@ -82,6 +87,13 @@ def _d(s: Optional[str]) -> Optional[date]:
     if not s:
         return None
     return datetime.strptime(s, "%Y-%m-%d").date()
+
+
+def _add_years(d0: date, years: int) -> date:
+    try:
+        return d0.replace(year=d0.year + years)
+    except ValueError:  # 29 Feb
+        return d0.replace(year=d0.year + years, day=28)
 
 
 def lookup_region(postcode: str, timeout: float = 8.0) -> Dict[str, Any]:
@@ -112,7 +124,7 @@ def normalise_region(region: Optional[str]) -> Optional[str]:
 
 
 def check_property(postcode: str = "", *, region: Optional[str] = None, gas: Optional[str] = None, no_gas: bool = False,
-                   eicr: Optional[str] = None, epc: Optional[str] = None, epc_rating: Optional[str] = None,
+                   eicr: Optional[str] = None, eicr_due: Optional[str] = None, epc: Optional[str] = None, epc_rating: Optional[str] = None,
                    tenancy_start: Optional[str] = None, properties: int = 1, today: Optional[str] = None) -> Dict[str, Any]:
     t = _d(today) or date.today()
     out: Dict[str, Any] = {"version": __version__, "today": t.isoformat(), "postcode": postcode or None,
@@ -148,32 +160,36 @@ def check_property(postcode: str = "", *, region: Optional[str] = None, gas: Opt
         out["findings"].append({"status": "PASS", "check": "registration deadline", "detail": f"{reg} requirement starts {opens}, deadline {deadline}; you can register from 2026-12-15"})
 
     # Certificates: each must be in date at the deadline and ideally at registration.
-    def cert(name: str, issued: Optional[str], years: int, missing_msg: str, what: str) -> None:
-        if issued is None:
+    def cert(name: str, issued: Optional[str], years: int, missing_msg: str, what: str,
+             due: Optional[str] = None, assumed: str = "") -> None:
+        if issued is None and due is None:
             out["findings"].append({"status": "FAIL", "check": name, "detail": missing_msg})
             out["actions"].append(what)
             return
-        d0 = _d(issued)
-        try:
-            expiry = d0.replace(year=d0.year + years)
-        except ValueError:  # 29 Feb
-            expiry = d0.replace(year=d0.year + years, day=28)
+        expiry = _add_years(_d(issued), years) if issued else None
+        note = ""
+        if due:  # the date the certificate itself gives wins, but never later than the legal maximum
+            expiry = min(_d(due), expiry) if expiry else _d(due)
+        elif assumed:
+            note = f" ({assumed})"
+            out.setdefault("assumptions", []).append(f"{name}: {assumed}")
         days = (expiry - t).days
         out.setdefault("expiries", {})[name] = expiry.isoformat()
         if expiry <= t:
-            out["findings"].append({"status": "FAIL", "check": name, "detail": f"expired {expiry}"})
+            out["findings"].append({"status": "FAIL", "check": name, "detail": f"expired {expiry}{note}"})
             out["actions"].append(f"Renew now: {what}")
         elif expiry <= deadline:
-            out["findings"].append({"status": "WARN", "check": name, "detail": f"expires {expiry}, before the {deadline} deadline ({days} days)"})
+            out["findings"].append({"status": "WARN", "check": name, "detail": f"expires {expiry}, before the {deadline} deadline ({days} days){note}"})
             out["actions"].append(f"Book before {expiry}: {what}")
         else:
-            out["findings"].append({"status": "PASS", "check": name, "detail": f"valid to {expiry}"})
+            out["findings"].append({"status": "PASS", "check": name, "detail": f"valid to {expiry}{note}"})
 
     if no_gas:
         out["findings"].append({"status": "PASS", "check": "gas safety record", "detail": "no gas supply declared; not required"})
     else:
         cert("gas safety record", gas, 1, "no gas safety record date given (annual CP12 is required and uploaded)", "annual gas safety check by a Gas Safe engineer; upload the record and issue date")
-    cert("EICR", eicr, 5, "no EICR date given (five-yearly report is required and uploaded with its expiry)", "EICR by a qualified electrician; upload the report and expiry date")
+    cert("EICR", eicr, 5, "no EICR date given (an EICR is required at least every 5 years, sooner if the report says so, and uploaded with its expiry date)",
+         "EICR by a qualified electrician; upload the report and expiry date", due=eicr_due, assumed=EICR_ASSUMED)
     cert("EPC", epc, 10, "no EPC date given (upload the latest EPC; if lapsed, give the current tenancy start date)", "EPC assessment; upload the certificate")
     if epc and epc_rating:
         r = epc_rating.strip().upper()[:1]
@@ -185,6 +201,8 @@ def check_property(postcode: str = "", *, region: Optional[str] = None, gas: Opt
             out["findings"].append({"status": "PASS", "check": "EPC rating", "detail": f"rating {r}"})
     if tenancy_start:
         out["tenancy_start"] = tenancy_start
+    if eicr_due:
+        out["eicr_due"] = eicr_due
 
     out["uploads"] = UPLOADS
     out["details_required"] = DETAILS
@@ -228,9 +246,11 @@ def format_regions() -> str:
 # ---------------------------------------------------------------------------
 # Portfolio (many properties from a CSV) and calendar (.ics with reminders)
 # ---------------------------------------------------------------------------
-PORTFOLIO_COLUMNS = ["name", "postcode", "region", "gas", "no_gas", "eicr", "epc", "epc_rating", "tenancy_start"]
+PORTFOLIO_COLUMNS = ["name", "postcode", "region", "gas", "no_gas", "eicr", "eicr_due", "epc", "epc_rating", "tenancy_start"]
 _COLUMN_ALIASES = {"address": "name", "property": "name", "label": "name", "post_code": "postcode", "post code": "postcode",
                    "gas_date": "gas", "gas safety": "gas", "gas_safety": "gas", "cp12": "gas", "eicr_date": "eicr",
+                   "eicr_next": "eicr_due", "eicr_expiry": "eicr_due", "eicr next inspection": "eicr_due",
+                   "eicr_next_inspection": "eicr_due", "next_inspection": "eicr_due", "next inspection": "eicr_due",
                    "epc_date": "epc", "epc rating": "epc_rating", "rating": "epc_rating", "tenancy": "tenancy_start",
                    "tenancy start": "tenancy_start", "no gas": "no_gas", "nogas": "no_gas"}
 
@@ -279,7 +299,8 @@ def check_portfolio(rows: List[Dict[str, str]], today: Optional[str] = None) -> 
                 if lk.get("country") and lk["country"] != "England":
                     region = None
         r = check_property(pc, region=region, gas=row.get("gas") or None, no_gas=_truthy(row.get("no_gas")),
-                           eicr=row.get("eicr") or None, epc=row.get("epc") or None, epc_rating=row.get("epc_rating") or None,
+                           eicr=row.get("eicr") or None, eicr_due=row.get("eicr_due") or None, epc=row.get("epc") or None,
+                           epc_rating=row.get("epc_rating") or None,
                            tenancy_start=row.get("tenancy_start") or None, properties=1, today=t.isoformat())
         if pc and not region and not row.get("region"):
             lk = region_cache.get(pc.upper().replace(" ", ""), {})
@@ -353,7 +374,7 @@ def calendar_events(reports: List[Dict[str, Any]]) -> List[Dict[str, str]]:
                            "description": f"{r.get('region')}: last day to register. After this: up to £7,000 penalty, and no possession order except on Ground 7A or Ground 14.", "property": name, "kind": "deadline"})
         for cert, iso in (r.get("expiries") or {}).items():
             what = {"gas safety record": "book the annual Gas Safe check before this date and upload the new CP12",
-                    "EICR": "book an electrician for the five-yearly EICR before this date and upload the new report",
+                    "EICR": "book an electrician for the next EICR before this date (the report's next-inspection date, at most 5 years) and upload the new report",
                     "EPC": "book an EPC assessment before this date and upload the new certificate"}.get(cert, "renew before this date")
             events.append({"date": iso, "summary": f"{cert} expires: {name}", "description": f"{what}. Update the property entry on the database within 28 days.", "property": name, "kind": cert})
     events.sort(key=lambda e: (e["date"], e["property"], e["summary"]))
@@ -408,6 +429,7 @@ MCP_TOOLS: List[Dict[str, Any]] = [{
         "gas": {"type": "string", "description": "Gas safety record issue date YYYY-MM-DD"},
         "no_gas": {"type": "boolean", "description": "True if the property has no gas supply"},
         "eicr": {"type": "string", "description": "EICR issue date YYYY-MM-DD"},
+        "eicr_due": {"type": "string", "description": "Date the EICR gives for the next inspection YYYY-MM-DD (used instead of issue + 5 years; give it whenever the report has one)"},
         "epc": {"type": "string", "description": "EPC issue date YYYY-MM-DD"},
         "epc_rating": {"type": "string", "description": "EPC rating letter A-G"},
         "tenancy_start": {"type": "string", "description": "Current tenancy start date YYYY-MM-DD"},
@@ -415,7 +437,7 @@ MCP_TOOLS: List[Dict[str, Any]] = [{
     }},
 }, {
     "name": "check_portfolio",
-    "description": "Check many English rental properties at once for the landlord database. Input is CSV text (header row: name, postcode, gas, no_gas, eicr, epc, epc_rating, tenancy_start, region) "
+    "description": "Check many English rental properties at once for the landlord database. Input is CSV text (header row: name, postcode, gas, no_gas, eicr, eicr_due, epc, epc_rating, tenancy_start, region) "
                    "or a JSON list of objects with those keys. Returns one line per property, the total £65/property fee, the earliest deadline and every FAIL/WARN.",
     "inputSchema": {"type": "object", "required": ["portfolio"], "properties": {
         "portfolio": {"type": "string", "description": "CSV text or JSON list of properties"},
@@ -428,7 +450,7 @@ MCP_TOOLS: List[Dict[str, Any]] = [{
     "inputSchema": {"type": "object", "properties": {
         "portfolio": {"type": "string", "description": "CSV text or JSON list of properties (omit for a single property)"},
         "postcode": {"type": "string"}, "region": {"type": "string"}, "name": {"type": "string", "description": "Label for the property"},
-        "gas": {"type": "string"}, "no_gas": {"type": "boolean"}, "eicr": {"type": "string"}, "epc": {"type": "string"},
+        "gas": {"type": "string"}, "no_gas": {"type": "boolean"}, "eicr": {"type": "string"}, "eicr_due": {"type": "string"}, "epc": {"type": "string"},
         "reminder_days": {"type": "array", "items": {"type": "integer"}, "description": "Days before each event to alarm, default [60, 14]"},
     }},
 }, {
@@ -476,7 +498,7 @@ def mcp_serve() -> None:
                 name, a = params.get("name"), params.get("arguments") or {}
                 if name == "check_property":
                     r = check_property(a.get("postcode", ""), region=a.get("region"), gas=a.get("gas"), no_gas=bool(a.get("no_gas")),
-                                       eicr=a.get("eicr"), epc=a.get("epc"), epc_rating=a.get("epc_rating"),
+                                       eicr=a.get("eicr"), eicr_due=a.get("eicr_due"), epc=a.get("epc"), epc_rating=a.get("epc_rating"),
                                        tenancy_start=a.get("tenancy_start"), properties=int(a.get("properties") or 1))
                     result = {"content": [{"type": "text", "text": format_report(r)}], "structuredContent": r, "isError": False}
                 elif name == "check_portfolio":
@@ -487,7 +509,7 @@ def mcp_serve() -> None:
                         reports = check_portfolio(read_portfolio(a["portfolio"]))["properties"]
                     else:
                         r = check_property(a.get("postcode", ""), region=a.get("region"), gas=a.get("gas"), no_gas=bool(a.get("no_gas")),
-                                           eicr=a.get("eicr"), epc=a.get("epc"))
+                                           eicr=a.get("eicr"), eicr_due=a.get("eicr_due"), epc=a.get("epc"))
                         r["name"] = a.get("name") or r.get("postcode") or "property"
                         reports = [r]
                     ev = calendar_events(reports)
@@ -547,7 +569,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     import os
     if argv[0] == "portfolio" or (argv[0] == "calendar" and pos and os.path.isfile(pos[0])):
         if not pos or not os.path.isfile(pos[0]):
-            print("portfolio: give a CSV file (columns: name, postcode, gas, no_gas, eicr, epc, epc_rating, tenancy_start, region)", file=sys.stderr); return 2
+            print("portfolio: give a CSV file (columns: name, postcode, gas, no_gas, eicr, eicr_due, epc, epc_rating, tenancy_start, region)", file=sys.stderr); return 2
         with open(pos[0], encoding="utf-8") as fh:
             p = check_portfolio(read_portfolio(fh.read()), today=opts.get("today"))
         if argv[0] == "portfolio":
@@ -557,7 +579,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     else:
         postcode = " ".join(pos)
         r = check_property(postcode, region=opts.get("region"), gas=opts.get("gas"), no_gas="no-gas" in opts, eicr=opts.get("eicr"),
-                           epc=opts.get("epc"), epc_rating=opts.get("epc-rating"), tenancy_start=opts.get("tenancy-start"),
+                           eicr_due=opts.get("eicr-due"), epc=opts.get("epc"), epc_rating=opts.get("epc-rating"), tenancy_start=opts.get("tenancy-start"),
                            properties=int(opts.get("properties", 1)), today=opts.get("today"))
         if argv[0] == "check":
             print(json.dumps(r, indent=2) if "json" in opts else format_report(r))

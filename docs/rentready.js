@@ -6,7 +6,7 @@
 // https://www.gov.uk/government/consultations/improving-the-energy-performance-of-privately-rented-homes-2025-update/outcome/improving-the-energy-performance-of-privately-rented-homes-government-response-html
 (function (root) {
   "use strict";
-  const VERSION = "0.7.1";
+  const VERSION = "0.8.0";
   const FEE_PER_PROPERTY_GBP = 65;
   const ROLLOUT = {
     "West Midlands": { opens: "2026-12-15", deadline: "2027-03-14" },
@@ -26,6 +26,7 @@
     "EICR (or EIC if no EICR yet) and its expiry date",
     "Latest EPC, and any MEES exemption; if the EPC has lapsed, the start date of the current tenancy",
   ];
+  const EICR_ASSUMED = "assumed 5 years from issue; give the next-inspection date on the report if it sets one";
   const RENEWAL = "every 12 months: the renewal date is the last day of the 12 months from your first entry, one date for the whole portfolio (draft regulation 10); later properties pay pro rata";
 
   // Dates are YYYY-MM-DD strings; arithmetic in UTC days so time zones never move a date.
@@ -99,22 +100,30 @@
     } else {
       out.findings.push({ status: "PASS", check: "registration deadline", detail: `${reg} requirement starts ${opens}, deadline ${deadline}; you can register from 2026-12-15` });
     }
-    function cert(name, issued, years, missingMsg, what) {
-      if (!issued) {
+    // due: the date the certificate itself gives (EICR next inspection); it wins, but never beyond the legal maximum.
+    function cert(name, issued, years, missingMsg, what, due, assumed) {
+      if (!issued && !due) {
         out.findings.push({ status: "FAIL", check: name, detail: missingMsg });
         out.actions.push(what);
         return;
       }
-      const expiry = addYears(issued, years);
+      let expiry = issued ? addYears(issued, years) : null;
+      let note = "";
+      if (due) {
+        expiry = expiry && expiry < due ? expiry : due;
+      } else if (assumed) {
+        note = ` (${assumed})`;
+        (out.assumptions = out.assumptions || []).push(`${name}: ${assumed}`);
+      }
       (out.expiries = out.expiries || {})[name] = expiry;
       if (expiry <= t) {
-        out.findings.push({ status: "FAIL", check: name, detail: `expired ${expiry}` });
+        out.findings.push({ status: "FAIL", check: name, detail: `expired ${expiry}${note}` });
         out.actions.push(`Renew now: ${what}`);
       } else if (expiry <= deadline) {
-        out.findings.push({ status: "WARN", check: name, detail: `expires ${expiry}, before the ${deadline} deadline (${days(t, expiry)} days)` });
+        out.findings.push({ status: "WARN", check: name, detail: `expires ${expiry}, before the ${deadline} deadline (${days(t, expiry)} days)${note}` });
         out.actions.push(`Book before ${expiry}: ${what}`);
       } else {
-        out.findings.push({ status: "PASS", check: name, detail: `valid to ${expiry}` });
+        out.findings.push({ status: "PASS", check: name, detail: `valid to ${expiry}${note}` });
       }
     }
     if (o.no_gas) {
@@ -122,7 +131,8 @@
     } else {
       cert("gas safety record", o.gas, 1, "no gas safety record date given (annual CP12 is required and uploaded)", "annual gas safety check by a Gas Safe engineer; upload the record and issue date");
     }
-    cert("EICR", o.eicr, 5, "no EICR date given (five-yearly report is required and uploaded with its expiry)", "EICR by a qualified electrician; upload the report and expiry date");
+    cert("EICR", o.eicr, 5, "no EICR date given (an EICR is required at least every 5 years, sooner if the report says so, and uploaded with its expiry date)",
+      "EICR by a qualified electrician; upload the report and expiry date", o.eicr_due || null, EICR_ASSUMED);
     cert("EPC", o.epc, 10, "no EPC date given (upload the latest EPC; if lapsed, give the current tenancy start date)", "EPC assessment; upload the certificate");
     if (o.epc && o.epc_rating) {
       const r = o.epc_rating.trim().toUpperCase().slice(0, 1);
@@ -135,6 +145,7 @@
       }
     }
     if (o.tenancy_start) out.tenancy_start = o.tenancy_start;
+    if (o.eicr_due) out.eicr_due = o.eicr_due;
     out.uploads = UPLOADS;
     out.renewal = RENEWAL;
     out.ready = !out.findings.some(f => f.status === "FAIL");
@@ -143,6 +154,8 @@
 
   const COLUMN_ALIASES = { "address": "name", "property": "name", "label": "name", "post_code": "postcode", "post code": "postcode",
     "gas_date": "gas", "gas safety": "gas", "gas_safety": "gas", "cp12": "gas", "eicr_date": "eicr",
+    "eicr_next": "eicr_due", "eicr_expiry": "eicr_due", "eicr next inspection": "eicr_due",
+    "eicr_next_inspection": "eicr_due", "next_inspection": "eicr_due", "next inspection": "eicr_due",
     "epc_date": "epc", "epc rating": "epc_rating", "rating": "epc_rating", "tenancy": "tenancy_start",
     "tenancy start": "tenancy_start", "no gas": "no_gas", "nogas": "no_gas" };
   function normCol(c) {
@@ -216,7 +229,7 @@
       }
       // Python's check_property looks the postcode up again when region is still empty; same cached answer here.
       const lk2 = (pc && !normaliseRegion(region)) ? (cache[key] || await lookup(pc)) : null;
-      const r = checkProperty(pc, { region, lookup: lk2, gas: row.gas || null, no_gas: truthy(row.no_gas), eicr: row.eicr || null,
+      const r = checkProperty(pc, { region, lookup: lk2, gas: row.gas || null, no_gas: truthy(row.no_gas), eicr: row.eicr || null, eicr_due: row.eicr_due || null,
         epc: row.epc || null, epc_rating: row.epc_rating || null, tenancy_start: row.tenancy_start || null, properties: 1, today: t });
       if (pc && !region && !row.region) {
         const lk = cache[key] || {};
@@ -249,7 +262,7 @@
       }
       for (const [c, d] of Object.entries(r.expiries || {})) {
         const what = { "gas safety record": "book the annual Gas Safe check before this date and upload the new CP12",
-          "EICR": "book an electrician for the five-yearly EICR before this date and upload the new report",
+          "EICR": "book an electrician for the next EICR before this date (the report's next-inspection date, at most 5 years) and upload the new report",
           "EPC": "book an EPC assessment before this date and upload the new certificate" }[c] || "renew before this date";
         ev.push({ date: d, summary: `${c} expires: ${name}`, description: `${what}. Update the property entry on the database within 28 days.`, property: name, kind: c });
       }
@@ -355,7 +368,16 @@
       files.push(certLine(report, "gas safety record", g, "Gas safety record (CP12) and its issue date", `${sl}_gas-safety-record_${g || "DATE"}.pdf`));
     }
     const e = row.eicr || "";
-    files.push(certLine(report, "EICR", e, "EICR (or EIC) and its expiry date", `${sl}_eicr_${e || "DATE"}.pdf`));
+    const due = row.eicr_due || "";
+    const eicr = certLine(report, "EICR", e || due, "EICR (or EIC) and its expiry date", `${sl}_eicr_${e || due || "DATE"}.pdf`);
+    if (eicr.state === "READY") {
+      const exp = (report.expiries || {}).EICR;
+      const parts = e ? [`issued ${e}`] : [];
+      if (exp) parts.push(`valid to ${exp}` + (due ? "" : ` (${EICR_ASSUMED})`));
+      else if (due) parts.push(`next inspection due ${due}`);
+      eicr.note = parts.join(", ");
+    }
+    files.push(eicr);
     const p = row.epc || "";
     const epc = certLine(report, "EPC", p, "Most recent EPC (if one was required for the current tenant)", `${sl}_epc_${p || "DATE"}.pdf`);
     if (epc.state === "RENEW") {
@@ -435,7 +457,7 @@
     return L.join("\n");
   }
 
-  const api = { VERSION, ROLLOUT, FEE_PER_PROPERTY_GBP, UPLOADS, PACK_COLUMNS, normaliseRegion, lookupRegion, checkProperty, readPortfolio,
+  const api = { VERSION, ROLLOUT, EICR_ASSUMED, FEE_PER_PROPERTY_GBP, UPLOADS, PACK_COLUMNS, normaliseRegion, lookupRegion, checkProperty, readPortfolio,
     checkPortfolio, nextDate, calendarEvents, formatIcs, validDate, todayLocal, propertyPack, buildPack, formatPack };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.rentready = api;
 })(typeof window !== "undefined" ? window : globalThis);

@@ -38,22 +38,22 @@ button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:6
 <p><a href="guides/index.html">Guides</a>: deadlines by region, the £65 fee, what to upload, gas, EICR and EPC, penalties, letting agents and a checklist.</p>
 <section id="tool">
 <h2>Check your properties now</h2>
-<p class="mut">Add each property with the issue date on its certificates. Nothing is sent anywhere except the postcode, to postcodes.io, to find the region. Your list is kept in this browser only.</p>
-<div id="rows"><table><thead><tr><th>Property</th><th>Postcode</th><th>Gas safety record</th><th>No gas</th><th>EICR</th><th>EPC</th><th>EPC rating</th><th></th></tr></thead><tbody></tbody></table></div>
+<p class="mut">Add each property with the dates on its certificates. For the EICR, give the date the report sets for the next inspection if it has one: a report can ask for the next inspection sooner than five years. Nothing is sent anywhere except the postcode, to postcodes.io, to find the region. Your list is kept in this browser only.</p>
+<div id="rows"><table><thead><tr><th>Property</th><th>Postcode</th><th>Gas safety record</th><th>No gas</th><th>EICR issued</th><th>EICR next inspection due</th><th>EPC</th><th>EPC rating</th><th></th></tr></thead><tbody></tbody></table></div>
 <div class="bar"><button type="button" id="add">+ Add a property</button><button type="button" class="go" id="check">Check</button></div>
 <details><summary>Or paste a spreadsheet (CSV)</summary>
-<p class="mut">Columns: <code>name, postcode, gas, no_gas, eicr, epc, epc_rating</code>; dates as YYYY-MM-DD. Copy from Excel or Google Sheets after saving as CSV. For the registration pack add any of <code>tenancy_start, ownership, dwelling_type, bedrooms, let, freeholder, manager, occupants, households, licence, furnished, rent, rent_frequency, bills</code>; they are kept with your list.</p>
+<p class="mut">Columns: <code>name, postcode, gas, no_gas, eicr, eicr_due, epc, epc_rating</code> (<code>eicr_due</code> is the report's next-inspection date); dates as YYYY-MM-DD. Copy from Excel or Google Sheets after saving as CSV. For the registration pack add any of <code>tenancy_start, ownership, dwelling_type, bedrooms, let, freeholder, manager, occupants, households, licence, furnished, rent, rent_frequency, bills</code>; they are kept with your list.</p>
 <textarea id="paste" placeholder="name,postcode,gas,no_gas,eicr,epc,epc_rating&#10;12 Example St,B3 2TA,2026-02-01,,2023-06-01,2017-05-01,D"></textarea>
 <div class="bar"><button type="button" id="load">Use this list</button></div></details>
 <div id="out" aria-live="polite"></div>
 <div id="packout" aria-live="polite"></div>
 </section>
 <h2>For you or your agent, in the terminal</h2>
-<pre>curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/__init__.py | python3 - check "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --epc=2017-05-01 --epc-rating=D</pre>
-<pre>rentready 0.7.1  B3 2TA  region: West Midlands
-Window: requirement starts 2026-12-15, deadline 2027-03-14 (139 days from 2026-10-26); the service opens for everyone on 2026-12-15
+<pre>curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/__init__.py | python3 - check "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --eicr-due=2028-06-01 --epc=2017-05-01 --epc-rating=D</pre>
+<pre>rentready 0.8.0  B3 2TA  region: West Midlands
+Window: requirement starts 2026-12-15, deadline 2027-03-14 (137 days from 2026-10-28); the service opens for everyone on 2026-12-15
   PASS registration deadline: West Midlands requirement starts 2026-12-15, deadline 2027-03-14; you can register from 2026-12-15
-  WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (98 days)
+  WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (96 days)
   PASS EICR: valid to 2028-06-01
   PASS EPC: valid to 2027-05-01
   INFO EPC rating: rating D meets today's E minimum; it would not meet the C minimum set for all tenancies from 1 October 2030 (government response, 21 Jan 2026; not yet law)
@@ -118,11 +118,11 @@ claude plugin marketplace add genzagents/marketplace && claude plugin install re
     r=r||{}; var tr=document.createElement("tr");
     tr.innerHTML='<td><input type="text" data-k="name" placeholder="Flat 1"></td><td><input type="text" data-k="postcode" placeholder="B3 2TA" size="8"></td>'+
       '<td><input type="date" data-k="gas"></td><td><input type="checkbox" data-k="no_gas" aria-label="No gas supply"></td>'+
-      '<td><input type="date" data-k="eicr"></td><td><input type="date" data-k="epc"></td>'+
+      '<td><input type="date" data-k="eicr"></td><td><input type="date" data-k="eicr_due"></td><td><input type="date" data-k="epc"></td>'+
       '<td><select data-k="epc_rating"><option value="">?</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></td>'+
       '<td><button type="button" aria-label="Remove">&times;</button></td>';
     tr.querySelectorAll("[data-k]").forEach(function(el){var v=r[el.dataset.k]||""; if(el.type==="checkbox") el.checked=["1","true","yes","y","x"].indexOf(String(v).toLowerCase())>=0; else el.value=v.trim?v.trim():v;});
-    tr._extra={}; Object.keys(r).forEach(function(k){if(["name","postcode","gas","no_gas","eicr","epc","epc_rating"].indexOf(k)<0) tr._extra[k]=r[k];});
+    tr._extra={}; Object.keys(r).forEach(function(k){if(["name","postcode","gas","no_gas","eicr","eicr_due","epc","epc_rating"].indexOf(k)<0) tr._extra[k]=r[k];});
     tr.querySelector("button").onclick=function(){tr.remove();save();};
     tr.addEventListener("change",save); tb.appendChild(tr);
   }
@@ -136,7 +136,7 @@ claude plugin marketplace add genzagents/marketplace && claude plugin install re
     try{var l=rr.readPortfolio(document.getElementById("paste").value); if(!l.length) throw new Error("no rows under the header"); load(l); run();}
     catch(e){out.innerHTML='<p class="FAIL">Could not read that list: '+esc(e.message)+'</p>';}
   };
-  function csv(list){var cols=["name","postcode","gas","no_gas","eicr","epc","epc_rating","tenancy_start"].concat(rr.PACK_COLUMNS);cols=cols.filter(function(c,i){return i<7||list.some(function(r){return r[c];});});return cols.join(",")+"\n"+list.map(function(r){return cols.map(function(c){var v=r[c]||"";return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}).join(",");}).join("\n")+"\n";}
+  function csv(list){var cols=["name","postcode","gas","no_gas","eicr","epc","epc_rating","eicr_due","tenancy_start"].concat(rr.PACK_COLUMNS);cols=cols.filter(function(c,i){return i<7||list.some(function(r){return r[c];});});return cols.join(",")+"\n"+list.map(function(r){return cols.map(function(c){var v=r[c]||"";return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}).join(",");}).join("\n")+"\n";}
   function download(name,text,type){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:type}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);}
   async function run(){
     var list=rows(); if(!list.length){out.innerHTML="<p>Add a property first.</p>";return;}

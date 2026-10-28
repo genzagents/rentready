@@ -55,6 +55,52 @@ class Check(unittest.TestCase):
         r = rr.check_property(region="London", gas="2026-09-01", eicr="2024-03-01", epc="2020-01-01", today=T)
         s = rr.format_report(r); self.assertIn("READY", s); self.assertIn("£65", s)
 
+class EicrNextInspection(unittest.TestCase):
+    """The EICR is due when the report says (at most 5 years), not always issue + 5 years (SI 2020/312 reg 3(2))."""
+    def eicr(self, r):
+        return next(f for f in r["findings"] if f["check"] == "EICR")
+    def test_three_year_report_is_not_a_false_pass(self):
+        # Issued 1 Jun 2024 with a 3-year recommendation: due 1 Jun 2027, after the West Midlands deadline but
+        # before the London one (14 Oct 2027). Issue + 5 years would have said PASS for London.
+        r = rr.check_property(region="London", no_gas=True, eicr="2024-06-01", eicr_due="2027-06-01", epc="2020-01-01", today=T)
+        self.assertEqual(r["expiries"]["EICR"], "2027-06-01")
+        self.assertEqual(self.eicr(r)["status"], "WARN")
+        self.assertTrue(any("Book before 2027-06-01" in a for a in r["actions"]))
+        self.assertNotIn("assumptions", r)
+        r5 = rr.check_property(region="London", no_gas=True, eicr="2024-06-01", epc="2020-01-01", today=T)
+        self.assertEqual(self.eicr(r5)["status"], "PASS")
+    def test_report_date_already_passed_fails(self):
+        r = rr.check_property(region="London", no_gas=True, eicr="2022-01-01", eicr_due="2026-01-01", epc="2020-01-01", today=T)
+        self.assertEqual(self.eicr(r)["status"], "FAIL"); self.assertFalse(r["ready"])
+    def test_due_date_alone_is_enough(self):
+        r = rr.check_property(region="London", no_gas=True, eicr_due="2029-01-01", epc="2020-01-01", today=T)
+        self.assertEqual(self.eicr(r)["status"], "PASS"); self.assertEqual(r["expiries"]["EICR"], "2029-01-01")
+    def test_due_never_later_than_five_years(self):
+        r = rr.check_property(region="London", no_gas=True, eicr="2023-01-01", eicr_due="2033-01-01", epc="2020-01-01", today=T)
+        self.assertEqual(r["expiries"]["EICR"], "2028-01-01")
+    def test_issue_only_is_labelled_as_an_assumption(self):
+        r = rr.check_property(region="London", no_gas=True, eicr="2024-01-01", epc="2020-01-01", today=T)
+        self.assertIn("assumed 5 years from issue", self.eicr(r)["detail"])
+        self.assertEqual(len(r["assumptions"]), 1)
+        self.assertIn("assumed", rr.format_report(r))
+    def test_csv_column_aliases(self):
+        rows = rr.read_portfolio("name,region,eicr,EICR next inspection\nA,London,2024-01-01,2027-01-01\n")
+        self.assertEqual(rows[0]["eicr_due"], "2027-01-01")
+        p = rr.check_portfolio(rows, today=T)
+        self.assertEqual(p["properties"][0]["expiries"]["EICR"], "2027-01-01")
+    def test_pack_uses_report_date(self):
+        from rentready.pack import build_pack
+        row = {"name": "A", "region": "London", "no_gas": "yes", "eicr": "2024-06-01", "eicr_due": "2027-06-01", "epc": "2020-01-01"}
+        f = build_pack([row], today=T)["properties"][0]["files"][1]
+        self.assertEqual(f["state"], "RENEW SOON")
+        row = dict(row, eicr="", eicr_due="2029-01-01")
+        f = build_pack([row], today=T)["properties"][0]["files"][1]
+        self.assertEqual((f["state"], f["file"]), ("READY", "a_eicr_2029-01-01.pdf"))
+        self.assertIn("valid to 2029-01-01", f["note"]); self.assertNotIn("assumed", f["note"])
+        row = dict(row, eicr="2024-06-01", eicr_due="")
+        self.assertIn("assumed", build_pack([row], today=T)["properties"][0]["files"][1]["note"])
+
+
 class Cli(unittest.TestCase):
     def run_cli(self, *args, inp=None):
         return subprocess.run([sys.executable, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "rentready", "__init__.py"), *args],
@@ -65,6 +111,15 @@ class Cli(unittest.TestCase):
         p = self.run_cli("check", "--region=London", "--gas=2026-09-01", "--eicr=2024-01-01", "--epc=2020-01-01", f"--today={T}", "--json")
         self.assertEqual(p.returncode, 0); self.assertTrue(json.loads(p.stdout)["ready"])
         p = self.run_cli("check", "--region=London", f"--today={T}"); self.assertEqual(p.returncode, 1)
+    def test_check_eicr_due_flag(self):
+        p = self.run_cli("check", "--region=London", "--no-gas", "--eicr=2024-06-01", "--eicr-due=2027-06-01", "--epc=2020-01-01", f"--today={T}", "--json")
+        self.assertEqual(json.loads(p.stdout)["expiries"]["EICR"], "2027-06-01")
+    def test_mcp_eicr_due(self):
+        msgs = [{"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "check_property", "arguments": {"region": "London", "no_gas": True, "eicr": "2024-06-01", "eicr_due": "2027-06-01", "epc": "2020-01-01"}}}]
+        p = self.run_cli("mcp", inp="\n".join(json.dumps(m) for m in msgs) + "\n")
+        out = json.loads(p.stdout.splitlines()[0])
+        self.assertEqual(out["result"]["structuredContent"]["expiries"]["EICR"], "2027-06-01")
+        self.assertIn("eicr_due", rr.MCP_TOOLS[0]["inputSchema"]["properties"])
     def test_mcp(self):
         msgs = [{"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {}},
                 {"jsonrpc": "2.0", "id": 2, "method": "tools/list"},

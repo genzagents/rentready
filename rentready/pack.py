@@ -5,7 +5,7 @@ portfolio CSV where we have it, a GATHER line where we do not, and the exact fil
 file name. Certificates that will have lapsed by the time you register are flagged, so you renew before you upload
 rather than after. Nothing here registers for you: the landlord must start the entry with GOV.UK One Login.
 
-Optional CSV columns read on top of the check columns: bedrooms, dwelling_type, ownership, let (yes/no),
+Optional CSV columns read on top of the check columns (which include eicr_due, the report's next-inspection date): bedrooms, dwelling_type, ownership, let (yes/no),
 occupants, households, licence (none/hmo/additional/selective), furnished (furnished/part/unfurnished),
 rent, rent_frequency, bills (comma list or "none"), freeholder, manager.
 """
@@ -14,7 +14,7 @@ from __future__ import annotations
 import re
 from typing import Any, Dict, List, Optional
 
-from rentready import FEE_PER_PROPERTY_GBP, __version__, _truthy, check_portfolio
+from rentready import EICR_ASSUMED, FEE_PER_PROPERTY_GBP, __version__, _truthy, check_portfolio
 
 SOURCE = "https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/"
 
@@ -95,7 +95,17 @@ def property_pack(row: Dict[str, str], report: Dict[str, Any]) -> Dict[str, Any]
         files.append(_cert_line(report, "gas safety record", g, "Gas safety record (CP12) and its issue date",
                                 f"{slug}_gas-safety-record_{g or 'DATE'}.pdf"))
     e = row.get("eicr") or ""
-    files.append(_cert_line(report, "EICR", e, "EICR (or EIC) and its expiry date", f"{slug}_eicr_{e or 'DATE'}.pdf"))
+    due = row.get("eicr_due") or ""
+    eicr = _cert_line(report, "EICR", e or due, "EICR (or EIC) and its expiry date", f"{slug}_eicr_{e or due or 'DATE'}.pdf")
+    if eicr["state"] == "READY":
+        exp = (report.get("expiries") or {}).get("EICR")
+        parts = [f"issued {e}"] if e else []
+        if exp:
+            parts.append(f"valid to {exp}" + ("" if due else f" ({EICR_ASSUMED})"))
+        elif due:
+            parts.append(f"next inspection due {due}")
+        eicr["note"] = ", ".join(parts)
+    files.append(eicr)
     p = row.get("epc") or ""
     epc = _cert_line(report, "EPC", p, "Most recent EPC (if one was required for the current tenant)", f"{slug}_epc_{p or 'DATE'}.pdf")
     if epc["state"] == "RENEW":

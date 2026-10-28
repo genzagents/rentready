@@ -15,7 +15,7 @@ years). The dates come from draft regulations laid on 9 September 2026 and still
 ## How to run it
 
 - If the `rentready` MCP server is available, call `check_property` with the postcode and the certificate dates you know.
-  For several properties, call `check_portfolio` with CSV text (header: name, postcode, gas, no_gas, eicr, epc, epc_rating).
+  For several properties, call `check_portfolio` with CSV text (header: name, postcode, gas, no_gas, eicr, eicr_due, epc, epc_rating; eicr_due is the next-inspection date the EICR gives, use it whenever the report has one).
   When the landlord wants reminders, call `make_calendar` (same inputs) and save the returned text as `rentready.ics` for them
   to import into Google, Apple or Outlook calendar; it holds the window-opens day, the deadline and every certificate expiry with 60- and 14-day alarms.
   When the landlord is getting ready to register, call `registration_pack` with the portfolio (and `organisation: true` for a

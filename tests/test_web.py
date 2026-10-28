@@ -17,17 +17,21 @@ LOOKUP = {
 def fake_lookup(pc, timeout=8.0):
     return LOOKUP.get(pc.upper().replace(" ", ""), {"error": "postcode lookup failed: HTTPError: HTTP Error 404: Not Found"})
 
-CSV = """name,postcode,gas,no_gas,eicr,epc,epc_rating,tenancy_start,region
-12 Example St,B3 2TA,2026-02-01,,2023-06-01,2017-05-01,D,,
-Flat 4,SW1A 1AA,,yes,2024-01-01,2020-01-01,C,,
-"The Old Mill, Unit 2",M1 1AE,2026-05-01,,2022-04-01,2019-09-01,E,,
-Leap,LS1 1UR,2024-02-29,,2020-02-29,2016-02-29,F,2025-01-01,
-Cardiff,CF10 1AA,2026-06-01,,2024-01-01,2020-01-01,B,,
-Typo,ZZ9 9ZZ,2026-06-01,,2024-01-01,2020-01-01,B,,
-By region,,,x,2019-01-01,,,,south east
-Empty,,,,,,,,
+CSV = """name,postcode,gas,no_gas,eicr,epc,epc_rating,tenancy_start,region,eicr_due
+12 Example St,B3 2TA,2026-02-01,,2023-06-01,2017-05-01,D,,,
+Flat 4,SW1A 1AA,,yes,2024-01-01,2020-01-01,C,,,
+"The Old Mill, Unit 2",M1 1AE,2026-05-01,,2022-04-01,2019-09-01,E,,,
+Leap,LS1 1UR,2024-02-29,,2020-02-29,2016-02-29,F,2025-01-01,,
+Cardiff,CF10 1AA,2026-06-01,,2024-01-01,2020-01-01,B,,,
+Typo,ZZ9 9ZZ,2026-06-01,,2024-01-01,2020-01-01,B,,,
+By region,,,x,2019-01-01,,,,south east,
+Empty,,,,,,,,,
+Three-year EICR,B3 2TA,2026-06-01,,2024-06-01,2020-01-01,C,,,2027-02-01
+Due only,SW1A 1AA,2026-06-01,,,2020-01-01,C,,,2029-01-01
+Due beyond five years,M1 1AE,2026-06-01,,2023-01-01,2020-01-01,C,,,2030-01-01
 """
-KEYS = ["name", "postcode", "region", "findings", "actions", "window", "expiries", "ready", "next", "tenancy_start", "fee_gbp_per_year"]
+KEYS = ["name", "postcode", "region", "findings", "actions", "window", "expiries", "ready", "next", "tenancy_start", "fee_gbp_per_year",
+        "assumptions", "eicr_due"]
 RUNNER = r"""
 const rr = require(process.argv[1]);
 const [csv, today, lookup] = JSON.parse(require("fs").readFileSync(0, "utf8"));
@@ -48,6 +52,12 @@ Lapsed no tenancy,LS1 1UR,2026-08-01,,2024-01-01,2014-01-01,E,,,,,,,,,,,,,
 Cardiff,CF10 1AA,2026-06-01,,2024-01-01,2020-01-01,B,,,,,,,,,,,,,
 Typo,ZZ9 9ZZ,,,,,,,,,,,,,,,,,,
 "!!! ---  The   Very Long Property Name That Goes On And On",,,x,2019-01-01,,,,,,,,,,,,,,,
+"""
+PACK_CSV_DUE = """name,postcode,gas,no_gas,eicr,eicr_due,epc,epc_rating
+Short EICR,B3 2TA,2026-06-01,,2024-06-01,2027-02-01,2020-01-01,C
+Due only,SW1A 1AA,2026-06-01,,,2029-01-01,2020-01-01,C
+Due only region unknown,ZZ9 9ZZ,2026-06-01,,,2029-01-01,2020-01-01,C
+Issue only,M1 1AE,2026-06-01,,2024-06-01,,2020-01-01,C
 """
 PACK_RUNNER = r"""
 const rr = require(process.argv[1]);
@@ -91,6 +101,13 @@ class WebParity(unittest.TestCase):
         self.assertEqual(by["Typo"]["findings"][0]["check"], "region")
         self.assertEqual(by["By region"]["region"], "South East")
         self.assertEqual(by["Empty"]["ready"], False)
+        # The report's own next-inspection date wins over issue + 5 years: a 3-year report is not a false PASS.
+        self.assertEqual(by["Three-year EICR"]["expiries"]["EICR"], "2027-02-01")
+        self.assertIn("WARN", [f["status"] for f in by["Three-year EICR"]["findings"] if f["check"] == "EICR"])
+        self.assertEqual(by["Due only"]["expiries"]["EICR"], "2029-01-01")
+        self.assertEqual(by["Due beyond five years"]["expiries"]["EICR"], "2028-01-01")
+        self.assertIn("EICR: assumed", by["12 Example St"]["assumptions"][0])
+        self.assertNotIn("assumptions", by["Three-year EICR"])
 
     def run_pack(self, csv, today, org):
         from rentready import pack
@@ -105,7 +122,7 @@ class WebParity(unittest.TestCase):
         return py, pack.format_pack(py), js["pk"], js["md"]
 
     def test_same_registration_pack(self):
-        for csv in (PACK_CSV, CSV):
+        for csv in (PACK_CSV, CSV, PACK_CSV_DUE):
             for today in ("2026-10-28", "2027-03-15", "2030-01-01"):
                 for org in (False, True):
                     py, md, js, jmd = self.run_pack(csv, today, org)
