@@ -7,7 +7,7 @@
 // https://www.gov.uk/government/consultations/improving-the-energy-performance-of-privately-rented-homes-2025-update/outcome/improving-the-energy-performance-of-privately-rented-homes-government-response-html
 (function (root) {
   "use strict";
-  const VERSION = "0.8.0";
+  const VERSION = "0.8.1";
   const FEE_PER_PROPERTY_GBP = 65;
   const ROLLOUT = {
     "West Midlands": { opens: "2026-12-15", deadline: "2027-03-14" },

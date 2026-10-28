@@ -144,5 +144,18 @@ class WebParity(unittest.TestCase):
         with open(JS) as f:
             self.assertIn(f'const VERSION = "{rr.__version__}"', f.read())
 
+class RegistryMetadata(unittest.TestCase):
+    """server.json (MCP registry) must name the PyPI release being published and the README must carry mcp-name."""
+
+    def test_server_json_matches_release(self):
+        with open(os.path.join(ROOT, "server.json")) as f:
+            srv = json.load(f)
+        self.assertEqual(srv["name"], "io.github.genzagents/rentready")
+        self.assertEqual(srv["version"], rr.__version__)
+        pkg = srv["packages"][0]
+        self.assertEqual((pkg["registryType"], pkg["identifier"], pkg["version"]), ("pypi", "rentready", rr.__version__))
+        with open(os.path.join(ROOT, "README.md")) as f:
+            self.assertIn("\nmcp-name: io.github.genzagents/rentready\n", f.read())
+
 if __name__ == "__main__":
     unittest.main()

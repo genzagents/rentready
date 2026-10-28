@@ -23,7 +23,7 @@ curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/_
 ```
 
 ```
-rentready 0.8.0  B3 2TA  region: West Midlands
+rentready 0.8.1  B3 2TA  region: West Midlands
 Window: requirement starts 2026-12-15, deadline 2027-03-14 (137 days from 2026-10-28); the service opens for everyone on 2026-12-15
   PASS registration deadline: West Midlands requirement starts 2026-12-15, deadline 2027-03-14; you can register from 2026-12-15
   WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (96 days)
@@ -151,7 +151,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: genzagents/rentready@v0.8.0
+      - uses: genzagents/rentready@v0.8.1
         with:
           portfolio: properties.csv
           # warn-days: 90
@@ -171,7 +171,11 @@ claude plugin marketplace add genzagents/marketplace
 claude plugin install rentready@genzagents
 ```
 
-Or add to any MCP client: `python3 /path/to/rentready/__init__.py mcp` (stdio). Four tools: `check_property`, `check_portfolio` (CSV or JSON text in, one table out), `make_calendar` (returns the .ics text for one property or a portfolio) and `registration_pack` (the markdown checklist above).
+Or add to any MCP client: `uvx rentready mcp` (from PyPI) or `python3 /path/to/rentready/__init__.py mcp` (stdio). Four tools: `check_property`, `check_portfolio` (CSV or JSON text in, one table out), `make_calendar` (returns the .ics text for one property or a portfolio) and `registration_pack` (the markdown checklist above).
+
+Listed in the [official MCP registry](https://registry.modelcontextprotocol.io/v0/servers?search=io.github.genzagents/rentready) as `io.github.genzagents/rentready`.
+
+mcp-name: io.github.genzagents/rentready
 
 ## What it checks
 
@@ -214,6 +218,10 @@ GenZAgents, London ([about](https://genzagents.github.io/rentready/about.html));
 [GitHub issues](https://github.com/genzagents/rentready/issues).
 
 ## Changes
+
+**0.8.1** (packaging only, no behaviour change)
+- Listed in the official MCP registry as `io.github.genzagents/rentready` (`server.json`, published from GitHub Actions
+  with GitHub OIDC); the README carries the registry's `mcp-name` ownership line. `uvx rentready mcp` runs the server.
 
 **0.8.0** (EICR correctness)
 - EICR expiry comes from the report's own next-inspection date when you give it (`--eicr-due`, CSV `eicr_due`, MCP
