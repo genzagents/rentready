@@ -12,10 +12,37 @@ pre{background:var(--box);border:1px solid var(--bd);padding:12px;overflow:auto;
 table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:left}
 .btn{display:inline-block;background:var(--acc);color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600}
 .mut{color:var(--mut)}
+#tool{background:var(--box);border:1px solid var(--bd);border-radius:8px;padding:16px;margin:1.5em 0}
+#tool h2{margin-top:0}
+#rows{width:100%;overflow-x:auto}
+#rows table{min-width:640px}
+#rows input,#rows select,#paste{font:inherit;font-size:14px;background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:4px 6px;box-sizing:border-box}
+#rows input[type=text]{width:100%;min-width:7em}#rows input[type=date]{width:9.5em}
+#rows td{padding:4px}
+#paste{width:100%;min-height:90px;font-family:ui-monospace,monospace;font-size:12px}
+button{font:inherit;cursor:pointer;border-radius:6px;padding:8px 14px;border:1px solid var(--bd);background:var(--bg);color:var(--fg)}
+button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.st{font-weight:700;font-size:12px;padding:1px 6px;border-radius:4px;white-space:nowrap}
+.PASS,.READY{background:#0b52;color:var(--fg)}.WARN{background:#e902;color:var(--fg)}.FAIL,.NOT{background:#d332;color:var(--fg)}.INFO,.NA{background:#8882;color:var(--fg)}
+.prop{border-top:1px solid var(--bd);padding:8px 0}.prop ul{margin:4px 0;padding-left:1.2em}
+#sum{font-weight:600}
 </style></head><body><main>
 <h1>rentready</h1>
 <p><strong>Is your rental ready for England's landlord database?</strong> From 15 December 2026 every private landlord in England registers each property on <em>Register your rental property</em> (Renters' Rights Act), region by region, at £65 a property a year, uploading the gas safety record, EICR and EPC. No active entry, no possession order; penalties to £7,000.</p>
-<p>rentready tells you your region's window and deadline, whether your certificates will still be in date, what to book, what to upload and what it costs. Free, zero dependencies, one Python file. Also an MCP server, so your own Claude or ChatGPT agent can run it.</p>
+<p>rentready tells you your region's window and deadline, whether your certificates will still be in date, what to book, what to upload and what it costs. Free. Check right here in the browser, or from the terminal: zero dependencies, one Python file, and an MCP server so your own Claude or ChatGPT agent can run it.</p>
+<section id="tool">
+<h2>Check your properties now</h2>
+<p class="mut">Add each property with the issue date on its certificates. Nothing is sent anywhere except the postcode, to postcodes.io, to find the region. Your list is kept in this browser only.</p>
+<div id="rows"><table><thead><tr><th>Property</th><th>Postcode</th><th>Gas safety record</th><th>No gas</th><th>EICR</th><th>EPC</th><th>EPC rating</th><th></th></tr></thead><tbody></tbody></table></div>
+<div class="bar"><button type="button" id="add">+ Add a property</button><button type="button" class="go" id="check">Check</button></div>
+<details><summary>Or paste a spreadsheet (CSV)</summary>
+<p class="mut">Columns: <code>name, postcode, gas, no_gas, eicr, epc, epc_rating</code>; dates as YYYY-MM-DD. Copy from Excel or Google Sheets after saving as CSV.</p>
+<textarea id="paste" placeholder="name,postcode,gas,no_gas,eicr,epc,epc_rating&#10;12 Example St,B3 2TA,2026-02-01,,2023-06-01,2017-05-01,D"></textarea>
+<div class="bar"><button type="button" id="load">Use this list</button></div></details>
+<div id="out" aria-live="polite"></div>
+</section>
+<h2>For you or your agent, in the terminal</h2>
 <pre>curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/__init__.py | python3 - check "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --epc=2017-05-01 --epc-rating=D</pre>
 <pre>rentready 0.3.0  B3 2TA  region: West Midlands
 Window: requirement starts 2026-12-15, deadline 2027-03-14 (139 days from 2026-10-26)
@@ -49,7 +76,7 @@ Earliest deadline: 2027-03-14. 2 ready, 1 not ready.</pre>
 <p>Put <code>properties.csv</code> in a private GitHub repo and add one workflow file. On the first of every month <code>rentready watch</code> re-checks every property, keeps one issue up to date with the whole table, and comments on it only when a gas safety record, EICR or EPC comes within 60 days of expiring, your region's window opens, a deadline nears or passes, or a property stops being ready. GitHub emails you the comment. Free, no server, no account beyond GitHub. <a href="https://github.com/genzagents/rentready/issues/1">Issue #1</a> watches the example portfolio.</p>
 <pre>steps:
   - uses: actions/checkout@v4
-  - uses: genzagents/rentready@v0.5.0
+  - uses: genzagents/rentready@v0.6.0
     with:
       portfolio: properties.csv</pre>
 <p class="mut">Full template: <a href="https://github.com/genzagents/rentready/blob/main/docs/watch.yml">docs/watch.yml</a>. Or from cron on your own machine: <code>rentready watch properties.csv --state=state.json</code>.</p>
@@ -61,11 +88,64 @@ Earliest deadline: 2027-03-14. 2 ready, 1 not ready.</pre>
 <tr><td>North East</td><td>15 Jun 2027</td><td>14 Sep 2027</td></tr><tr><td>London</td><td>15 Jul 2027</td><td>14 Oct 2027</td></tr>
 <tr><td>South West</td><td>15 Aug 2027</td><td>14 Nov 2027</td></tr></table>
 <p class="mut">Source: the Private Rented Sector Database Regulations 2026 as summarised by the <a href="https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service.">NRLA</a>; official guidance at <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">housinghub.campaign.gov.uk</a>. Check gov.uk before relying on a date. Not legal advice.</p>
-<h2>Want the hosted monthly watch?</h2>
+<h2 id="watch">Want the hosted monthly watch?</h2>
 <p>The paid step for landlords who do not want a GitHub repo: pay once a year, paste your properties into the checkout, and get the first report within the hour, an email the moment something needs action, and a short digest once a month. Nothing to install or keep. <strong>£12 a year for up to 10 properties</strong>, not £15 a month. Every email is reproducible: the inputs and date are stored beside it and <code>rentready hosted replay</code> re-runs it. Letting agents can run the same watch for every landlord they manage from one file (<a href="https://github.com/genzagents/rentready/blob/main/docs/HOSTED.md">how</a>).</p>
 <p><a class="btn" href="https://github.com/genzagents/rentready/issues/new?title=I%20want%20the%20monthly%20watch&body=Properties%3A%20%0ARegion%3A%20%0AWhat%20I%27d%20pay%20a%20year%3A%20">I want the monthly watch</a> <span class="mut">(the checkout opens shortly; press the button and you get the link first)</span></p>
 <h2>Install</h2>
 <pre>pip install git+https://github.com/genzagents/rentready
 claude plugin marketplace add genzagents/marketplace && claude plugin install rentready@genzagents</pre>
 <p class="mut">MIT. <a href="https://github.com/genzagents/rentready">Source</a>. Sibling of <a href="https://genzagents.github.io/citable/">citable</a>. Your dates never leave your machine; the only network call is the postcode lookup.</p>
+<script src="rentready.js"></script>
+<script>
+(function(){
+  var rr=window.rentready, tb=document.querySelector("#rows tbody"), out=document.getElementById("out"), KEY="rentready.rows.v1", last=null;
+  var EX=[{name:"12 Example St",postcode:"B3 2TA",gas:"2026-02-01",no_gas:"",eicr:"2023-06-01",epc:"2017-05-01",epc_rating:"D"}];
+  function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function addRow(r){
+    r=r||{}; var tr=document.createElement("tr");
+    tr.innerHTML='<td><input type="text" data-k="name" placeholder="Flat 1"></td><td><input type="text" data-k="postcode" placeholder="B3 2TA" size="8"></td>'+
+      '<td><input type="date" data-k="gas"></td><td><input type="checkbox" data-k="no_gas" aria-label="No gas supply"></td>'+
+      '<td><input type="date" data-k="eicr"></td><td><input type="date" data-k="epc"></td>'+
+      '<td><select data-k="epc_rating"><option value="">?</option><option>A</option><option>B</option><option>C</option><option>D</option><option>E</option><option>F</option><option>G</option></select></td>'+
+      '<td><button type="button" aria-label="Remove">&times;</button></td>';
+    tr.querySelectorAll("[data-k]").forEach(function(el){var v=r[el.dataset.k]||""; if(el.type==="checkbox") el.checked=["1","true","yes","y","x"].indexOf(String(v).toLowerCase())>=0; else el.value=v.trim?v.trim():v;});
+    tr.querySelector("button").onclick=function(){tr.remove();save();};
+    tr.addEventListener("change",save); tb.appendChild(tr);
+  }
+  function rows(){return Array.prototype.map.call(tb.rows,function(tr){var o={};tr.querySelectorAll("[data-k]").forEach(function(el){o[el.dataset.k]=el.type==="checkbox"?(el.checked?"yes":""):el.value.trim();});return o;}).filter(function(o){return o.name||o.postcode;});}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(rows()));}catch(e){}}
+  function load(list){tb.innerHTML="";(list.length?list:[{}]).forEach(addRow);save();}
+  var saved=null; try{saved=JSON.parse(localStorage.getItem(KEY)||"null");}catch(e){}
+  load(saved&&saved.length?saved:EX);
+  document.getElementById("add").onclick=function(){addRow();};
+  document.getElementById("load").onclick=function(){
+    try{var l=rr.readPortfolio(document.getElementById("paste").value); if(!l.length) throw new Error("no rows under the header"); load(l); run();}
+    catch(e){out.innerHTML='<p class="FAIL">Could not read that list: '+esc(e.message)+'</p>';}
+  };
+  function csv(list){var cols=["name","postcode","gas","no_gas","eicr","epc","epc_rating"];return cols.join(",")+"\n"+list.map(function(r){return cols.map(function(c){var v=r[c]||"";return /[",\n]/.test(v)?'"'+v.replace(/"/g,'""')+'"':v;}).join(",");}).join("\n")+"\n";}
+  function download(name,text,type){var a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type:type}));a.download=name;document.body.appendChild(a);a.click();setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},500);}
+  async function run(){
+    var list=rows(); if(!list.length){out.innerHTML="<p>Add a property first.</p>";return;}
+    out.innerHTML="<p>Checking "+list.length+" propert"+(list.length>1?"ies":"y")+"...</p>";
+    var p=await rr.checkPortfolio(list); last={p:p,list:list};
+    var h='<p id="sum">'+p.ready+' ready, '+p.not_ready+' not ready'+(p.count>p.in_scope?', '+(p.count-p.in_scope)+' outside England':'')+
+      '. Fee £'+p.fee_gbp_per_year+' a year'+(p.earliest_deadline?'. Earliest deadline '+p.earliest_deadline:'')+'.</p>';
+    p.properties.forEach(function(r){
+      var st=r.ready===true?'<span class="st READY">READY</span>':r.ready===false?'<span class="st NOT">NOT READY</span>':'<span class="st NA">n/a</span>';
+      h+='<div class="prop"><strong>'+esc(r.name)+'</strong> '+st+' <span class="mut">'+esc(r.postcode||"")+(r.region?' · '+esc(r.region):'')+
+        (r.window?' · window '+r.window.opens+' to '+r.window.deadline:'')+'</span><ul>';
+      r.findings.forEach(function(f){h+='<li><span class="st '+f.status+'">'+f.status+'</span> '+esc(f.check)+': '+esc(f.detail.replace('; pass --region to continue','; check the postcode is right'))+'</li>';});
+      h+='</ul>'; if(r.actions.length){h+='<p class="mut" style="margin:4px 0">Do next:</p><ul>'+r.actions.map(function(a){return '<li>'+esc(a)+'</li>';}).join("")+'</ul>';}
+      h+='</div>';
+    });
+    h+='<div class="bar"><button type="button" class="go" id="ics">Add every date to my calendar (.ics)</button><button type="button" id="csv">Save my list (CSV)</button></div>'+
+      '<p class="mut">The calendar has the day your window opens, your deadline and every gas, EICR and EPC expiry, each with reminders 60 and 14 days before. Import it into Google, Apple or Outlook calendar; importing again updates rather than duplicates.</p>'+
+      '<p class="mut">Upload with each registration: '+rr.UPLOADS.map(esc).join("; ")+'. Want an email instead when something needs action? See the <a href="#watch">monthly watch</a>.</p>';
+    out.innerHTML=h;
+    document.getElementById("ics").onclick=async function(){download("rentready.ics",await rr.formatIcs(rr.calendarEvents(last.p.properties)),"text/calendar");};
+    document.getElementById("csv").onclick=function(){download("properties.csv",csv(last.list),"text/csv");};
+  }
+  document.getElementById("check").onclick=run;
+})();
+</script>
 </main></body></html>

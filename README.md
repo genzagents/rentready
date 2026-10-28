@@ -9,6 +9,12 @@ and penalties run to £7,000 (£40,000 for a repeat). `rentready` tells you your
 your certificates will still be in date, what to book, what to upload and what it costs. Zero dependencies, one file,
 also an MCP server and a Claude Code plugin, so your own agent can run it.
 
+**No install: check in your browser at https://genzagents.github.io/rentready/** (0.6.0). Add your properties or
+paste a CSV, see every property's window, deadline and certificate state, then download one `.ics` with every date and
+reminder. It runs `docs/rentready.js`, a line-for-line port of the Python that `tests/test_web.py` holds to identical
+answers and an identical calendar on five dates; the only network call is the postcode lookup at postcodes.io, and
+your list stays in your browser.
+
 ```bash
 curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/__init__.py | python3 - check "B3 2TA" --gas=2026-02-01 --eicr=2023-06-01 --epc=2017-05-01 --epc-rating=D
 ```
