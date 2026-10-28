@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Gas safety certificates and the landlord database</title>
+<meta name="description" content="The landlord database asks for your latest gas safety record (CP12) and its issue date. When to book the annual check so it is in date at your deadline.">
+<link rel="canonical" href="https://genzagents.github.io/rentready/guides/gas-safety-certificate-landlord-database.html">
+<style>
+:root{--bg:#fff;--fg:#111;--mut:#555;--acc:#0b5;--box:#f4f4f4;--bd:#ddd}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111;--fg:#eee;--mut:#aaa;--box:#1c1c1c;--bd:#333}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px}
+h1{font-size:2rem;margin:.2em 0}h2{margin-top:2em}
+pre{background:var(--box);border:1px solid var(--bd);padding:12px;overflow:auto;font-size:13px}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:left}
+.btn{display:inline-block;background:var(--acc);color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600}
+.mut{color:var(--mut)}
+#tool{background:var(--box);border:1px solid var(--bd);border-radius:8px;padding:16px;margin:1.5em 0}
+#tool h2{margin-top:0}
+#rows{width:100%;overflow-x:auto}
+#rows table{min-width:640px}
+#rows input,#rows select,#paste{font:inherit;font-size:14px;background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:4px 6px;box-sizing:border-box}
+#rows input[type=text]{width:100%;min-width:7em}#rows input[type=date]{width:9.5em}
+#rows td{padding:4px}
+#paste{width:100%;min-height:90px;font-family:ui-monospace,monospace;font-size:12px}
+button{font:inherit;cursor:pointer;border-radius:6px;padding:8px 14px;border:1px solid var(--bd);background:var(--bg);color:var(--fg)}
+button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.st{font-weight:700;font-size:12px;padding:1px 6px;border-radius:4px;white-space:nowrap}
+.PASS,.READY{background:#0b52;color:var(--fg)}.WARN{background:#e902;color:var(--fg)}.FAIL,.NOT{background:#d332;color:var(--fg)}.INFO,.NA{background:#8882;color:var(--fg)}
+.prop{border-top:1px solid var(--bd);padding:8px 0}.prop ul{margin:4px 0;padding-left:1.2em}
+#sum{font-weight:600}
+#packout h3{margin:1.2em 0 .2em}#packout table{font-size:14px;margin:.4em 0}#packout td:first-child{width:55%}
+.GATHER,.RENEW{background:#d332;color:var(--fg)}.RENEWSOON{background:#e902;color:var(--fg)}.FILLED{background:#0b52;color:var(--fg)}.IFANY{background:#8882;color:var(--fg)}
+@media print{body *{visibility:hidden}#packout,#packout *{visibility:visible}#packout{position:absolute;left:0;top:0;width:100%}#packout .bar{display:none}}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Do I upload the gas safety certificate to the landlord database?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes, if the property has gas. You upload the latest gas safety record and its issue date."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How often is a gas safety check needed?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Every year, by a Gas Safe engineer."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "My gas safety record expires before my deadline. What should I do?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Book the next check before it runs out, so you have a current record when you register."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What if the property has no gas?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Then there is no gas safety record to upload."
+   }
+  }
+ ]
+}
+</script>
+</head><body><main>
+<p class="mut"><a href="../index.html">rentready</a> / <a href="index.html">Landlord database guides</a></p>
+<h1>Gas safety certificates and the landlord database</h1>
+<p><strong>When you register a property that has gas, you upload its latest gas safety record (the CP12) and the record's issue date.</strong> You do this within 28 days of making the entry <span class="mut">(in the draft regulations, <a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6">regulation 6(2)</a>, and reported by the NRLA; not yet in official guidance)</span>. The check is annual, so make sure the record will still be in date at your region's deadline. If it runs out first, book the next check before it expires.</p>
+<h2>What the service asks for</h2>
+<p>For a property with a gas supply, the <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">official guidance</a> asks for a copy of the gas safety record, if one exists, and its issue date. If the property has no gas, there is no record to upload.</p>
+<h2>Annual, so timing matters</h2>
+<p>The gas safety check is done every year by a Gas Safe engineer, and each record runs for a year from its issue date. The deadlines run from March to November 2027, so a record you hold today may lapse before you register.</p>
+<p>Here is the example rentready uses. A West Midlands property has a gas safety record issued on 1 February 2026. It expires on 1 February 2027. The West Midlands deadline is 14 March 2027, so the record runs out 41 days before the deadline. rentready marks it WARN and tells you to book the next check before 1 February 2027.</p>
+<h2>Three cases</h2>
+<ul>
+<li><strong>In date at your deadline.</strong> Upload it as it is.</li>
+<li><strong>Expires before your deadline.</strong> Book the next check before the record runs out. Then you have a current record when you register.</li>
+<li><strong>Already lapsed, or you cannot find it.</strong> Book a check now, so you have a current record to upload.</li>
+</ul>
+<h2>Keeping the entry up to date</h2>
+<p>Registration is not a one-off. Section 78 of the Renters' Rights Act 2025 lets the government require active entries to be kept up to date, with the time limit set in regulations (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/78">section 78</a>). When a certificate is renewed, the entry should show the new one.</p>
+<p>The gas record renews every year, so this is the certificate you will update most often. rentready's calendar file puts every gas expiry in your calendar, with reminders 60 and 14 days before.</p>
+<h2>Scanning and naming</h2>
+<p>Scan each record as a PDF before you start the entry. rentready's registration pack gives each certificate a file name to scan it as, for example <code>12-example-st_gas-safety-record_2026-02-01.pdf</code>, so the right record goes with the right property.</p>
+<h2>Several properties</h2>
+<p>With a portfolio, gas checks fall on different dates for each property. Put every property into rentready, or paste a CSV with a <code>gas</code> column holding each record's issue date and a <code>no_gas</code> column for properties without a supply. You get one table showing which records expire before each property's deadline, and what to book first.</p>
+<p><a class="btn" href="../index.html">Check your properties free</a> <span class="mut">Runs in your browser. Only the postcode leaves it, to find the region.</span></p>
+<h2>Questions</h2>
+<h3>Do I upload the gas safety certificate to the landlord database?</h3>
+<p>Yes, if the property has gas. You upload the latest gas safety record and its issue date.</p>
+<h3>How often is a gas safety check needed?</h3>
+<p>Every year, by a Gas Safe engineer.</p>
+<h3>My gas safety record expires before my deadline. What should I do?</h3>
+<p>Book the next check before it runs out, so you have a current record when you register.</p>
+<h3>What if the property has no gas?</h3>
+<p>Then there is no gas safety record to upload.</p>
+<h2>Related guides</h2>
+<ul><li><a href="landlord-database-deadline-by-region.html">Deadlines by region</a></li><li><a href="what-you-need-to-register.html">What you need to register</a></li><li><a href="eicr-landlord-database.html">EICR</a></li><li><a href="epc-rating-landlord-database.html">EPC and rating</a></li></ul>
+<h2>Sources</h2>
+<ul class="mut"><li><a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">Get ready to register: Register your rental property (official guidance, housinghub.campaign.gov.uk)</a></li><li><a href="https://www.legislation.gov.uk/ukpga/2025/26/section/78">Renters' Rights Act 2025, section 78: keeping entries up to date</a></li><li><a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861">Draft Private Rented Sector Database Regulations 2026 (legislation.gov.uk; not yet made)</a></li><li><a href="https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service">NRLA: Register your rental property service (summary of the draft regulations)</a></li></ul>
+<p class="mut">Not legal advice. Check gov.uk before relying on this. Last checked 28 Oct 2026.</p>
+</main></body></html>

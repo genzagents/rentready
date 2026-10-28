@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EICR and the landlord database: what to upload</title>
+<meta name="description" content="The landlord database asks for your EICR (or EIC) and its expiry date. Check your electrical report is still in date at your region&#x27;s deadline.">
+<link rel="canonical" href="https://genzagents.github.io/rentready/guides/eicr-landlord-database.html">
+<style>
+:root{--bg:#fff;--fg:#111;--mut:#555;--acc:#0b5;--box:#f4f4f4;--bd:#ddd}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111;--fg:#eee;--mut:#aaa;--box:#1c1c1c;--bd:#333}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px}
+h1{font-size:2rem;margin:.2em 0}h2{margin-top:2em}
+pre{background:var(--box);border:1px solid var(--bd);padding:12px;overflow:auto;font-size:13px}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:left}
+.btn{display:inline-block;background:var(--acc);color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600}
+.mut{color:var(--mut)}
+#tool{background:var(--box);border:1px solid var(--bd);border-radius:8px;padding:16px;margin:1.5em 0}
+#tool h2{margin-top:0}
+#rows{width:100%;overflow-x:auto}
+#rows table{min-width:640px}
+#rows input,#rows select,#paste{font:inherit;font-size:14px;background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:4px 6px;box-sizing:border-box}
+#rows input[type=text]{width:100%;min-width:7em}#rows input[type=date]{width:9.5em}
+#rows td{padding:4px}
+#paste{width:100%;min-height:90px;font-family:ui-monospace,monospace;font-size:12px}
+button{font:inherit;cursor:pointer;border-radius:6px;padding:8px 14px;border:1px solid var(--bd);background:var(--bg);color:var(--fg)}
+button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.st{font-weight:700;font-size:12px;padding:1px 6px;border-radius:4px;white-space:nowrap}
+.PASS,.READY{background:#0b52;color:var(--fg)}.WARN{background:#e902;color:var(--fg)}.FAIL,.NOT{background:#d332;color:var(--fg)}.INFO,.NA{background:#8882;color:var(--fg)}
+.prop{border-top:1px solid var(--bd);padding:8px 0}.prop ul{margin:4px 0;padding-left:1.2em}
+#sum{font-weight:600}
+#packout h3{margin:1.2em 0 .2em}#packout table{font-size:14px;margin:.4em 0}#packout td:first-child{width:55%}
+.GATHER,.RENEW{background:#d332;color:var(--fg)}.RENEWSOON{background:#e902;color:var(--fg)}.FILLED{background:#0b52;color:var(--fg)}.IFANY{background:#8882;color:var(--fg)}
+@media print{body *{visibility:hidden}#packout,#packout *{visibility:visible}#packout{position:absolute;left:0;top:0;width:100%}#packout .bar{display:none}}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Do I need an EICR to register on the landlord database?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The service asks for a copy of the EICR, or the EIC if there is no EICR yet, and its expiry date."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How long does an EICR last?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Five years."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What if I only have an EIC?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "If there is no EICR yet, upload the EIC and its expiry date."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "My EICR expires before my deadline. What should I do?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Book a new inspection before it runs out, so you register with a current report."
+   }
+  }
+ ]
+}
+</script>
+</head><body><main>
+<p class="mut"><a href="../index.html">rentready</a> / <a href="index.html">Landlord database guides</a></p>
+<h1>EICR and the landlord database</h1>
+<p><strong>When you register a property, you upload its electrical installation condition report (EICR) and the report's expiry date.</strong> If there is no EICR yet, you upload the electrical installation certificate (EIC) instead. Do it within 28 days of making the entry <span class="mut">(in the draft regulations, <a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6">regulation 6(2)</a>, and reported by the NRLA; not yet in official guidance)</span>. An EICR is needed every five years, so check yours will still be in date at your region's deadline.</p>
+<h2>What the service asks for</h2>
+<p>The <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">official guidance</a> asks for a copy of the EICR or EIC, if one exists, and its expiry date. Note that it is the expiry date the service wants, not the issue date as for gas.</p>
+<h2>Five-yearly, so check the expiry</h2>
+<p>An EICR runs for five years. In rentready's example, a report issued on 1 June 2023 is valid to 1 June 2028. For a West Midlands property with a 14 March 2027 deadline, that passes.</p>
+<p>Older reports need more care. A report issued on 1 June 2022 runs to 1 June 2027. That is after the deadlines for the West Midlands, the East of England and the East Midlands. It is before the deadline for the South East (14 June 2027) and every region after it. A landlord in those regions would need a new report before registering.</p>
+<h2>Three cases</h2>
+<ul>
+<li><strong>In date at your deadline.</strong> Upload it with its expiry date.</li>
+<li><strong>Expires before your deadline.</strong> Book a new inspection before it runs out, so you register with a current report.</li>
+<li><strong>No EICR on file.</strong> rentready marks this FAIL: the five-yearly report is required and uploaded with its expiry. Book an inspection early, because you cannot complete the property's entry without it.</li>
+</ul>
+<h2>Keeping the entry up to date</h2>
+<p>Registration is not a one-off. Section 78 of the Renters' Rights Act 2025 lets the government require active entries to be kept up to date, with the time limit set in regulations (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/78">section 78</a>). When a certificate is renewed, the entry should show the new one.</p>
+<p>Because an EICR lasts five years, you will update it less often than the gas record. It is easy to forget for the same reason. rentready's calendar file adds each EICR expiry with reminders 60 and 14 days before.</p>
+<h2>Scanning and naming</h2>
+<p>Scan the report as a PDF before you start. rentready's registration pack gives it a file name such as <code>12-example-st_eicr_2023-06-01.pdf</code>, and marks it ready, renew soon or renew, depending on whether it is in date at your deadline.</p>
+<h2>Check every property at once</h2>
+<p>Put each property's EICR date into rentready, or paste a CSV with an <code>eicr</code> column. You see which reports expire before each property's deadline, and which properties have no report on file.</p>
+<p><a class="btn" href="../index.html">Check your properties free</a> <span class="mut">Runs in your browser. Only the postcode leaves it, to find the region.</span></p>
+<h2>Questions</h2>
+<h3>Do I need an EICR to register on the landlord database?</h3>
+<p>The service asks for a copy of the EICR, or the EIC if there is no EICR yet, and its expiry date.</p>
+<h3>How long does an EICR last?</h3>
+<p>Five years.</p>
+<h3>What if I only have an EIC?</h3>
+<p>If there is no EICR yet, upload the EIC and its expiry date.</p>
+<h3>My EICR expires before my deadline. What should I do?</h3>
+<p>Book a new inspection before it runs out, so you register with a current report.</p>
+<h2>Related guides</h2>
+<ul><li><a href="landlord-database-deadline-by-region.html">Deadlines by region</a></li><li><a href="what-you-need-to-register.html">What you need to register</a></li><li><a href="gas-safety-certificate-landlord-database.html">Gas safety certificates</a></li><li><a href="epc-rating-landlord-database.html">EPC and rating</a></li></ul>
+<h2>Sources</h2>
+<ul class="mut"><li><a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">Get ready to register: Register your rental property (official guidance, housinghub.campaign.gov.uk)</a></li><li><a href="https://www.legislation.gov.uk/ukpga/2025/26/section/78">Renters' Rights Act 2025, section 78: keeping entries up to date</a></li><li><a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861">Draft Private Rented Sector Database Regulations 2026 (legislation.gov.uk; not yet made)</a></li><li><a href="https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service">NRLA: Register your rental property service (summary of the draft regulations)</a></li></ul>
+<p class="mut">Not legal advice. Check gov.uk before relying on this. Last checked 28 Oct 2026.</p>
+</main></body></html>

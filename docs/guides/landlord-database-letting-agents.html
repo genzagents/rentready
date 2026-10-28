@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Landlord database: letting agents and portfolios</title>
+<meta name="description" content="Can a letting agent register for a landlord? What agents can upload, what landlords must do themselves, and how to register a portfolio.">
+<link rel="canonical" href="https://genzagents.github.io/rentready/guides/landlord-database-letting-agents.html">
+<style>
+:root{--bg:#fff;--fg:#111;--mut:#555;--acc:#0b5;--box:#f4f4f4;--bd:#ddd}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111;--fg:#eee;--mut:#aaa;--box:#1c1c1c;--bd:#333}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px}
+h1{font-size:2rem;margin:.2em 0}h2{margin-top:2em}
+pre{background:var(--box);border:1px solid var(--bd);padding:12px;overflow:auto;font-size:13px}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:left}
+.btn{display:inline-block;background:var(--acc);color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600}
+.mut{color:var(--mut)}
+#tool{background:var(--box);border:1px solid var(--bd);border-radius:8px;padding:16px;margin:1.5em 0}
+#tool h2{margin-top:0}
+#rows{width:100%;overflow-x:auto}
+#rows table{min-width:640px}
+#rows input,#rows select,#paste{font:inherit;font-size:14px;background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:4px 6px;box-sizing:border-box}
+#rows input[type=text]{width:100%;min-width:7em}#rows input[type=date]{width:9.5em}
+#rows td{padding:4px}
+#paste{width:100%;min-height:90px;font-family:ui-monospace,monospace;font-size:12px}
+button{font:inherit;cursor:pointer;border-radius:6px;padding:8px 14px;border:1px solid var(--bd);background:var(--bg);color:var(--fg)}
+button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.st{font-weight:700;font-size:12px;padding:1px 6px;border-radius:4px;white-space:nowrap}
+.PASS,.READY{background:#0b52;color:var(--fg)}.WARN{background:#e902;color:var(--fg)}.FAIL,.NOT{background:#d332;color:var(--fg)}.INFO,.NA{background:#8882;color:var(--fg)}
+.prop{border-top:1px solid var(--bd);padding:8px 0}.prop ul{margin:4px 0;padding-left:1.2em}
+#sum{font-weight:600}
+#packout h3{margin:1.2em 0 .2em}#packout table{font-size:14px;margin:.4em 0}#packout td:first-child{width:55%}
+.GATHER,.RENEW{background:#d332;color:var(--fg)}.RENEWSOON{background:#e902;color:var(--fg)}.FILLED{background:#0b52;color:var(--fg)}.IFANY{background:#8882;color:var(--fg)}
+@media print{body *{visibility:hidden}#packout,#packout *{visibility:visible}#packout{position:absolute;left:0;top:0;width:100%}#packout .bar{display:none}}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Can a letting agent register a property for a landlord?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "No. The official guidance says landlords must start and end the registration themselves. An agent can upload certain information if the landlord agrees."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Who is responsible if information is missing?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The landlord. The official guidance says the landlord remains responsible for providing all required information."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Do adverts need database numbers?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Section 82 of the Renters' Rights Act 2025 says written adverts for a residential tenancy must include the landlord's and the dwelling's unique identifiers."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How does renewal work for a portfolio?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Properties added later take the same renewal date as your existing entries, under the draft regulations. The NRLA reports that later properties pay pro rata. Neither rule is in official guidance yet."
+   }
+  }
+ ]
+}
+</script>
+</head><body><main>
+<p class="mut"><a href="../index.html">rentready</a> / <a href="index.html">Landlord database guides</a></p>
+<h1>Letting agents, portfolios and the landlord database</h1>
+<p><strong>A letting agent cannot complete the registration for a landlord.</strong> The <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">official guidance</a> says landlords must start and end the registration themselves. An agent or property manager can upload certain information for the landlord, as agreed between them. The landlord stays responsible for providing all the required information.</p>
+<h2>What an agent can and cannot do</h2>
+<ul>
+<li>The landlord starts the entry, with GOV.UK One Login, and finishes it.</li>
+<li>An agent or property manager can upload certain information, if the landlord agrees.</li>
+<li>The landlord remains responsible for everything the service asks for.</li>
+</ul>
+<p>The <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">official guidance</a> says guidance for agents is due before the service launches. Agents should check gov.uk for it.</p>
+<h2>Who can register for a landlord</h2>
+<p>Some people can make the entry for a landlord in a legal capacity. The <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">official guidance</a> lists, for example, a donee of a power of attorney, a personal representative, a court-appointed deputy, a guardian, a receiver, a liquidator, an administrator or a mortgagee. They need a certified or sealed copy of their authority. A letting agent acting under a management agreement is not on that list.</p>
+<h2>Marketing and adverts</h2>
+<p>Section 82 of the Renters' Rights Act 2025 says a person must not market a dwelling for a residential tenancy without active landlord and dwelling entries. Any written advert must include the landlord's and the dwelling's unique identifiers (<a href="https://www.legislation.gov.uk/ukpga/2025/26/section/82">section 82</a>). These rules apply to whoever markets or advertises the property, not only the landlord. Gov.uk says letting agents and landlords will need to include registration numbers on adverts (<a href="https://www.gov.uk/government/news/stronger-protections-and-greater-confidence-for-renters">gov.uk news</a>).</p>
+<p>Today the duty to register covers let properties. The <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">official guidance</a> says future legislation will require unoccupied properties to be registered before you or your agent market them.</p>
+<h2>Registering a portfolio</h2>
+<p>A landlord makes one entry for themselves, then one for each property. The rules for a portfolio:</p>
+<ul>
+<li>The fee is £65 per property per year. Ten properties cost £650 a year.</li>
+<li>Properties added later take the same renewal date as your existing entries, 12 months from the first <span class="mut">(in the draft regulations, <a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/10">regulation 10</a>, and reported by the NRLA; not yet in official guidance)</span>. Later properties pay pro rata for their first year <span class="mut">(reported by the NRLA; not yet in official guidance)</span>.</li>
+<li>Each property works to its own region's deadline, set by where the property is.</li>
+<li>Registration opens for all of England on 15 December 2026, and you can register properties in several regions at once.</li>
+</ul>
+<p>Each property needs its own uploads: the gas safety record if it has gas, the EICR and the EPC. With many properties, the slow part is finding certificates that expire before the deadline and booking renewals in time.</p>
+<h2>Tools for agents and portfolio landlords</h2>
+<p>rentready takes a whole portfolio from one spreadsheet. Paste a CSV in the browser, or run <code>rentready portfolio properties.csv</code> in a terminal. You get one table with every property's region, deadline and status, every warning, the total fee and the earliest deadline. The calendar file puts every window, deadline and certificate expiry into one calendar.</p>
+<p>The registration pack lists every question for the landlord and for each property, with the gaps marked, so an agent can gather the details and hand the landlord a complete set. Agents can also run the monthly watch for every landlord they manage from one file (<a href="https://github.com/genzagents/rentready/blob/main/docs/HOSTED.md">how</a>).</p>
+<p><a class="btn" href="../index.html">Check your properties free</a> <span class="mut">Runs in your browser. Only the postcode leaves it, to find the region.</span></p>
+<h2>Questions</h2>
+<h3>Can a letting agent register a property for a landlord?</h3>
+<p>No. The official guidance says landlords must start and end the registration themselves. An agent can upload certain information if the landlord agrees.</p>
+<h3>Who is responsible if information is missing?</h3>
+<p>The landlord. The official guidance says the landlord remains responsible for providing all required information.</p>
+<h3>Do adverts need database numbers?</h3>
+<p>Section 82 of the Renters&#x27; Rights Act 2025 says written adverts for a residential tenancy must include the landlord&#x27;s and the dwelling&#x27;s unique identifiers.</p>
+<h3>How does renewal work for a portfolio?</h3>
+<p>Properties added later take the same renewal date as your existing entries, under the draft regulations. The NRLA reports that later properties pay pro rata. Neither rule is in official guidance yet.</p>
+<h2>Related guides</h2>
+<ul><li><a href="landlord-database-registration.html">Landlord database registration explained</a></li><li><a href="landlord-database-fee.html">The £65 fee</a></li><li><a href="what-you-need-to-register.html">What you need to register</a></li><li><a href="landlord-database-penalties.html">Penalties</a></li></ul>
+<h2>Sources</h2>
+<ul class="mut"><li><a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">Get ready to register: Register your rental property (official guidance, housinghub.campaign.gov.uk)</a></li><li><a href="https://www.legislation.gov.uk/ukpga/2025/26/section/82">Renters' Rights Act 2025, section 82: marketing, advertising and letting</a></li><li><a href="https://www.gov.uk/government/news/stronger-protections-and-greater-confidence-for-renters">Stronger protections and greater confidence for renters (gov.uk, 9 September 2026)</a></li><li><a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861">Draft Private Rented Sector Database Regulations 2026 (legislation.gov.uk; not yet made)</a></li><li><a href="https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service">NRLA: Register your rental property service (summary of the draft regulations)</a></li><li><a href="https://www.hcrlaw.com/news-and-insights/renters-rights-act-2025-private-rented-sector-database-to-go-live-from-15-december-2026/">HCR Law: private rented sector database to go live from 15 December 2026</a></li></ul>
+<p class="mut">Not legal advice. Check gov.uk before relying on this. Last checked 28 Oct 2026.</p>
+</main></body></html>

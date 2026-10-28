@@ -2,10 +2,13 @@
 
 **Is your rental ready for England's landlord database?**
 
-From 15 December 2026 every private landlord in England must register each property on the government's
+From 15 December 2026 every private landlord in England must register each let property on the government's
 "Register your rental property" service (Renters' Rights Act 2025), region by region, at **£65 per property per year**,
-uploading the gas safety record, EICR and EPC. Without an active entry there is no possession order from the court,
-and penalties run to £7,000 (£40,000 for a repeat). `rentready` tells you your region's window and deadline, whether
+uploading the gas safety record, EICR and EPC. Unoccupied properties need not be registered yet, and landlords of supported
+exempt accommodation are excluded ([official guidance](https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/)). Without an active entry the court cannot make a possession
+order, except on Ground 7A or Ground 14 ([section 90](https://www.legislation.gov.uk/ukpga/2025/26/section/90)). Penalties are up to £7,000 for a breach
+([section 91](https://www.legislation.gov.uk/ukpga/2025/26/section/91)) and up to £40,000 for the offences in [section 92](https://www.legislation.gov.uk/ukpga/2025/26/section/92): false information, continuing a breach
+after a penalty, or a repeat within five years. `rentready` tells you your region's window and deadline, whether
 your certificates will still be in date, what to book, what to upload and what it costs. Zero dependencies, one file,
 also an MCP server and a Claude Code plugin, so your own agent can run it.
 
@@ -20,7 +23,7 @@ curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/_
 ```
 
 ```
-rentready 0.3.0  B3 2TA  region: West Midlands
+rentready 0.7.0  B3 2TA  region: West Midlands
 Window: requirement starts 2026-12-15, deadline 2027-03-14 (139 days from 2026-10-26); the service opens for everyone on 2026-12-15
   PASS registration deadline: West Midlands requirement starts 2026-12-15, deadline 2027-03-14; you can register from 2026-12-15
   WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (98 days)
@@ -45,16 +48,20 @@ READY: nothing expires before your deadline. Gather the details above and regist
 | East of England | 15 Jan 2027 | 14 Apr 2027 |
 | East Midlands | 15 Feb 2027 | 14 May 2027 |
 | South East | 15 Mar 2027 | 14 Jun 2027 |
-| Yorkshire and The Humber | 15 Apr 2027 | 14 Jul 2027 |
+| Yorkshire and Humber | 15 Apr 2027 | 14 Jul 2027 |
 | North West | 15 May 2027 | 14 Aug 2027 |
 | North East | 15 Jun 2027 | 14 Sep 2027 |
 | London | 15 Jul 2027 | 14 Oct 2027 |
 | South West | 15 Aug 2027 | 14 Nov 2027 |
 
-Registration opens for all of England on 15 December 2026. Source: the Private Rented Sector Database Regulations 2026 as
-summarised by the [NRLA](https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service.)
+Registration opens for all of England on 15 December 2026. Source: the draft
+[Private Rented Sector Database Regulations 2026](https://www.legislation.gov.uk/ukdsi/2026/9780348286861), laid before Parliament on 9 September 2026 and awaiting
+approval by both Houses as of 28 October 2026 ([Parliament record](https://api.parliament.uk/procedure-browser/work-packages/mNlSJVmc)), as summarised by the [NRLA](https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service)
 and [HCR Law](https://www.hcrlaw.com/news-and-insights/renters-rights-act-2025-private-rented-sector-database-to-go-live-from-15-december-2026/);
-official guidance at [housinghub.campaign.gov.uk](https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/). Check gov.uk before relying on a date.
+the same dates are in the official guidance at [housinghub.campaign.gov.uk](https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/), which names the region "Yorkshire and Humber".
+Upload within 28 days of the entry and one renewal date for every property are in the draft regulations
+([regulation 6(2)](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6), [regulation 10](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/10)) and reported by the NRLA; pro rata fees for
+later properties are reported by the NRLA. None of the three is in the official guidance yet. Check gov.uk before relying on a date.
 
 ## Install
 

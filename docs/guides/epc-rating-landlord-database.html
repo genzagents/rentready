@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EPC rating and the landlord database</title>
+<meta name="description" content="The landlord database asks for your latest EPC, any MEES exemption, and the tenancy start date if the EPC has lapsed. What your rating means.">
+<link rel="canonical" href="https://genzagents.github.io/rentready/guides/epc-rating-landlord-database.html">
+<style>
+:root{--bg:#fff;--fg:#111;--mut:#555;--acc:#0b5;--box:#f4f4f4;--bd:#ddd}
+@media(prefers-color-scheme:dark){:root:not([data-theme=light]){--bg:#111;--fg:#eee;--mut:#aaa;--box:#1c1c1c;--bd:#333}}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.5 system-ui,sans-serif}
+main{max-width:760px;margin:0 auto;padding:32px 16px}
+h1{font-size:2rem;margin:.2em 0}h2{margin-top:2em}
+pre{background:var(--box);border:1px solid var(--bd);padding:12px;overflow:auto;font-size:13px}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid var(--bd);padding:6px 8px;text-align:left}
+.btn{display:inline-block;background:var(--acc);color:#fff;padding:10px 16px;border-radius:6px;text-decoration:none;font-weight:600}
+.mut{color:var(--mut)}
+#tool{background:var(--box);border:1px solid var(--bd);border-radius:8px;padding:16px;margin:1.5em 0}
+#tool h2{margin-top:0}
+#rows{width:100%;overflow-x:auto}
+#rows table{min-width:640px}
+#rows input,#rows select,#paste{font:inherit;font-size:14px;background:var(--bg);color:var(--fg);border:1px solid var(--bd);border-radius:4px;padding:4px 6px;box-sizing:border-box}
+#rows input[type=text]{width:100%;min-width:7em}#rows input[type=date]{width:9.5em}
+#rows td{padding:4px}
+#paste{width:100%;min-height:90px;font-family:ui-monospace,monospace;font-size:12px}
+button{font:inherit;cursor:pointer;border-radius:6px;padding:8px 14px;border:1px solid var(--bd);background:var(--bg);color:var(--fg)}
+button.go{background:var(--acc);color:#fff;border-color:var(--acc);font-weight:600}
+.bar{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.st{font-weight:700;font-size:12px;padding:1px 6px;border-radius:4px;white-space:nowrap}
+.PASS,.READY{background:#0b52;color:var(--fg)}.WARN{background:#e902;color:var(--fg)}.FAIL,.NOT{background:#d332;color:var(--fg)}.INFO,.NA{background:#8882;color:var(--fg)}
+.prop{border-top:1px solid var(--bd);padding:8px 0}.prop ul{margin:4px 0;padding-left:1.2em}
+#sum{font-weight:600}
+#packout h3{margin:1.2em 0 .2em}#packout table{font-size:14px;margin:.4em 0}#packout td:first-child{width:55%}
+.GATHER,.RENEW{background:#d332;color:var(--fg)}.RENEWSOON{background:#e902;color:var(--fg)}.FILLED{background:#0b52;color:var(--fg)}.IFANY{background:#8882;color:var(--fg)}
+@media print{body *{visibility:hidden}#packout,#packout *{visibility:visible}#packout{position:absolute;left:0;top:0;width:100%}#packout .bar{display:none}}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "Do I upload my EPC to the landlord database?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes. You upload the most recent EPC, if one exists, within 28 days of making the entry under the draft regulations (not yet in official guidance)."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Can I register with an expired EPC?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes. The service accepts a lapsed EPC with the start date of the current tenancy."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What EPC rating do I need?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Today's minimum for a let property is E. A C minimum is proposed for new tenancies from 2028 and all tenancies from 2030."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What if my property is rated F or G?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The service asks whether a registered MEES exemption applies and which type."
+   }
+  }
+ ]
+}
+</script>
+</head><body><main>
+<p class="mut"><a href="../index.html">rentready</a> / <a href="index.html">Landlord database guides</a></p>
+<h1>EPC ratings and the landlord database</h1>
+<p><strong>When you register a property, you upload its latest energy performance certificate (EPC).</strong> If the EPC has lapsed, you also give the start date of the current tenancy. If the rating is below the minimum, you say whether a registered MEES exemption applies. Upload within 28 days of making the entry <span class="mut">(in the draft regulations, <a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6">regulation 6(2)</a>, and reported by the NRLA; not yet in official guidance)</span>. Today's minimum rating for a let property is E.</p>
+<h2>What the service asks for</h2>
+<p>The <a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">official guidance</a> lists:</p>
+<ul>
+<li>whether a valid EPC was required for the current tenant;</li>
+<li>a copy of the most recent EPC, if one exists;</li>
+<li>the tenancy start date, if the EPC is no longer valid;</li>
+<li>if the rating is below the minimum, whether a registered MEES exemption applies, and its type.</li>
+</ul>
+<h2>How long an EPC lasts</h2>
+<p>An EPC runs for ten years. In rentready's example, an EPC issued on 1 May 2017 is valid to 1 May 2027. For a West Midlands property with a 14 March 2027 deadline, it is still in date when you register.</p>
+<h2>A lapsed EPC</h2>
+<p>A lapsed EPC does not stop you registering. The service accepts it together with the start date of the current tenancy. rentready's registration pack asks for that date in a <code>tenancy_start</code> column and marks the EPC ready once it has it.</p>
+<h2>What your rating means</h2>
+<p>MEES are the minimum energy efficiency standards. rentready compares each rating with today's E minimum, and with the proposed C minimum for new tenancies from 2028 and all tenancies from 2030.</p>
+<table><tr><th>Rating</th><th>Today's E minimum</th><th>Proposed C minimum</th></tr>
+<tr><td>A, B or C</td><td>Met</td><td>Met</td></tr>
+<tr><td>D or E</td><td>Met</td><td>Would not be met</td></tr>
+<tr><td>F or G</td><td>Below the minimum</td><td>Would not be met</td></tr></table>
+<p>For an F or G rating, the service asks about a MEES exemption, and rentready adds that question and a file to your pack. A rating of D or E meets today's minimum, so there is nothing extra to upload now. The C minimum is a proposal, so check gov.uk for its current status before planning work around it.</p>
+<h2>Scanning and naming</h2>
+<p>Scan the EPC as a PDF before you start. rentready names it for you, for example <code>12-example-st_epc_2017-05-01.pdf</code>. If you have a MEES exemption, scan that too.</p>
+<h2>Check every property</h2>
+<p>Add each property's EPC date and rating to rentready, or paste a CSV with <code>epc</code> and <code>epc_rating</code> columns. You see which EPCs lapse before each deadline, which ratings sit below E, and which would fall short of the proposed C minimum.</p>
+<p><a class="btn" href="../index.html">Check your properties free</a> <span class="mut">Runs in your browser. Only the postcode leaves it, to find the region.</span></p>
+<h2>Questions</h2>
+<h3>Do I upload my EPC to the landlord database?</h3>
+<p>Yes. You upload the most recent EPC, if one exists, within 28 days of making the entry under the draft regulations (not yet in official guidance).</p>
+<h3>Can I register with an expired EPC?</h3>
+<p>Yes. The service accepts a lapsed EPC with the start date of the current tenancy.</p>
+<h3>What EPC rating do I need?</h3>
+<p>Today&#x27;s minimum for a let property is E. A C minimum is proposed for new tenancies from 2028 and all tenancies from 2030.</p>
+<h3>What if my property is rated F or G?</h3>
+<p>The service asks whether a registered MEES exemption applies and which type.</p>
+<h2>Related guides</h2>
+<ul><li><a href="what-you-need-to-register.html">What you need to register</a></li><li><a href="gas-safety-certificate-landlord-database.html">Gas safety certificates</a></li><li><a href="eicr-landlord-database.html">EICR</a></li><li><a href="renters-rights-act-landlord-checklist.html">Renters' Rights Act checklist</a></li></ul>
+<h2>Sources</h2>
+<ul class="mut"><li><a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">Get ready to register: Register your rental property (official guidance, housinghub.campaign.gov.uk)</a></li><li><a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861">Draft Private Rented Sector Database Regulations 2026 (legislation.gov.uk; not yet made)</a></li><li><a href="https://www.nrla.org.uk/resources/renters-rights/landlord-database-register-your-rental-property-service">NRLA: Register your rental property service (summary of the draft regulations)</a></li><li><a href="https://www.hcrlaw.com/news-and-insights/renters-rights-act-2025-private-rented-sector-database-to-go-live-from-15-december-2026/">HCR Law: private rented sector database to go live from 15 December 2026</a></li></ul>
+<p class="mut">Not legal advice. Check gov.uk before relying on this. Last checked 28 Oct 2026.</p>
+</main></body></html>
