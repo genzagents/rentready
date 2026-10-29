@@ -7,6 +7,7 @@ tests/test_guides.py fails if the committed pages are stale. Run: python3 tools/
 """
 from __future__ import annotations
 
+import csv
 import html
 import json
 import re
@@ -22,7 +23,7 @@ import schema  # noqa: E402  (tools/schema.py, same folder)
 BASE = "https://genzagents.github.io/rentready/"
 REGS = "https://www.legislation.gov.uk/ukdsi/2026/9780348286861"
 WP = "https://api.parliament.uk/procedure-browser/work-packages/mNlSJVmc"
-UPDATED = "2026-10-28"  # bump when the wording or the data changes
+UPDATED = "2026-10-29"  # bump when the wording or the data changes
 FIRST = "2026-12-15"  # the service opens to every landlord in England
 
 PLACES = {
@@ -158,6 +159,48 @@ def councils_section(region: str) -> tuple:
     return "".join(out), faq, (len(cs), len(sel), len(add))
 
 
+EPC_STORY = "epc-expiry-by-region.html"
+EPC_REGIONS = {r["region"]: r for r in csv.DictReader((ROOT / "docs" / "data" / "epc-rental-expiry-by-region.csv").open(encoding="utf-8"))}
+EPC_COUNCILS = list(csv.DictReader((ROOT / "docs" / "data" / "epc-rental-expiry-by-council.csv").open(encoding="utf-8")))
+TOP = 10
+
+
+def n(x) -> str:
+    return f"{int(x):,}"
+
+
+def epc_section(region: str) -> tuple:
+    """How many rental EPCs in the region reach ten years before its deadline, overall and for its busiest councils,
+    from the data story's committed CSVs (tools/gen_epc_story.py), so the guide and the story always agree."""
+    r = EPC_REGIONS[region]
+    dl = long(r["registration_deadline"])
+    before, inside, later = (r["rental_epcs_reaching_10_years_1_nov_2026_to_deadline"], r["of_which_inside_the_region_window"],
+                             r["rental_epcs_reaching_10_years_2028_to_2030"])
+    cs = sorted((c for c in EPC_COUNCILS if c["region"] == region),
+                key=lambda c: -int(c["rental_epcs_reaching_10_years_1_nov_2026_to_deadline"]))
+    rows = "".join(
+        f"<tr><td>{esc(council_name(c['council']))}{' *' if c['includes_an_unusual_quarter'] else ''}</td>"
+        f"<td>{n(c['rental_epcs_reaching_10_years_1_nov_2026_to_deadline'])}</td><td>{n(c['rental_epcs_reaching_10_years_2028_to_2030'])}</td></tr>\n"
+        for c in cs[:TOP])
+    odd = [c for c in cs[:TOP] if c["includes_an_unusual_quarter"]]
+    note = (f"<p class=\"mut\">* {esc(names([c['council'] for c in odd]))}: most of the figure is one bulk lodgement of certificates in "
+            f"2017, so treat it with care (<a href=\"{EPC_STORY}#method\">method</a>).</p>\n") if odd else ""
+    top = cs[0]
+    out = (f"<h2>EPCs that run out before {dl}</h2>\n"
+           f"<p>An EPC lasts ten years, and the service asks for a valid one. By our count of the government's EPC register "
+           f"(<a href=\"{EPC_STORY}\">full data story</a>), about <strong>{n(before)}</strong> rental EPCs in {esc(the(region))} reach ten years "
+           f"between 1 November 2026 and {dl}, {n(inside)} of them inside the region's own registration window. Far more follow: "
+           f"{n(later)} reach ten years in 2028 to 2030. These are certificates, not homes, and include social lets.</p>\n"
+           f"<p>Councils with the most, of {len(cs)} in {esc(the(region))}:</p>\n"
+           f'<div class="wrap"><table><thead><tr><th>Council</th><th>Before {esc(dl)}</th><th>2028 to 2030</th></tr></thead><tbody>\n{rows}</tbody></table></div>\n'
+           + note +
+           f"<p>Every council's figure, searchable, is in the <a href=\"{EPC_STORY}#council\">council table</a> (CSV download there).</p>\n")
+    faq = [(f"How many rental EPCs in {the(region)} expire before the landlord database deadline?",
+            f"About {n(before)} reach ten years between 1 November 2026 and {dl}, most in {council_name(top['council'])} "
+            f"({n(top['rental_epcs_reaching_10_years_1_nov_2026_to_deadline'])}), by our count of the government's EPC register.")]
+    return out, faq
+
+
 RELATED = [("landlord-database-deadline-by-region.html", "Other regions"), ("what-you-need-to-register.html", "What you need"),
            ("gas-safety-certificate-landlord-database.html", "Gas"), ("eicr-landlord-database.html", "EICR"), ("epc-rating-landlord-database.html", "EPC")]
 
@@ -168,18 +211,19 @@ def region_page(region: str, w: dict) -> tuple:
     name = f"{slug(region)}.html"
     h1 = f"Landlord database registration in {the(region)}: deadline {dl}"
     title = f"{TITLE_NAME.get(region, region)} landlord database deadline: {dl}"
-    councils_html, council_faq, (n, n_sel, n_add) = councils_section(region)
-    desc = (f"Landlords in {the(region)} must register on England's landlord database (PRS Database) by {dl}. "
-            f"Its {n} councils and their licensing schemes.")
+    councils_html, council_faq, (n_c, n_sel, n_add) = councils_section(region)
+    epc_html, epc_faq = epc_section(region)
+    desc = (f"Landlords in {the(region)} must join England's landlord database by {dl}. "
+            f"Its {n_c} councils, licensing schemes and the EPCs that lapse first.")
     faq = [(f"When do landlords in {the(region)} have to register?",
-            f"The requirement starts on {o} and the deadline is {dl}. The service opens to every landlord in England on {long(FIRST)}, so you can register earlier.")] + council_faq
+            f"The requirement starts on {o} and the deadline is {dl}. The service opens to every landlord in England on {long(FIRST)}, so you can register earlier.")] + council_faq + epc_faq
     ld = [{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
               {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}]
     body = (f"<p><strong>If your rental is in {esc(the(region))}, you must register it on the government's "
             f"<em>Register your rental property</em> service (the landlord database, or PRS Database) by {dl}.</strong> The requirement for {esc(the(region))} starts on {o}; "
             f"the service opens to every landlord in England on {long(FIRST)}, so you can register earlier. "
             f"The region goes by the property's address, not yours. {esc(The(region))} covers {esc(PLACES[region])}.</p>\n"
-            + councils_html
+            + councils_html + epc_html
             + f"<h2>Before {dl}</h2>\n"
             f"<p>£{fee} a property a year (<a href=\"landlord-database-fee.html\">fee</a>). Upload the gas safety record, EICR and EPC "
             f"(<a href=\"what-you-need-to-register.html\">full list</a>) within 28 days or the entry becomes inactive "
@@ -234,7 +278,8 @@ def merged_section(region: str) -> str:
     body = body.replace("<h3>", "<h4>").replace("</h3>", "</h4>").replace("<h2>", "<h3>").replace("</h2>", "</h3>")
     return (f'<h2 id="{slug(region)}">{esc(NAMED.get(region, region))}: register by {long(w["deadline"])}</h2>\n'
             f"<p>The requirement for {esc(the(region))} starts on {long(w['opens'])} and the deadline is {long(w['deadline'])}. "
-            f"{esc(The(region))} covers {esc(PLACES[region])}.</p>\n" + body)
+            f"{esc(The(region))} covers {esc(PLACES[region])}.</p>\n" + body
+            + epc_section(region)[0].replace("<h2>", "<h3>").replace("</h2>", "</h3>"))
 
 
 def deadline_page(existing: str) -> str:
