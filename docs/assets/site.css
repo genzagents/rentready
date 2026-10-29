@@ -122,6 +122,15 @@ button:hover{border-color:var(--muted)}
 .stat{flex:1;min-width:110px;background:var(--surface-2);border-radius:var(--radius-sm);padding:12px 14px}
 .stat b{display:block;font-size:1.6rem;line-height:1.1;letter-spacing:-.02em}
 .stat span{font-size:13px;color:var(--muted)}
+.summary.wide .stat{min-width:180px}
+.ybars{display:grid;gap:6px;margin:8px 0 1.6em;font-size:14px}
+.ybars>div{display:grid;grid-template-columns:3.2em minmax(0,1fr) 3.4em;gap:10px;align-items:center}
+.ybars .track{height:18px;background:var(--surface-2);border-radius:4px;overflow:hidden}
+.ybars .fill{display:block;height:100%;background:color-mix(in srgb,var(--brand) 45%,var(--surface-2));border-radius:4px}
+.ybars .hi .fill{background:var(--brand)}
+.ybars .hi .y,.ybars .hi .v{font-weight:700;color:var(--ink)}
+.ybars .y,.ybars .v{color:var(--ink-2);font-variant-numeric:tabular-nums}
+.ybars .v{text-align:right}
 .prop{border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 16px;margin:0 0 10px;background:var(--surface)}
 .prop-top{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 .prop-top strong{font-size:1.05rem}

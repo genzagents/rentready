@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parent.parent
 BASE = "https://genzagents.github.io/rentready/"
 LOGO = BASE + "assets/logo-512.png"
 PUBLISHED = "2026-10-28"  # first publication of the guides; add an entry to PUBLISHED_AT for later pages
-PUBLISHED_AT: dict = {}
+PUBLISHED_AT: dict = {"docs/guides/epc-expiry-by-region.html": "2026-10-29"}
 MARK = '<script type="application/ld+json" id="ld-site">'
 BLOCK = re.compile(re.escape(MARK) + r".*?</script>\n", re.S)
 

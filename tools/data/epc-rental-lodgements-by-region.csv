@@ -1,0 +1,496 @@
+region,quarter,rental_epcs_lodged
+East of England,2012/4,10567
+East of England,2013/1,16348
+East of England,2013/2,19359
+East of England,2013/3,10350
+East of England,2013/4,9340
+East of England,2014/1,9282
+East of England,2014/2,8131
+East of England,2014/3,8304
+East of England,2014/4,7640
+East of England,2015/1,7932
+East of England,2015/2,7320
+East of England,2015/3,7777
+East of England,2015/4,8218
+East of England,2016/1,7337
+East of England,2016/2,7386
+East of England,2016/3,6666
+East of England,2016/4,7187
+East of England,2017/1,7115
+East of England,2017/2,6670
+East of England,2017/3,6588
+East of England,2017/4,6542
+East of England,2018/1,9212
+East of England,2018/2,10400
+East of England,2018/3,12105
+East of England,2018/4,14162
+East of England,2019/1,16151
+East of England,2019/2,15544
+East of England,2019/3,16314
+East of England,2019/4,15024
+East of England,2020/1,18086
+East of England,2020/2,8831
+East of England,2020/3,15653
+East of England,2020/4,13543
+East of England,2021/1,14830
+East of England,2021/2,15745
+East of England,2021/3,17345
+East of England,2021/4,15333
+East of England,2022/1,14434
+East of England,2022/2,14106
+East of England,2022/3,16565
+East of England,2022/4,14535
+East of England,2023/1,14208
+East of England,2023/2,19831
+East of England,2023/3,14101
+East of England,2023/4,11424
+East of England,2024/1,12519
+East of England,2024/2,12039
+East of England,2024/3,13550
+East of England,2024/4,18800
+East of England,2025/1,15802
+East of England,2025/2,12753
+East of England,2025/3,10442
+East of England,2025/4,11938
+East of England,2026/1,13844
+East of England,2026/2,13073
+East Midlands,2012/4,8174
+East Midlands,2013/1,7793
+East Midlands,2013/2,11257
+East Midlands,2013/3,7554
+East Midlands,2013/4,9971
+East Midlands,2014/1,9898
+East Midlands,2014/2,6179
+East Midlands,2014/3,5896
+East Midlands,2014/4,6216
+East Midlands,2015/1,7088
+East Midlands,2015/2,4639
+East Midlands,2015/3,5066
+East Midlands,2015/4,5903
+East Midlands,2016/1,7091
+East Midlands,2016/2,6938
+East Midlands,2016/3,6912
+East Midlands,2016/4,5543
+East Midlands,2017/1,5694
+East Midlands,2017/2,5958
+East Midlands,2017/3,5318
+East Midlands,2017/4,6111
+East Midlands,2018/1,7662
+East Midlands,2018/2,10556
+East Midlands,2018/3,13040
+East Midlands,2018/4,13938
+East Midlands,2019/1,14362
+East Midlands,2019/2,12085
+East Midlands,2019/3,12015
+East Midlands,2019/4,12349
+East Midlands,2020/1,15571
+East Midlands,2020/2,8704
+East Midlands,2020/3,11256
+East Midlands,2020/4,11023
+East Midlands,2021/1,11393
+East Midlands,2021/2,12238
+East Midlands,2021/3,13935
+East Midlands,2021/4,12059
+East Midlands,2022/1,11885
+East Midlands,2022/2,11621
+East Midlands,2022/3,12646
+East Midlands,2022/4,12335
+East Midlands,2023/1,14391
+East Midlands,2023/2,11665
+East Midlands,2023/3,9664
+East Midlands,2023/4,8291
+East Midlands,2024/1,9625
+East Midlands,2024/2,10118
+East Midlands,2024/3,11059
+East Midlands,2024/4,11207
+East Midlands,2025/1,11239
+East Midlands,2025/2,27560
+East Midlands,2025/3,8040
+East Midlands,2025/4,9140
+East Midlands,2026/1,11219
+East Midlands,2026/2,9692
+London,2012/4,21866
+London,2013/1,21924
+London,2013/2,24592
+London,2013/3,36024
+London,2013/4,21567
+London,2014/1,20897
+London,2014/2,18258
+London,2014/3,19739
+London,2014/4,17815
+London,2015/1,21488
+London,2015/2,22652
+London,2015/3,16569
+London,2015/4,19869
+London,2016/1,18965
+London,2016/2,18766
+London,2016/3,16711
+London,2016/4,15871
+London,2017/1,21712
+London,2017/2,16882
+London,2017/3,20183
+London,2017/4,15689
+London,2018/1,19623
+London,2018/2,22275
+London,2018/3,24188
+London,2018/4,29499
+London,2019/1,35130
+London,2019/2,34473
+London,2019/3,37291
+London,2019/4,33091
+London,2020/1,34251
+London,2020/2,23472
+London,2020/3,36959
+London,2020/4,30155
+London,2021/1,31526
+London,2021/2,32860
+London,2021/3,32318
+London,2021/4,29149
+London,2022/1,32268
+London,2022/2,30045
+London,2022/3,35769
+London,2022/4,29819
+London,2023/1,36039
+London,2023/2,48425
+London,2023/3,32272
+London,2023/4,27445
+London,2024/1,30671
+London,2024/2,30551
+London,2024/3,27246
+London,2024/4,22231
+London,2025/1,26596
+London,2025/2,35405
+London,2025/3,22739
+London,2025/4,28621
+London,2026/1,31274
+London,2026/2,31723
+North East,2012/4,4449
+North East,2013/1,5657
+North East,2013/2,6646
+North East,2013/3,6354
+North East,2013/4,7834
+North East,2014/1,5964
+North East,2014/2,5064
+North East,2014/3,4569
+North East,2014/4,24601
+North East,2015/1,4089
+North East,2015/2,3968
+North East,2015/3,4187
+North East,2015/4,4269
+North East,2016/1,4150
+North East,2016/2,4295
+North East,2016/3,6241
+North East,2016/4,8394
+North East,2017/1,4046
+North East,2017/2,27114
+North East,2017/3,3608
+North East,2017/4,8075
+North East,2018/1,5606
+North East,2018/2,4762
+North East,2018/3,5478
+North East,2018/4,5943
+North East,2019/1,5460
+North East,2019/2,5311
+North East,2019/3,6212
+North East,2019/4,4927
+North East,2020/1,5712
+North East,2020/2,3211
+North East,2020/3,5905
+North East,2020/4,9069
+North East,2021/1,6373
+North East,2021/2,7313
+North East,2021/3,6587
+North East,2021/4,5577
+North East,2022/1,7131
+North East,2022/2,6251
+North East,2022/3,8299
+North East,2022/4,14275
+North East,2023/1,7081
+North East,2023/2,6374
+North East,2023/3,8575
+North East,2023/4,6327
+North East,2024/1,6243
+North East,2024/2,6418
+North East,2024/3,5528
+North East,2024/4,5457
+North East,2025/1,6567
+North East,2025/2,6411
+North East,2025/3,5740
+North East,2025/4,6635
+North East,2026/1,7575
+North East,2026/2,8703
+North West,2012/4,12307
+North West,2013/1,13962
+North West,2013/2,18134
+North West,2013/3,19127
+North West,2013/4,16015
+North West,2014/1,13724
+North West,2014/2,11227
+North West,2014/3,11379
+North West,2014/4,8910
+North West,2015/1,11728
+North West,2015/2,9591
+North West,2015/3,20884
+North West,2015/4,9724
+North West,2016/1,12262
+North West,2016/2,8852
+North West,2016/3,7949
+North West,2016/4,11947
+North West,2017/1,10917
+North West,2017/2,7851
+North West,2017/3,8597
+North West,2017/4,9769
+North West,2018/1,10737
+North West,2018/2,11886
+North West,2018/3,17582
+North West,2018/4,15114
+North West,2019/1,16615
+North West,2019/2,16234
+North West,2019/3,19638
+North West,2019/4,15013
+North West,2020/1,18138
+North West,2020/2,9052
+North West,2020/3,15573
+North West,2020/4,15395
+North West,2021/1,17918
+North West,2021/2,22270
+North West,2021/3,19369
+North West,2021/4,22894
+North West,2022/1,24568
+North West,2022/2,18010
+North West,2022/3,18774
+North West,2022/4,16968
+North West,2023/1,24588
+North West,2023/2,17557
+North West,2023/3,17005
+North West,2023/4,14941
+North West,2024/1,26635
+North West,2024/2,30809
+North West,2024/3,14610
+North West,2024/4,13245
+North West,2025/1,21004
+North West,2025/2,17842
+North West,2025/3,14413
+North West,2025/4,15188
+North West,2026/1,16858
+North West,2026/2,17331
+South East,2012/4,13128
+South East,2013/1,14576
+South East,2013/2,16002
+South East,2013/3,16175
+South East,2013/4,12493
+South East,2014/1,18297
+South East,2014/2,11362
+South East,2014/3,11613
+South East,2014/4,10316
+South East,2015/1,13828
+South East,2015/2,15485
+South East,2015/3,9983
+South East,2015/4,10166
+South East,2016/1,9764
+South East,2016/2,9756
+South East,2016/3,8905
+South East,2016/4,8279
+South East,2017/1,10110
+South East,2017/2,10458
+South East,2017/3,13020
+South East,2017/4,10315
+South East,2018/1,14501
+South East,2018/2,16063
+South East,2018/3,18122
+South East,2018/4,24478
+South East,2019/1,26532
+South East,2019/2,25579
+South East,2019/3,24668
+South East,2019/4,22132
+South East,2020/1,26679
+South East,2020/2,13729
+South East,2020/3,21860
+South East,2020/4,18807
+South East,2021/1,20608
+South East,2021/2,21622
+South East,2021/3,21310
+South East,2021/4,21441
+South East,2022/1,23645
+South East,2022/2,21626
+South East,2022/3,25370
+South East,2022/4,24005
+South East,2023/1,25015
+South East,2023/2,19755
+South East,2023/3,18466
+South East,2023/4,16803
+South East,2024/1,21336
+South East,2024/2,18211
+South East,2024/3,16852
+South East,2024/4,14121
+South East,2025/1,17012
+South East,2025/2,16235
+South East,2025/3,13898
+South East,2025/4,14992
+South East,2026/1,17458
+South East,2026/2,17344
+South West,2012/4,8650
+South West,2013/1,11893
+South West,2013/2,9177
+South West,2013/3,8758
+South West,2013/4,7665
+South West,2014/1,10280
+South West,2014/2,6931
+South West,2014/3,6549
+South West,2014/4,5721
+South West,2015/1,10323
+South West,2015/2,6306
+South West,2015/3,6204
+South West,2015/4,6474
+South West,2016/1,6498
+South West,2016/2,6493
+South West,2016/3,6158
+South West,2016/4,6083
+South West,2017/1,6340
+South West,2017/2,5821
+South West,2017/3,6329
+South West,2017/4,5982
+South West,2018/1,8551
+South West,2018/2,10202
+South West,2018/3,10607
+South West,2018/4,12910
+South West,2019/1,14288
+South West,2019/2,14506
+South West,2019/3,14843
+South West,2019/4,14124
+South West,2020/1,17345
+South West,2020/2,7963
+South West,2020/3,13930
+South West,2020/4,12313
+South West,2021/1,14010
+South West,2021/2,13239
+South West,2021/3,14112
+South West,2021/4,15742
+South West,2022/1,15256
+South West,2022/2,13986
+South West,2022/3,14354
+South West,2022/4,11689
+South West,2023/1,14934
+South West,2023/2,11479
+South West,2023/3,11789
+South West,2023/4,11689
+South West,2024/1,12564
+South West,2024/2,10770
+South West,2024/3,11677
+South West,2024/4,10344
+South West,2025/1,11534
+South West,2025/2,9760
+South West,2025/3,9681
+South West,2025/4,9576
+South West,2026/1,11486
+South West,2026/2,10829
+West Midlands,2012/4,10211
+West Midlands,2013/1,11422
+West Midlands,2013/2,11192
+West Midlands,2013/3,11599
+West Midlands,2013/4,9845
+West Midlands,2014/1,11287
+West Midlands,2014/2,8264
+West Midlands,2014/3,8631
+West Midlands,2014/4,7904
+West Midlands,2015/1,8482
+West Midlands,2015/2,7902
+West Midlands,2015/3,9691
+West Midlands,2015/4,7012
+West Midlands,2016/1,7174
+West Midlands,2016/2,6340
+West Midlands,2016/3,6438
+West Midlands,2016/4,6137
+West Midlands,2017/1,6283
+West Midlands,2017/2,6519
+West Midlands,2017/3,7338
+West Midlands,2017/4,5920
+West Midlands,2018/1,9341
+West Midlands,2018/2,10488
+West Midlands,2018/3,13956
+West Midlands,2018/4,13683
+West Midlands,2019/1,15291
+West Midlands,2019/2,12237
+West Midlands,2019/3,13804
+West Midlands,2019/4,12333
+West Midlands,2020/1,14755
+West Midlands,2020/2,8042
+West Midlands,2020/3,13171
+West Midlands,2020/4,11598
+West Midlands,2021/1,12205
+West Midlands,2021/2,12577
+West Midlands,2021/3,12772
+West Midlands,2021/4,13318
+West Midlands,2022/1,15498
+West Midlands,2022/2,12757
+West Midlands,2022/3,12777
+West Midlands,2022/4,19195
+West Midlands,2023/1,15335
+West Midlands,2023/2,13583
+West Midlands,2023/3,13006
+West Midlands,2023/4,17432
+West Midlands,2024/1,16916
+West Midlands,2024/2,12232
+West Midlands,2024/3,22453
+West Midlands,2024/4,13433
+West Midlands,2025/1,13930
+West Midlands,2025/2,41033
+West Midlands,2025/3,11204
+West Midlands,2025/4,12130
+West Midlands,2026/1,13373
+West Midlands,2026/2,13899
+Yorkshire and The Humber,2012/4,9328
+Yorkshire and The Humber,2013/1,10156
+Yorkshire and The Humber,2013/2,10734
+Yorkshire and The Humber,2013/3,9819
+Yorkshire and The Humber,2013/4,9664
+Yorkshire and The Humber,2014/1,9887
+Yorkshire and The Humber,2014/2,8664
+Yorkshire and The Humber,2014/3,8144
+Yorkshire and The Humber,2014/4,7053
+Yorkshire and The Humber,2015/1,7579
+Yorkshire and The Humber,2015/2,6724
+Yorkshire and The Humber,2015/3,7578
+Yorkshire and The Humber,2015/4,7435
+Yorkshire and The Humber,2016/1,7631
+Yorkshire and The Humber,2016/2,7128
+Yorkshire and The Humber,2016/3,6900
+Yorkshire and The Humber,2016/4,6105
+Yorkshire and The Humber,2017/1,6165
+Yorkshire and The Humber,2017/2,5966
+Yorkshire and The Humber,2017/3,5916
+Yorkshire and The Humber,2017/4,5826
+Yorkshire and The Humber,2018/1,7990
+Yorkshire and The Humber,2018/2,9610
+Yorkshire and The Humber,2018/3,10473
+Yorkshire and The Humber,2018/4,12323
+Yorkshire and The Humber,2019/1,13859
+Yorkshire and The Humber,2019/2,13814
+Yorkshire and The Humber,2019/3,13863
+Yorkshire and The Humber,2019/4,29732
+Yorkshire and The Humber,2020/1,22815
+Yorkshire and The Humber,2020/2,7575
+Yorkshire and The Humber,2020/3,12106
+Yorkshire and The Humber,2020/4,15709
+Yorkshire and The Humber,2021/1,15293
+Yorkshire and The Humber,2021/2,13276
+Yorkshire and The Humber,2021/3,13154
+Yorkshire and The Humber,2021/4,12572
+Yorkshire and The Humber,2022/1,29698
+Yorkshire and The Humber,2022/2,15652
+Yorkshire and The Humber,2022/3,12845
+Yorkshire and The Humber,2022/4,13600
+Yorkshire and The Humber,2023/1,14095
+Yorkshire and The Humber,2023/2,17030
+Yorkshire and The Humber,2023/3,13153
+Yorkshire and The Humber,2023/4,13005
+Yorkshire and The Humber,2024/1,13165
+Yorkshire and The Humber,2024/2,10665
+Yorkshire and The Humber,2024/3,10587
+Yorkshire and The Humber,2024/4,9950
+Yorkshire and The Humber,2025/1,16124
+Yorkshire and The Humber,2025/2,18105
+Yorkshire and The Humber,2025/3,11051
+Yorkshire and The Humber,2025/4,10647
+Yorkshire and The Humber,2026/1,13644
+Yorkshire and The Humber,2026/2,14471
