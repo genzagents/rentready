@@ -42,18 +42,19 @@ East of England,2022/3,16565
 East of England,2022/4,14535
 East of England,2023/1,14208
 East of England,2023/2,19831
-East of England,2023/3,14101
+East of England,2023/3,14100
 East of England,2023/4,11424
-East of England,2024/1,12519
+East of England,2024/1,12512
 East of England,2024/2,12039
 East of England,2024/3,13550
 East of England,2024/4,18800
 East of England,2025/1,15802
 East of England,2025/2,12753
 East of England,2025/3,10442
-East of England,2025/4,11938
-East of England,2026/1,13844
-East of England,2026/2,13073
+East of England,2025/4,11935
+East of England,2026/1,13833
+East of England,2026/2,13011
+East of England,2026/3,14103
 East Midlands,2012/4,8174
 East Midlands,2013/1,7793
 East Midlands,2013/2,11257
@@ -103,12 +104,13 @@ East Midlands,2024/1,9625
 East Midlands,2024/2,10118
 East Midlands,2024/3,11059
 East Midlands,2024/4,11207
-East Midlands,2025/1,11239
-East Midlands,2025/2,27560
-East Midlands,2025/3,8040
-East Midlands,2025/4,9140
-East Midlands,2026/1,11219
-East Midlands,2026/2,9692
+East Midlands,2025/1,11238
+East Midlands,2025/2,27559
+East Midlands,2025/3,8039
+East Midlands,2025/4,9138
+East Midlands,2026/1,11208
+East Midlands,2026/2,9627
+East Midlands,2026/3,9663
 London,2012/4,21866
 London,2013/1,21924
 London,2013/2,24592
@@ -140,7 +142,7 @@ London,2019/3,37291
 London,2019/4,33091
 London,2020/1,34251
 London,2020/2,23472
-London,2020/3,36959
+London,2020/3,36957
 London,2020/4,30155
 London,2021/1,31526
 London,2021/2,32860
@@ -157,13 +159,14 @@ London,2023/4,27445
 London,2024/1,30671
 London,2024/2,30551
 London,2024/3,27246
-London,2024/4,22231
+London,2024/4,22230
 London,2025/1,26596
 London,2025/2,35405
-London,2025/3,22739
-London,2025/4,28621
-London,2026/1,31274
-London,2026/2,31723
+London,2025/3,22728
+London,2025/4,28615
+London,2026/1,31127
+London,2026/2,31524
+London,2026/3,28787
 North East,2012/4,4449
 North East,2013/1,5657
 North East,2013/2,6646
@@ -207,7 +210,7 @@ North East,2022/3,8299
 North East,2022/4,14275
 North East,2023/1,7081
 North East,2023/2,6374
-North East,2023/3,8575
+North East,2023/3,8574
 North East,2023/4,6327
 North East,2024/1,6243
 North East,2024/2,6418
@@ -216,9 +219,10 @@ North East,2024/4,5457
 North East,2025/1,6567
 North East,2025/2,6411
 North East,2025/3,5740
-North East,2025/4,6635
-North East,2026/1,7575
-North East,2026/2,8703
+North East,2025/4,6633
+North East,2026/1,7570
+North East,2026/2,8657
+North East,2026/3,7886
 North West,2012/4,12307
 North West,2013/1,13962
 North West,2013/2,18134
@@ -272,8 +276,9 @@ North West,2025/1,21004
 North West,2025/2,17842
 North West,2025/3,14413
 North West,2025/4,15188
-North West,2026/1,16858
-North West,2026/2,17331
+North West,2026/1,16847
+North West,2026/2,17247
+North West,2026/3,15338
 South East,2012/4,13128
 South East,2013/1,14576
 South East,2013/2,16002
@@ -312,23 +317,24 @@ South East,2021/2,21622
 South East,2021/3,21310
 South East,2021/4,21441
 South East,2022/1,23645
-South East,2022/2,21626
+South East,2022/2,21625
 South East,2022/3,25370
 South East,2022/4,24005
 South East,2023/1,25015
 South East,2023/2,19755
 South East,2023/3,18466
-South East,2023/4,16803
+South East,2023/4,16802
 South East,2024/1,21336
-South East,2024/2,18211
+South East,2024/2,18210
 South East,2024/3,16852
 South East,2024/4,14121
-South East,2025/1,17012
+South East,2025/1,17009
 South East,2025/2,16235
-South East,2025/3,13898
-South East,2025/4,14992
-South East,2026/1,17458
-South East,2026/2,17344
+South East,2025/3,13891
+South East,2025/4,14985
+South East,2026/1,17441
+South East,2026/2,17209
+South East,2026/3,15519
 South West,2012/4,8650
 South West,2013/1,11893
 South West,2013/2,9177
@@ -375,15 +381,16 @@ South West,2023/2,11479
 South West,2023/3,11789
 South West,2023/4,11689
 South West,2024/1,12564
-South West,2024/2,10770
+South West,2024/2,10769
 South West,2024/3,11677
 South West,2024/4,10344
 South West,2025/1,11534
 South West,2025/2,9760
 South West,2025/3,9681
-South West,2025/4,9576
-South West,2026/1,11486
-South West,2026/2,10829
+South West,2025/4,9569
+South West,2026/1,11475
+South West,2026/2,10778
+South West,2026/3,10245
 West Midlands,2012/4,10211
 West Midlands,2013/1,11422
 West Midlands,2013/2,11192
@@ -432,13 +439,14 @@ West Midlands,2023/4,17432
 West Midlands,2024/1,16916
 West Midlands,2024/2,12232
 West Midlands,2024/3,22453
-West Midlands,2024/4,13433
+West Midlands,2024/4,13432
 West Midlands,2025/1,13930
 West Midlands,2025/2,41033
-West Midlands,2025/3,11204
-West Midlands,2025/4,12130
-West Midlands,2026/1,13373
-West Midlands,2026/2,13899
+West Midlands,2025/3,11201
+West Midlands,2025/4,12129
+West Midlands,2026/1,13355
+West Midlands,2026/2,13826
+West Midlands,2026/3,12120
 Yorkshire and The Humber,2012/4,9328
 Yorkshire and The Humber,2013/1,10156
 Yorkshire and The Humber,2013/2,10734
@@ -490,7 +498,8 @@ Yorkshire and The Humber,2024/3,10587
 Yorkshire and The Humber,2024/4,9950
 Yorkshire and The Humber,2025/1,16124
 Yorkshire and The Humber,2025/2,18105
-Yorkshire and The Humber,2025/3,11051
-Yorkshire and The Humber,2025/4,10647
-Yorkshire and The Humber,2026/1,13644
-Yorkshire and The Humber,2026/2,14471
+Yorkshire and The Humber,2025/3,11050
+Yorkshire and The Humber,2025/4,10646
+Yorkshire and The Humber,2026/1,13627
+Yorkshire and The Humber,2026/2,14407
+Yorkshire and The Humber,2026/3,13906

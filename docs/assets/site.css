@@ -174,3 +174,10 @@ a.region.first{border-color:var(--brand);background:var(--brand-soft)}
 @media (max-width:820px){.watch{grid-template-columns:1fr}}
 .price{font-size:2.2rem;font-weight:800;letter-spacing:-.03em}
 @media (max-width:520px){.countdown{flex-direction:column;align-items:flex-start;gap:6px}.countdown b{display:inline;margin-right:6px}}
+/* Data story: searchable council table */
+.tall{max-height:30rem;overflow:auto;border:1px solid var(--line);border-radius:var(--radius-sm)}
+.tall table{border:0;border-radius:0}
+.tall th{position:sticky;top:0;z-index:1}
+.tall td:nth-child(n+3),.tall th:nth-child(n+3){text-align:right;font-variant-numeric:tabular-nums}
+.find{font:16px var(--font);width:100%;max-width:420px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px;margin:0 0 10px}
+@media (max-width:520px){.tall table{font-size:14px}.tall th,.tall td{padding:8px 10px}.tall th:nth-child(2),.tall td:nth-child(2){display:none}}

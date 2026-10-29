@@ -1,7 +1,9 @@
 """Generate the EPC expiry data story: how many rental EPCs reach ten years before each region's landlord database
 deadline, and the 2028-2030 expiry wave. Input: tools/data/epc-rental-lodgements-by-region.csv, the "Rental" column of
-the government's live table D4(b) by region and quarter. Output: docs/guides/epc-expiry-by-region.html and
-docs/data/epc-rental-expiry-by-region.csv. Run `python3 tools/gen_epc_story.py`; tests/test_epc_story.py fails if the
+the government's live table D4(b) by region and quarter. The council table uses
+tools/data/epc-rental-lodgements-by-council.csv (both inputs come from tools/extract_d4b.py). Output:
+docs/guides/epc-expiry-by-region.html, docs/data/epc-rental-expiry-by-region.csv and
+docs/data/epc-rental-expiry-by-council.csv. Run `python3 tools/gen_epc_story.py`; tests/test_epc_story.py fails if the
 committed files are stale."""
 import csv
 import io
@@ -18,6 +20,8 @@ import schema  # noqa: E402  (tools/schema.py, same folder)
 SRC = ROOT / "tools/data/epc-rental-lodgements-by-region.csv"
 PAGE = ROOT / "docs/guides/epc-expiry-by-region.html"
 DATA = ROOT / "docs/data/epc-rental-expiry-by-region.csv"
+COUNCIL_SRC = ROOT / "tools/data/epc-rental-lodgements-by-council.csv"
+COUNCIL_DATA = ROOT / "docs/data/epc-rental-expiry-by-council.csv"
 BASE = "https://genzagents.github.io/rentready/"
 FROM = date(2026, 11, 1)  # count certificates reaching ten years from this date
 REVIEWED = "29 October 2026"
@@ -30,11 +34,12 @@ def slug(region):
     return REGION_PAGE.get(region, region.lower().replace(" ", "-") + ".html")
 
 
-def load():
+def load(src=SRC, key=("region",)):
     rows = {}
-    with SRC.open(encoding="utf-8") as f:
+    with src.open(encoding="utf-8") as f:
         for r in csv.DictReader(f):
-            rows.setdefault(r["region"], []).append((r["quarter"], int(r["rental_epcs_lodged"])))
+            k = r[key[0]] if len(key) == 1 else tuple(r[x] for x in key)
+            rows.setdefault(k, []).append((r["quarter"], int(r["rental_epcs_lodged"])))
     return rows
 
 
@@ -76,6 +81,31 @@ def compute():
     return regions, years
 
 
+def unusual(rows, start, end):
+    """A quarter inside [start, end) with at least 500 certificates and over three times the council's median
+    quarter for 2013-2019 (a one-off bulk lodgement, like the North East's in 2017)."""
+    base = sorted(v for q, v in rows if 2013 <= int(q[:4]) <= 2019)
+    med = base[len(base) // 2] if base else 0
+    return any(v >= 500 and v > 3 * med for q, v in rows
+               if quarter(q)[1] > start and quarter(q)[0] < end)
+
+
+def councils():
+    """Every English council: certificates reaching ten years from FROM to its region's deadline, and in 2028-2030."""
+    out = []
+    for (region, council), rows in load(COUNCIL_SRC, ("region", "council")).items():
+        deadline = date.fromisoformat(ROLLOUT[region]["deadline"])
+        out.append({"council": council, "region": region, "deadline": deadline,
+                    "before": lodged(rows, back10(FROM), back10(deadline)),
+                    "wave": lodged(rows, date(2018, 1, 1), date(2021, 1, 1)),
+                    "unusual": unusual(rows, back10(FROM), back10(deadline))})
+    return sorted(out, key=lambda c: -c["before"])
+
+
+def r10(x):
+    return int(round(x / 10.0)) * 10
+
+
 def r100(x):
     return int(round(x / 100.0)) * 100
 
@@ -103,6 +133,45 @@ def csv_text(regions):
     return out.getvalue()
 
 
+def council_csv(cs):
+    out = io.StringIO()
+    w = csv.writer(out, lineterminator="\n")
+    w.writerow(["council", "region", "registration_deadline", "rental_epcs_reaching_10_years_1_nov_2026_to_deadline",
+                "rental_epcs_reaching_10_years_2028_to_2030", "includes_an_unusual_quarter"])
+    for c in cs:
+        w.writerow([c["council"], c["region"], c["deadline"], r10(c["before"]), r10(c["wave"]),
+                    "yes" if c["unusual"] else ""])
+    return out.getvalue()
+
+
+def council_section(cs):
+    usual = [c for c in cs if not c["unusual"]]
+    top = ", ".join(f'{c["council"]} ({r10(c["before"]):,})' for c in usual[:5])
+    wm = [c for c in usual if c["region"] == "West Midlands"][:3]
+    odd = [c for c in cs if c["unusual"]][0]
+    rows = "\n".join(
+        f'<tr><td>{c["council"]}{" *" if c["unusual"] else ""}</td><td>{c["region"]}</td>'
+        f'<td>{r10(c["before"]):,}</td><td>{r10(c["wave"]):,}</td></tr>' for c in cs)
+    return f"""<h2 id="council">By council</h2>
+<p>The same count for each of England's {len(cs)} councils, placed in the region that sets its deadline. Leaving aside {odd["council"]}, where a single bulk quarter gives about {r10(odd["before"]):,}, the most are in {top}. In the West Midlands, which registers first, the most are in {", ".join(f'{c["council"]} ({r10(c["before"]):,})' for c in wm)}.</p>
+<label class="mut" for="cfind">Find your council</label>
+<input id="cfind" class="find" type="search" placeholder="Type a council or region, e.g. Leeds" autocomplete="off">
+<div class="tall"><table id="ctable">
+<thead><tr><th>Council</th><th>Region</th><th>Before deadline</th><th>2028 to 2030</th></tr></thead>
+<tbody>
+{rows}
+</tbody></table></div>
+<p class="mut">"Before deadline": rental EPCs reaching ten years between 1 November 2026 and the region's deadline. "2028 to 2030": those reaching ten years in those three years. Rounded to the nearest 10. * Includes a one-off quarter of at least 500 certificates and over three times the council's usual quarter, likely a bulk lodgement by a large landlord. Councils abolished since 2019 are counted in the council that replaced them (for example Harrogate in North Yorkshire). <a href="{BASE}data/epc-rental-expiry-by-council.csv">Download the council table (CSV)</a>.</p>
+<script>
+document.getElementById("cfind").addEventListener("input", function () {{
+  var q = this.value.trim().toLowerCase();
+  document.querySelectorAll("#ctable tbody tr").forEach(function (tr) {{
+    tr.hidden = q && tr.textContent.toLowerCase().indexOf(q) < 0;
+  }});
+}});
+</script>"""
+
+
 def chart(years):
     shown = {y: v for y, v in years.items() if 2023 <= y <= 2035}
     top = max(shown.values())
@@ -116,7 +185,7 @@ def chart(years):
     return "\n".join(out)
 
 
-def page(regions, years):
+def page(regions, years, cs):
     before = sum(r["before"] for r in regions)
     window = sum(r["window"] for r in regions)
     wave = sum(r["wave"] for r in regions)
@@ -160,6 +229,7 @@ def page(regions, years):
 {rows}
 </table></div>
 <p class="mut">Rounded to the nearest 100. * The North East figure includes a one-off quarter: 27,114 rental EPCs were lodged there from April to June 2017, about four times its usual quarter, which looks like a bulk lodgement by a large landlord. <a href="{BASE}data/epc-rental-expiry-by-region.csv">Download the table (CSV)</a>.</p>
+{council_section(cs)}
 <h2>The bigger wave: 2028 to 2030</h2>
 <p>Rental EPC lodgements rose sharply from 2018, the year the E minimum started to apply to new lettings (1 April 2018). Ten years on, those certificates come due together: about {thousands(years[2028])} in 2028, {thousands(y2029)} in 2029 and {thousands(years[2030])} in 2030, against {thousands(y2026)} in 2026. That lands just before 1 October 2030, when the government plans to require a C rating for all private tenancies. The C minimum still needs legislation and will be measured on new EPC metrics (see the <a href="epc-rating-landlord-database.html">EPC guide</a>).</p>
 <p class="mut">Rental EPCs in England reaching ten years, by year (thousands)</p>
@@ -167,7 +237,8 @@ def page(regions, years):
 <div class="cta"><p><strong>Is your EPC one of them?</strong> rentready checks each property's EPC, gas safety record and EICR against its region's deadline, free.</p><p><a class="btn" href="{BASE}#tool">Check your properties free</a> <span class="mut">Runs in your browser. Only the postcode leaves it, to find the region.</span></p></div>
 <h2 id="method">Method and limits</h2>
 <ul>
-<li><strong>Source.</strong> Table D4(b) of the government's <a href="{TABLE_URL}">live tables on Energy Performance of Buildings Certificates</a> (published 30 July 2026, data to 30 June 2026): domestic EPCs by region, quarter and type of transaction. We use the "Rental" transaction type, England's nine regions.</li>
+<li><strong>Source.</strong> Table D4(b) of the government's <a href="{TABLE_URL}">live tables on Energy Performance of Buildings Certificates</a> (published 29 October 2026, data to 30 September 2026): domestic EPCs by region and by council, quarter and type of transaction. We use the "Rental" transaction type, England's nine regions and its councils.</li>
+<li><strong>Councils.</strong> The council sheet keeps abolished districts under their old names for the quarters before each reorganisation, so we add them into today's council (Buckinghamshire, North and West Northamptonshire, Cumberland, Westmorland and Furness, North Yorkshire, Somerset). Each council's figure uses its region's deadline. The council figures add up exactly to the regions.</li>
 <li><strong>Expiry.</strong> An EPC is valid for ten years, so a certificate lodged in a quarter reaches ten years in the same quarter a decade later. Where a date range cuts a quarter, we count that quarter's certificates in proportion to its days.</li>
 <li><strong>These are certificates, not homes.</strong> A home may have had a newer EPC since, so the number of let homes with a lapsed EPC is lower. Certificates lodged for a sale and later used for a let are not counted, which pulls the other way.</li>
 <li><strong>Private and social lettings.</strong> The table does not split rental EPCs by landlord type, so housing association lettings are included.</li>
@@ -187,13 +258,15 @@ def page(regions, years):
 
 def build():
     regions, years = compute()
+    cs = councils()
     rel = PAGE.relative_to(ROOT).as_posix()
-    return schema.apply(rel, page(regions, years)), csv_text(regions)
+    return schema.apply(rel, page(regions, years, cs)), csv_text(regions), council_csv(cs)
 
 
 if __name__ == "__main__":
-    html, data = build()
+    html, data, council_data = build()
     PAGE.write_text(html, encoding="utf-8")
     DATA.parent.mkdir(exist_ok=True)
     DATA.write_text(data, encoding="utf-8")
-    print(PAGE.relative_to(ROOT), DATA.relative_to(ROOT))
+    COUNCIL_DATA.write_text(council_data, encoding="utf-8")
+    print(PAGE.relative_to(ROOT), DATA.relative_to(ROOT), COUNCIL_DATA.relative_to(ROOT))
