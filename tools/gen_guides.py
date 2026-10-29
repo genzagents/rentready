@@ -105,6 +105,9 @@ def names(cs: list) -> str:
     return cs[0] if len(cs) == 1 else ", ".join(cs[:-1]) + " and " + cs[-1]
 
 
+LABEL = {"selective": "selective licensing", "additional": "additional HMO licensing"}
+
+
 def scheme_line(kind: str, x: dict) -> str:
     label = {"selective": "Selective licensing", "additional": "Additional HMO licensing"}[kind]
     area = x.get("area", "")
@@ -144,9 +147,14 @@ def councils_section(region: str) -> tuple:
     if none_found:
         out.append(f"<p><strong>No selective or additional scheme found</strong> on the council's own website: {esc(names(none_found))}. "
                    "That is not a guarantee: a council can start a scheme at any time, so check before you let.</p>\n")
-    if unverified:
-        out.append(f"<p><strong>Not verified:</strong> we could not confirm the schemes for {esc(names(unverified))} from the council's own "
+    blank = [c for c in unverified if not live[c]]
+    if blank:
+        out.append(f"<p><strong>Not verified:</strong> we could not confirm the schemes for {esc(names(blank))} from the council's own "
                    "website, so we list nothing for them here. Check with the council.</p>\n")
+    for c in (c for c in unverified if live[c]):
+        kinds = " or ".join(LABEL[k] for k, v in cs[c].items() if v["status"] == "not verified")
+        out.append(f"<p><strong>Not verified:</strong> for {esc(council_name(c))} we list the scheme above but could not confirm from the "
+                   f"council's own website whether it also has {kinds}. Check with the council.</p>\n")
     checked = long(data["checked"])
     if sel:
         faq = [(f"Which councils in {the(region)} have selective licensing?",
