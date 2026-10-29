@@ -181,3 +181,5 @@ a.region.first{border-color:var(--brand);background:var(--brand-soft)}
 .tall td:nth-child(n+3),.tall th:nth-child(n+3){text-align:right;font-variant-numeric:tabular-nums}
 .find{font:16px var(--font);width:100%;max-width:420px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:10px;padding:10px 12px;min-height:44px;margin:0 0 10px}
 @media (max-width:520px){.tall table{font-size:14px}.tall th,.tall td{padding:8px 10px}.tall th:nth-child(2),.tall td:nth-child(2){display:none}}
+.weekly{overflow-x:auto}.weekly td:nth-child(n+2),.weekly th:nth-child(n+2){text-align:right;font-variant-numeric:tabular-nums}
+@media (max-width:520px){.weekly table{font-size:14px}.weekly th,.weekly td{padding:8px}.weekly th:nth-child(3),.weekly td:nth-child(3),.weekly th:nth-child(7),.weekly td:nth-child(7){display:none}}

@@ -1,0 +1,25 @@
+{
+  "weeks": [
+    {
+      "date": "2026-10-29",
+      "github_views_14d": 54,
+      "github_uniques_14d": 39,
+      "stars": 0,
+      "pages_in_google": 0,
+      "panel_questions": 15,
+      "panel_cited": 0,
+      "panel_ai_overviews": 15,
+      "reminder_signups": 0,
+      "paying": 0,
+      "revenue_gbp": 0,
+      "done": [
+        "The checker and registration pack run in the browser, with no sign-up.",
+        "Every region's guide gives the number of rental EPCs that run out before its deadline, from the government's own certificate tables.",
+        "An original data story: about 243,000 rental EPCs in England reach ten years before their region's deadline, with a figure for each of the 296 councils.",
+        "First AI-answer panel: Google shows an AI Overview for all 15 landlord database questions we track, and cites us in none, because no page of ours is in Google's index yet."
+      ],
+      "next": "Get the site verified with Google and Bing so the pages can be indexed, then switch on payments for the £12-a-year reminder service."
+    }
+  ],
+  "panel_top_sources": [["nrla.org.uk", 9], ["theindependentlandlord.com", 5], ["gov.uk", 5], ["housinghub.campaign.gov.uk", 5], ["osborneslaw.com", 4]]
+}
