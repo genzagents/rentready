@@ -203,3 +203,16 @@ a.region.first{border-color:var(--brand);background:var(--brand-soft)}
 @media print{.site-head,.site-foot,.foot,.noprint,.crumbs{display:none!important}.cardprint{border-style:solid;max-width:none}}
 main .card#make{padding:20px 22px;margin:22px 0}
 @media (max-width:520px){main .card#make{padding:16px}}
+
+/* Deadline reminder sign-up under the results */
+.remind{display:grid;grid-template-columns:1fr;gap:12px;margin:22px 0 4px;padding:20px 22px;background:var(--brand-soft);border:1px solid var(--line);border-left:4px solid var(--brand);border-radius:var(--radius-sm)}
+.remind h3{margin:0 0 .2em}
+.remind p{margin:0;font-size:15px}
+.remind-row{display:flex;gap:8px;max-width:520px}
+.remind-row input{flex:1;min-width:0;font:16px var(--font);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:11px 16px}
+.remind-row input:focus{outline:2px solid var(--brand);outline-offset:1px}
+.remind .remind-f{font-size:13px}
+.remind .remind-msg{font-weight:600;color:var(--brand-text)}
+.remind .remind-msg:empty{display:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:560px){.remind-row{flex-direction:column}.remind-row button{width:100%}}

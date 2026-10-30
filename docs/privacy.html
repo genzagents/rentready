@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Privacy: rentready</title>
-<meta name="description" content="What rentready does with your data: the check runs in your browser, postcodes go to postcodes.io, and GitHub Pages hosts the site. No cookies or analytics.">
+<meta name="description" content="What rentready does with your data: the check runs in your browser, postcodes go to postcodes.io, reminder emails only if you ask. No cookies or analytics.">
 <link rel="canonical" href="https://genzagents.github.io/rentready/privacy.html">
 <meta name="theme-color" content="#0e5a44">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230e5a44'/%3E%3Cpath d='M8 15.5 16 9l8 6.5V24H8z' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='m12.5 18.5 2.6 2.6 4.6-5' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
@@ -15,7 +15,7 @@
 <main>
 <p class="crumbs"><a href="https://genzagents.github.io/rentready/">rentready</a> / Privacy</p>
 <h1>Privacy</h1>
-<p>Last updated 28 October 2026. rentready is run by GenZAgents, London. Contact: <a href="https://github.com/genzagents/rentready/issues">GitHub issues</a>.</p>
+<p>Last updated 30 October 2026. rentready is run by GenZAgents, London. Contact: <a href="https://github.com/genzagents/rentready/issues">GitHub issues</a>.</p>
 <h2>The check runs in your browser</h2>
 <p>The property names, postcodes and certificate dates you enter are processed by JavaScript on the page, in your browser. We do not receive or store them. Your list is saved in your browser's local storage so it is there next time; clear it by removing the properties or clearing site data for this site.</p>
 <h2>Postcodes are sent to postcodes.io</h2>
@@ -28,6 +28,20 @@
 <p>The calendar file, CSV and registration pack are created in your browser and saved straight to your device.</p>
 <h2>GitHub issues</h2>
 <p>If you contact us or register interest through a GitHub issue, what you write is public on GitHub and handled under GitHub's terms. Do not post addresses or other personal details there.</p>
+<h2 id="reminders">Deadline reminder emails</h2>
+<p>If you ask to be reminded under your check, the page sends four things to a Google Form owned by rentready's founder, Manraj Singh Dhillon: your email address, the region or regions of your properties, how many of them are in England, and your earliest registration deadline. It never sends property names, postcodes or certificate dates. Google stores the answers in that Google account under Google's terms.</p>
+<p>We use your email only to send the reminders you asked for (when your registration window opens and 30 days before your deadline) and we keep it until your last deadline has passed or you ask to be removed. We do not sell or share it, and there is no newsletter.</p>
+<form class="remind" id="remove" novalidate><div><h3>Remove my email</h3><p>Takes effect within a day. No email needed from you.</p></div>
+<div class="remind-row"><label class="sr" for="remove-email">Email address</label><input type="email" id="remove-email" autocomplete="email" placeholder="you@example.com" required><button type="submit" class="go">Remove me</button></div>
+<p class="remind-msg" id="remove-msg" role="status"></p></form>
+<script src="remind.js"></script>
+<script>
+(function(){var RM=window.rentreadyRemind,f=document.getElementById("remove"),m=document.getElementById("remove-msg");
+  f.onsubmit=async function(e){e.preventDefault();var d=RM.removal(document.getElementById("remove-email").value);
+    if(!d){m.textContent="That email address does not look right.";return;}
+    try{await RM.send(d);try{localStorage.removeItem("rentready.remind.v1");}catch(x){}m.textContent="Removed. You will not get any more reminders.";}
+    catch(x){m.textContent="Could not send that just now. Please try again in a minute.";}};})();
+</script>
 <h2>The hosted monthly watch</h2>
 <p>The paid watch is not on sale yet. Before it is, this page will say what it stores (your properties and email address), where, for how long, and how to delete it.</p>
 <footer class="foot mut"><a href="https://genzagents.github.io/rentready/about.html">About</a> · <a href="https://genzagents.github.io/rentready/guides/">Guides</a> · <a href="https://genzagents.github.io/rentready/developers.html">Developers</a> · <a href="https://genzagents.github.io/rentready/privacy.html">Privacy</a> · <a href="https://genzagents.github.io/rentready/terms.html">Terms</a> · <a href="https://github.com/genzagents/rentready/issues">Contact (GitHub issues)</a><br>rentready is made by GenZAgents in London. Not legal advice.</footer>

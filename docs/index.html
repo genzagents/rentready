@@ -106,11 +106,13 @@
 <footer class="foot site-foot"><div class="container"><div><a href="https://genzagents.github.io/rentready/about.html">About</a> · <a href="https://genzagents.github.io/rentready/guides/">Guides</a> · <a href="https://genzagents.github.io/rentready/developers.html">Developers</a> · <a href="https://genzagents.github.io/rentready/for-firms.html">For gas, EICR and EPC firms</a> · <a href="https://genzagents.github.io/rentready/privacy.html">Privacy</a> · <a href="https://genzagents.github.io/rentready/terms.html">Terms</a> · <a href="https://github.com/genzagents/rentready/issues">Contact (GitHub issues)</a></div><div>rentready is made by GenZAgents in London. Not legal advice.</div></div></footer>
 <script src="rentready.js"></script>
 <script src="partner.js"></script>
+<script src="remind.js"></script>
 <script>
 (function(){
   var rr=window.rentready, box=document.getElementById("rows"), out=document.getElementById("out"), KEY="rentready.rows.v1", last=null;
   var EX=[{name:"12 Example St",postcode:"B3 2TA",gas:"2026-02-01",no_gas:"",eicr:"2023-06-01",eicr_due:"2028-06-01",epc:"2017-05-01",epc_rating:"D"}];
   var PT=window.rentreadyPartner, partner=PT?PT.parse(location.search):null;
+  var RM=window.rentreadyRemind, RKEY="rentready.remind.v1";
   var uid=0, CORE=["name","postcode","gas","no_gas","eicr","eicr_due","epc","epc_rating"];
   function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
   function contact(p){return (p.tel?'<a href="'+esc(PT.telHref(p.tel))+'">'+esc(p.tel)+'</a>':'')+(p.tel&&p.web?' · ':'')+(p.web?'<a href="https://'+esc(p.web)+'" rel="nofollow noopener" target="_blank">'+esc(p.web)+'</a>':'');}
@@ -169,12 +171,29 @@
     h+='<div class="bar"><button type="button" class="go" id="ics">Add every date to my calendar</button><button type="button" id="packbtn">Show my registration pack</button><button type="button" id="csv">Save my list (CSV)</button></div>'+
       '<p class="mut" style="font-size:14px"><label><input type="checkbox" id="org"> I register as a company, charity or trust</label></p>'+
       '<p class="mut" style="font-size:14px">The calendar has the day your window opens, your deadline and every gas, EICR and EPC expiry, each with reminders 60 and 14 days before.'+(partner&&partner.does.length&&partner.tel?' Reminders for '+esc(PT.services(partner))+' include '+esc(partner.by)+'\'s number.':'')+' It works with Google, Apple and Outlook calendars; importing again updates rather than duplicates. Upload with each registration: '+rr.UPLOADS.map(esc).join("; ")+'.</p>';
+    if(RM) h+='<form class="remind" id="remind" novalidate><div><h3>Email me before my deadline</h3><p>Free. One email when your registration window opens and one 30 days before your deadline'+(p.earliest_deadline?' ('+dd(p.earliest_deadline)+')':'')+'. No account.</p></div>'+
+      '<div class="remind-row"><label class="sr" for="remind-email">Email address</label><input type="email" id="remind-email" autocomplete="email" placeholder="you@example.com" required><button type="submit" class="go">Remind me</button></div>'+
+      '<p class="mut remind-f">We keep only your email, the region, how many properties and the earliest deadline; never names, postcodes or dates. <a href="privacy.html#reminders">How to be removed</a>.</p><p class="remind-msg" id="remind-msg" role="status"></p></form>';
     out.innerHTML=h;
+    if(RM) remindForm(p);
     document.getElementById("ics").onclick=async function(){var ev=rr.calendarEvents(last.p.properties);if(PT)ev=PT.decorate(ev,partner);download("rentready.ics",await rr.formatIcs(ev),"text/calendar");};
     document.getElementById("csv").onclick=function(){download("properties.csv",csv(last.list),"text/csv");};
     document.getElementById("packbtn").onclick=function(){pack(document.getElementById("org").checked);};
     document.getElementById("packout").innerHTML="";
     out.scrollIntoView({behavior:"smooth",block:"start"});
+  }
+  function remindForm(p){
+    var f=document.getElementById("remind"), msg=document.getElementById("remind-msg"), done=null;
+    try{done=localStorage.getItem(RKEY);}catch(e){}
+    if(done){msg.textContent="You are on the list as "+done+". We will email before your deadline.";}
+    f.onsubmit=async function(e){e.preventDefault();
+      var em=document.getElementById("remind-email").value, d=RM.payload(em,p,partner);
+      if(!d){msg.textContent="That email address does not look right.";return;}
+      f.querySelector("button").disabled=true; msg.textContent="Saving...";
+      try{await RM.send(d); try{localStorage.setItem(RKEY,RM.valid(em));}catch(x){}
+        msg.textContent="Done. We will email "+RM.valid(em)+" before your deadline. Nothing else.";}
+      catch(x){msg.textContent="Could not save that just now. Please try again in a minute."; f.querySelector("button").disabled=false;}
+    };
   }
   function badge(s){return '<span class="st '+s.replace(/[^A-Z]/g,"")+'">'+esc(s)+'</span>';}
   async function pack(org){
