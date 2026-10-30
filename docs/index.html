@@ -28,6 +28,7 @@
 <div class="trust"><span>Runs in your browser</span><span>No account</span><span>Not legal advice</span></div>
 </div>
 <section id="tool" class="card">
+<div id="partner" hidden></div>
 <h2>Check your properties</h2>
 <p class="intro">Add each property and the dates on its certificates. For the EICR, add the "next inspection due" date if the report gives one: a report can ask for the next check sooner than five years. Only the postcode leaves your browser, to postcodes.io, to find the region (<a href="https://genzagents.github.io/rentready/privacy.html">privacy</a>).</p>
 <div id="rows"></div>
@@ -102,14 +103,22 @@
 </div>
 </div></section>
 </main>
-<footer class="foot site-foot"><div class="container"><div><a href="https://genzagents.github.io/rentready/about.html">About</a> · <a href="https://genzagents.github.io/rentready/guides/">Guides</a> · <a href="https://genzagents.github.io/rentready/developers.html">Developers</a> · <a href="https://genzagents.github.io/rentready/privacy.html">Privacy</a> · <a href="https://genzagents.github.io/rentready/terms.html">Terms</a> · <a href="https://github.com/genzagents/rentready/issues">Contact (GitHub issues)</a></div><div>rentready is made by GenZAgents in London. Not legal advice.</div></div></footer>
+<footer class="foot site-foot"><div class="container"><div><a href="https://genzagents.github.io/rentready/about.html">About</a> · <a href="https://genzagents.github.io/rentready/guides/">Guides</a> · <a href="https://genzagents.github.io/rentready/developers.html">Developers</a> · <a href="https://genzagents.github.io/rentready/for-firms.html">For gas, EICR and EPC firms</a> · <a href="https://genzagents.github.io/rentready/privacy.html">Privacy</a> · <a href="https://genzagents.github.io/rentready/terms.html">Terms</a> · <a href="https://github.com/genzagents/rentready/issues">Contact (GitHub issues)</a></div><div>rentready is made by GenZAgents in London. Not legal advice.</div></div></footer>
 <script src="rentready.js"></script>
+<script src="partner.js"></script>
 <script>
 (function(){
   var rr=window.rentready, box=document.getElementById("rows"), out=document.getElementById("out"), KEY="rentready.rows.v1", last=null;
   var EX=[{name:"12 Example St",postcode:"B3 2TA",gas:"2026-02-01",no_gas:"",eicr:"2023-06-01",eicr_due:"2028-06-01",epc:"2017-05-01",epc_rating:"D"}];
+  var PT=window.rentreadyPartner, partner=PT?PT.parse(location.search):null;
   var uid=0, CORE=["name","postcode","gas","no_gas","eicr","eicr_due","epc","epc_rating"];
   function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});}
+  function contact(p){return (p.tel?'<a href="'+esc(PT.telHref(p.tel))+'">'+esc(p.tel)+'</a>':'')+(p.tel&&p.web?' · ':'')+(p.web?'<a href="https://'+esc(p.web)+'" rel="nofollow noopener" target="_blank">'+esc(p.web)+'</a>':'');}
+  if(partner){var pb=document.getElementById("partner");pb.hidden=false;pb.className="partner";
+    pb.innerHTML='<div class="partner-k">Shared with you by</div><div class="partner-n">'+esc(partner.by)+'</div>'+
+      (partner.tel||partner.web?'<div class="partner-c">'+contact(partner)+'</div>':'')+
+      (partner.does.length?'<p>They do '+esc(PT.services(partner))+'. If a certificate below runs out before your deadline, you can book it with them.</p>':'')+
+      '<p class="mut partner-f">rentready is free and independent. We have not checked this firm; for gas work, confirm they are on the <a href="https://www.gassaferegister.co.uk/">Gas Safe Register</a>. Your answers stay in your browser and are not sent to them or to us.</p>';}
   (function(){var d=Math.ceil((new Date("2026-12-15T00:00:00Z")-new Date())/864e5);var b=document.getElementById("days"),l=document.getElementById("days-label");
     if(d>0){b.textContent=d;l.textContent=(d===1?"day":"days")+" until the service opens on 15 December 2026";}else{b.textContent="Open";l.textContent="The service opened on 15 December 2026";}})();
   function addRow(r){
@@ -153,7 +162,7 @@
       var st=r.ready===true?'<span class="st READY">READY</span>':r.ready===false?'<span class="st NOT">NOT READY</span>':'<span class="st NA">N/A</span>';
       h+='<div class="prop"><div class="prop-top"><strong>'+esc(r.name)+'</strong> '+st+'</div><div class="mut" style="font-size:14px">'+esc(r.postcode||"")+(r.region?' · '+esc(r.region):'')+
         (r.window?' · register '+dd(r.window.opens)+' to '+dd(r.window.deadline):'')+'</div><ul>';
-      r.findings.forEach(function(f){h+='<li><span class="st '+f.status+'">'+f.status+'</span><span><strong>'+esc(f.check)+':</strong> '+esc(dd(f.detail.replace('; pass --region to continue','; check the postcode is right')))+'</span></li>';});
+      r.findings.forEach(function(f){h+='<li><span class="st '+f.status+'">'+f.status+'</span><span><strong>'+esc(f.check)+':</strong> '+esc(dd(f.detail.replace('; pass --region to continue','; check the postcode is right')))+(PT&&PT.offers(partner,f)?'<span class="book">Book with '+esc(partner.by)+(partner.tel||partner.web?': '+contact(partner):'')+'</span>':'')+'</span></li>';});
       h+='</ul>'; if(r.actions.length){h+='<div class="next"><strong>Do next</strong><ul>'+r.actions.map(function(a){return '<li>'+esc(dd(a))+'</li>';}).join("")+'</ul></div>';}
       h+='</div>';
     });

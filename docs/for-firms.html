@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Free co-branded landlord database checker for gas, EICR and EPC firms</title>
+<meta name="description" content="Gas engineers, electricians, EPC assessors and letting agents: make a free link to the landlord database checker with your name and number on it. No sign-up.">
+<link rel="canonical" href="https://genzagents.github.io/rentready/for-firms.html">
+<meta name="theme-color" content="#0e5a44">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230e5a44'/%3E%3Cpath d='M8 15.5 16 9l8 6.5V24H8z' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='m12.5 18.5 2.6 2.6 4.6-5' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="assets/site.css"><script type="application/ld+json" id="ld-site">{"@context": "https://schema.org", "@graph": [{"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "rentready", "item": "https://genzagents.github.io/rentready/"}, {"@type": "ListItem", "position": 2, "name": "For gas, EICR and EPC firms", "item": "https://genzagents.github.io/rentready/for-firms.html"}]}, {"@type": "Organization", "@id": "https://genzagents.github.io/rentready/about.html#org", "name": "GenZAgents", "url": "https://genzagents.github.io/rentready/about.html", "logo": {"@type": "ImageObject", "url": "https://genzagents.github.io/rentready/assets/logo-512.png", "width": 512, "height": 512}, "founder": {"@type": "Person", "name": "Manraj Singh Dhillon"}, "sameAs": ["https://github.com/genzagents"]}]}</script>
+</head><body>
+<header class="site-head"><div class="container">
+<a class="brand" href="https://genzagents.github.io/rentready/"><svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#0e5a44"/><path d="M8 15.5 16 9l8 6.5V24H8z" fill="none" stroke="#fff" stroke-width="2.2" stroke-linejoin="round"/><path d="m12.5 18.5 2.6 2.6 4.6-5" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>rentready</a>
+<nav class="site-nav"><a href="https://genzagents.github.io/rentready/guides/">Guides</a><a href="https://genzagents.github.io/rentready/guides/landlord-database-deadline-by-region.html">Deadlines</a><a href="https://genzagents.github.io/rentready/about.html">About</a></nav>
+<a class="btn sm" href="https://genzagents.github.io/rentready/#tool">Check a property</a>
+</div></header>
+<main>
+<p class="crumbs"><a href="https://genzagents.github.io/rentready/">rentready</a> / For gas, EICR and EPC firms</p>
+<h1>A free landlord database checker with your firm's name on it</h1>
+<p class="lead">Make a link to rentready that shows your business name and phone number. When a landlord you send it to finds a gas safety record, EICR or EPC that runs out before their registration deadline, your number sits right next to it. Free, no sign-up, and it takes a minute.</p>
+<h2>Why landlords will need you this winter</h2>
+<p>From 15 December 2026 every private landlord in England must register each let property on the landlord database (PRS Database), region by region, and upload a current gas safety record, EICR and EPC with each one. The West Midlands registers first, by 14 March 2027; London is last for most, by 14 October 2027. Our <a href="https://genzagents.github.io/rentready/guides/epc-expiry-by-region.html">analysis of the government's EPC tables</a> found about 243,000 rental EPCs reach ten years old before their region's deadline. Landlords who check early book early.</p>
+<section class="card noprint" id="make">
+<h2 style="margin-top:0">Make your link</h2>
+<form class="firm-form" id="firm" onsubmit="return false">
+<label>Business name<input type="text" id="f-by" maxlength="60" placeholder="Smith Gas &amp; Heating" autocomplete="organization" required></label>
+<label>Phone<input type="tel" id="f-tel" maxlength="20" placeholder="0121 496 0000" autocomplete="tel"></label>
+<label>Website (optional)<input type="text" id="f-web" maxlength="80" placeholder="smithgas.co.uk" autocomplete="url"></label>
+<fieldset><legend>You do</legend>
+<label><input type="checkbox" value="gas" checked> Gas safety checks</label>
+<label><input type="checkbox" value="eicr"> EICRs</label>
+<label><input type="checkbox" value="epc"> EPCs</label>
+</fieldset>
+</form>
+<p id="f-err" class="FAIL" hidden></p>
+<div class="linkbox"><input type="text" id="f-link" readonly aria-label="Your link" placeholder="Your link appears here"><button type="button" class="go" id="f-copy">Copy link</button><a class="btn" id="f-try" href="#" target="_blank" rel="noopener" style="background:var(--surface);color:var(--ink);border-color:var(--line)">Open it</a></div>
+<p class="mut" style="font-size:14px;margin:0">Your details travel inside the link. We do not store them, and you will not see your customers' answers: the check runs in their browser.</p>
+</section>
+<h2>Send it with your next certificate</h2>
+<p>Paste the link into the email or text that carries the certificate, or print the card below and leave it with the landlord. The card gives the short address, which anyone can type, plus your name and number.</p>
+<div class="cardprint" id="card">
+<h3>Is your rental ready for the landlord database?</h3>
+<p style="margin:.2em 0">Every landlord in England must register each property from 15 December 2026 and upload in-date gas, electrical and EPC certificates. Check yours free in two minutes:</p>
+<p style="margin:.4em 0;font-weight:700;overflow-wrap:anywhere" id="card-url">genzagents.github.io/rentready</p>
+<p style="margin:.2em 0" id="card-by">Shared by your engineer.</p>
+</div>
+<p class="noprint"><button type="button" id="f-print">Print the card</button></p>
+<h2>What your customers see</h2>
+<ul>
+<li>A box at the top of the checker: "Shared with you by" your business name, phone and website.</li>
+<li>Under each certificate you cover that has expired or runs out before their deadline: "Book with" your business, with your number.</li>
+<li>A note that rentready is independent and has not checked your firm, with a link to the Gas Safe Register for gas work.</li>
+</ul>
+<h2>Fair use</h2>
+<p>Use your own business name and number. If someone makes a link in your firm's name, open an issue and we will add it to a block list built into the checker. rentready is general information, not legal advice; see the <a href="https://genzagents.github.io/rentready/terms.html">terms</a>. Questions or a mistake: open an issue on <a href="https://github.com/genzagents/rentready/issues">GitHub</a>.</p>
+<p class="mut">Written by <a href="https://genzagents.github.io/rentready/about.html">GenZAgents</a>, London. Reviewed 30 October 2026.</p>
+<script src="partner.js"></script>
+<script>
+(function(){
+  var PT=window.rentreadyPartner, $=function(i){return document.getElementById(i);}, cur="";
+  function val(){return {by:$("f-by").value,tel:$("f-tel").value,web:$("f-web").value,does:Array.prototype.filter.call(document.querySelectorAll("#firm fieldset input"),function(c){return c.checked;}).map(function(c){return c.value;}).join(",")};}
+  function upd(){
+    var v=val(), p=PT.clean(v), err=[];
+    if(!p) err.push(v.by.trim()?"Use 2 to 60 letters, numbers and basic punctuation for the business name.":"");
+    else { if(v.tel.trim()&&!p.tel) err.push("That phone number does not look right; it will be left out.");
+      if(v.web.trim()&&!p.web) err.push("That website does not look like a web address; it will be left out."); }
+    err=err.filter(Boolean); $("f-err").hidden=!err.length; $("f-err").textContent=err.join(" ");
+    cur=p?PT.link(v):""; $("f-link").value=cur; $("f-try").href=cur||"#";
+    $("card-by").textContent=p?"Shared by "+p.by+(p.tel?", "+p.tel:"")+(p.does.length?". We do "+PT.services(p)+".":"."):"Shared by your engineer.";
+  }
+  $("firm").addEventListener("input",upd); $("firm").addEventListener("change",upd);
+  $("f-copy").onclick=function(){if(!cur)return;var b=this;(navigator.clipboard?navigator.clipboard.writeText(cur):Promise.reject()).then(function(){b.textContent="Copied";setTimeout(function(){b.textContent="Copy link";},1500);},function(){$("f-link").select();});};
+  $("f-try").onclick=function(e){if(!cur){e.preventDefault();$("f-by").focus();}};
+  $("f-print").onclick=function(){window.print();};
+  upd();
+})();
+</script>
+<footer class="foot mut"><a href="https://genzagents.github.io/rentready/about.html">About</a> · <a href="https://genzagents.github.io/rentready/guides/">Guides</a> · <a href="https://genzagents.github.io/rentready/developers.html">Developers</a> · <a href="https://genzagents.github.io/rentready/privacy.html">Privacy</a> · <a href="https://genzagents.github.io/rentready/terms.html">Terms</a> · <a href="https://github.com/genzagents/rentready/issues">Contact (GitHub issues)</a><br>rentready is made by GenZAgents in London. Not legal advice.</footer>
+</main></body></html>
