@@ -53,7 +53,23 @@
     return n.length > 1 ? n.slice(0, -1).join(", ") + " and " + n[n.length - 1] : n[0] || "";
   }
 
-  var api = { clean: clean, parse: parse, link: link, offers: offers, telHref: telHref, services: services, SERVICES: SERVICES };
+  // Calendar events (rentready.js calendarEvents) for certificates the firm covers carry its name and number,
+  // so the 60- and 14-day reminders say who to call. Other events are returned unchanged.
+  function decorate(events, p) {
+    if (!p || !p.does.length) return events;
+    var covered = p.does.map(function (s) { return SERVICES[s]; });
+    var who = p.by + (p.tel ? " " + p.tel : "");
+    return events.map(function (e) {
+      if (covered.indexOf(e.kind) < 0) return e;
+      var d = {}; for (var k in e) d[k] = e[k];
+      d.summary = e.summary + " (book: " + who + ")";
+      d.description = e.description + "\nBook with " + p.by + (p.tel ? ", " + p.tel : "") + (p.web ? ", " + p.web : "") +
+        ". Shared by them through rentready; we have not checked this firm.";
+      return d;
+    });
+  }
+
+  var api = { clean: clean, parse: parse, link: link, offers: offers, telHref: telHref, services: services, decorate: decorate, SERVICES: SERVICES };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.rentreadyPartner = api;
 })(this);

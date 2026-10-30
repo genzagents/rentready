@@ -168,9 +168,9 @@
     });
     h+='<div class="bar"><button type="button" class="go" id="ics">Add every date to my calendar</button><button type="button" id="packbtn">Show my registration pack</button><button type="button" id="csv">Save my list (CSV)</button></div>'+
       '<p class="mut" style="font-size:14px"><label><input type="checkbox" id="org"> I register as a company, charity or trust</label></p>'+
-      '<p class="mut" style="font-size:14px">The calendar has the day your window opens, your deadline and every gas, EICR and EPC expiry, each with reminders 60 and 14 days before. It works with Google, Apple and Outlook calendars; importing again updates rather than duplicates. Upload with each registration: '+rr.UPLOADS.map(esc).join("; ")+'.</p>';
+      '<p class="mut" style="font-size:14px">The calendar has the day your window opens, your deadline and every gas, EICR and EPC expiry, each with reminders 60 and 14 days before.'+(partner&&partner.does.length&&partner.tel?' Reminders for '+esc(PT.services(partner))+' include '+esc(partner.by)+'\'s number.':'')+' It works with Google, Apple and Outlook calendars; importing again updates rather than duplicates. Upload with each registration: '+rr.UPLOADS.map(esc).join("; ")+'.</p>';
     out.innerHTML=h;
-    document.getElementById("ics").onclick=async function(){download("rentready.ics",await rr.formatIcs(rr.calendarEvents(last.p.properties)),"text/calendar");};
+    document.getElementById("ics").onclick=async function(){var ev=rr.calendarEvents(last.p.properties);if(PT)ev=PT.decorate(ev,partner);download("rentready.ics",await rr.formatIcs(ev),"text/calendar");};
     document.getElementById("csv").onclick=function(){download("properties.csv",csv(last.list),"text/csv");};
     document.getElementById("packbtn").onclick=function(){pack(document.getElementById("org").checked);};
     document.getElementById("packout").innerHTML="";

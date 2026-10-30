@@ -43,11 +43,28 @@ class PartnerTest(unittest.TestCase):
                       ["offers", [p, {"status": "FAIL", "check": "EPC rating"}]])
         self.assertEqual(r, [True, True, False, False, False])
 
+    def test_calendar_reminders_carry_the_firm_on_covered_certificates_only(self):
+        run = "const P=require(process.argv[1]);const [p,e]=JSON.parse(require('fs').readFileSync(0,'utf8'));" \
+              "console.log(JSON.stringify([P.decorate(e,P.clean(p)),P.decorate(e,null)]))"
+        ev = [{"date": "2027-01-10", "summary": "gas safety record expires: 1 Oak St", "description": "book it.", "property": "1 Oak St", "kind": "gas safety record"},
+              {"date": "2027-03-14", "summary": "Landlord database DEADLINE: 1 Oak St", "description": "last day.", "property": "1 Oak St", "kind": "deadline"},
+              {"date": "2028-01-01", "summary": "EICR expires: 1 Oak St", "description": "book.", "property": "1 Oak St", "kind": "EICR"}]
+        firm = {"by": "Smith Gas", "tel": "0121 496 0000", "web": "smithgas.co.uk", "does": "gas"}
+        out = subprocess.run([NODE, "-e", run, JS], input=json.dumps([firm, ev]), capture_output=True, text=True, check=True)
+        dec, plain = json.loads(out.stdout)
+        self.assertEqual(dec[0]["summary"], "gas safety record expires: 1 Oak St (book: Smith Gas 0121 496 0000)")
+        self.assertIn("Book with Smith Gas, 0121 496 0000, smithgas.co.uk.", dec[0]["description"])
+        self.assertEqual(dec[0]["kind"], "gas safety record")  # UID input unchanged, so re-imports still update
+        self.assertEqual(dec[1:], ev[1:])
+        self.assertEqual(plain, ev)
+        self.assertNotIn("Smith", ev[0]["summary"])  # input not mutated
+
     def test_pages_wire_it_in(self):
         home = (ROOT / "docs" / "index.html").read_text(encoding="utf-8")
         self.assertIn('<script src="partner.js"></script>', home)
         self.assertIn("We have not checked this firm", home)
         self.assertIn("for-firms.html", home)
+        self.assertIn("PT.decorate(ev,partner)", home)
         firms = (ROOT / "docs" / "for-firms.html").read_text(encoding="utf-8")
         self.assertIn('id="f-link"', firms)
         self.assertIn("for-firms.html", (ROOT / "docs" / "sitemap.xml").read_text(encoding="utf-8"))
