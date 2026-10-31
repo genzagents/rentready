@@ -224,3 +224,21 @@ main .card#make{padding:20px 22px;margin:22px 0}
 .calc-note{font-size:14px}
 #calc{grid-template-columns:repeat(auto-fit,minmax(140px,1fr))}
 #calc label{justify-content:flex-end}
+/* which-properties-to-register: does this let need registering? */
+.who-card{padding:18px 20px;margin:18px 0}
+.who-form{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px 16px;margin:12px 0}
+.who-form fieldset{border:1px solid var(--line);border-radius:var(--radius-sm);padding:8px 14px 10px;margin:0;min-width:0}
+.who-form legend{font-weight:600;font-size:15px;padding:0 4px}
+.who-form label{display:flex;gap:8px;align-items:flex-start;font-size:15px;padding:4px 0;line-height:1.35}
+.who-form input{margin-top:3px;accent-color:var(--brand,#0e5a44)}
+.who-out{border-radius:var(--radius-sm);padding:12px 16px;margin:6px 0 14px;background:var(--na-soft)}
+.who-out b{display:block;font-size:1.25rem;line-height:1.2}
+.who-out p{margin:6px 0 0;font-size:15px}
+.who-out.who-yes{background:var(--ok-soft)}.who-out.who-yes b{color:var(--ok)}
+.who-out.who-no{background:var(--na-soft)}
+.who-out.who-later{background:var(--warn-soft)}.who-out.who-later b{color:var(--warn)}
+.who-y,.who-n{display:inline-block;font-size:13px;font-weight:600;padding:2px 8px;border-radius:999px;white-space:nowrap}
+.who-y{background:var(--ok-soft);color:var(--ok)}.who-n{background:var(--na-soft);color:var(--ink)}
+.who-table th:last-child,.who-table td:last-child{text-align:left}
+.who-wrap{overflow-x:auto;margin:12px 0}
+@media (max-width:600px){.who-table tr:first-child{display:none}.who-table tr{display:grid;grid-template-columns:1fr auto;column-gap:10px;border-bottom:1px solid var(--line)}.who-table td{border:0}.who-table td:last-child{grid-column:1/-1;padding-top:0;color:var(--muted);font-size:14px}}
