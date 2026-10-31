@@ -228,7 +228,7 @@ def page(regions, years, cs):
 <tr><th>Region</th><th>Deadline</th><th>Reach ten years, 1 Nov 2026 to deadline</th><th>Of which in the window</th><th>Reach ten years, 2028 to 2030</th></tr>
 {rows}
 </table></div>
-<p class="mut">Rounded to the nearest 100. * The North East figure includes a one-off quarter: 27,114 rental EPCs were lodged there from April to June 2017, about four times its usual quarter, which looks like a bulk lodgement by a large landlord. <a href="{BASE}data/epc-rental-expiry-by-region.csv">Download the table (CSV)</a>.</p>
+<p class="mut">Rounded to the nearest 100. * The North East figure includes a one-off quarter: 27,114 rental EPCs were lodged there from April to June 2017, about four times its usual quarter, which looks like a bulk lodgement by a large landlord. <a href="{BASE}data/epc-rental-expiry-by-region.csv">Download the table (CSV)</a>. Writing about this? The <a href="{BASE}press.html">press page</a> has a chart to download and a credit line.</p>
 {council_section(cs)}
 <h2>The bigger wave: 2028 to 2030</h2>
 <p>Rental EPC lodgements rose sharply from 2018, the year the E minimum started to apply to new lettings (1 April 2018). Ten years on, those certificates come due together: about {thousands(years[2028])} in 2028, {thousands(y2029)} in 2029 and {thousands(years[2030])} in 2030, against {thousands(y2026)} in 2026. That lands just before 1 October 2030, when the government plans to require a C rating for all private tenancies. The C minimum still needs legislation and will be measured on new EPC metrics (see the <a href="epc-rating-landlord-database.html">EPC guide</a>).</p>

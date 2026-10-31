@@ -216,3 +216,5 @@ main .card#make{padding:20px 22px;margin:22px 0}
 .remind .remind-msg:empty{display:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 @media (max-width:560px){.remind-row{flex-direction:column}.remind-row button{width:100%}}
+.chart{margin:0 0 1em;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 14px 10px}
+.chart figcaption{font-size:14px;margin-top:6px}
