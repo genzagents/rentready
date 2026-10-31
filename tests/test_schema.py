@@ -3,6 +3,7 @@ import json
 import re
 import sys
 import unittest
+from datetime import datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -48,7 +49,8 @@ class SchemaTest(unittest.TestCase):
         art = next(n for n in g if n["@type"] == "Article")
         for k in ("headline", "datePublished", "dateModified", "author", "publisher", "image", "mainEntityOfPage"):
             self.assertTrue(art.get(k), k)
-        self.assertEqual(art["dateModified"], "2026-10-28")  # from the byline's "reviewed 28 October 2026"
+        reviewed = re.search(r"reviewed (\d+ \w+ 2026)", t).group(1)
+        self.assertEqual(art["dateModified"], datetime.strptime(reviewed, "%d %B %Y").strftime("%Y-%m-%d"))  # from the byline
         crumbs = next(n for n in g if n["@type"] == "BreadcrumbList")["itemListElement"]
         self.assertEqual(crumbs[-1]["item"], art["mainEntityOfPage"])
         self.assertEqual([c["position"] for c in crumbs], list(range(1, len(crumbs) + 1)))
