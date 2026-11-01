@@ -43,6 +43,15 @@ class RemindTest(unittest.TestCase):
         self.assertIsNone(bad); self.assertIsNone(rembad)
         self.assertEqual(rem, {fields["email"]: "x@y.com", fields["source"]: "remove"})
 
+    def test_waitlist_sends_email_count_and_source_only(self):
+        fields, d, big, none, bad = self.call(
+            ["FIELDS", []], ["waitlist", [" l@x.co.uk ", "5"]], ["waitlist", ["l@x.co.uk", "100000"]],
+            ["waitlist", ["l@x.co.uk", ""]], ["waitlist", ["nope", "3"]])
+        self.assertEqual(d, {fields["email"]: "l@x.co.uk", fields["properties"]: "5", fields["source"]: "watch waitlist"})
+        self.assertEqual(big[fields["properties"]], "")
+        self.assertEqual(none[fields["properties"]], "")
+        self.assertIsNone(bad)
+
 
 class RemindPagesTest(unittest.TestCase):
     def test_form_wired_and_explained(self):
@@ -52,6 +61,9 @@ class RemindPagesTest(unittest.TestCase):
         index = (DOCS / "index.html").read_text(encoding="utf-8")
         self.assertIn('<script src="remind.js"></script>', index)
         self.assertIn("Email me before my deadline", index)
+        self.assertIn('id="wait"', index)
+        self.assertIn("RM.waitlist(", index)
+        self.assertNotIn("issues/new?title=Interested", index)
         privacy = (DOCS / "privacy.html").read_text(encoding="utf-8")
         for s in ('id="reminders"', "Google Form", "never sends property names, postcodes or certificate dates", 'id="remove"'):
             self.assertIn(s, privacy)

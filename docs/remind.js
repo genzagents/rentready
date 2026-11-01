@@ -29,6 +29,18 @@
     return out;
   }
 
+  // Waitlist for the paid monthly watch, from the box on the home page: the email and a property count, nothing else.
+  function waitlist(email, properties) {
+    email = valid(email);
+    if (!email) return null;
+    var n = parseInt(properties, 10);
+    var out = {};
+    out[FIELDS.email] = email;
+    out[FIELDS.properties] = n > 0 && n <= 999 ? String(n) : "";
+    out[FIELDS.source] = "watch waitlist";
+    return out;
+  }
+
   function removal(email) {
     email = valid(email);
     if (!email) return null;
@@ -45,7 +57,7 @@
     return fetch(FORM, { method: "POST", mode: "no-cors", body: body });
   }
 
-  var api = { FORM: FORM, FIELDS: FIELDS, valid: valid, payload: payload, removal: removal, send: send };
+  var api = { FORM: FORM, FIELDS: FIELDS, valid: valid, payload: payload, waitlist: waitlist, removal: removal, send: send };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.rentreadyRemind = api;
 })(this);

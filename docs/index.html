@@ -96,10 +96,13 @@
 <section class="band alt" id="watch"><div class="container">
 <div class="card watch">
 <div><h2 style="margin:0 0 .4em">The monthly watch (not on sale yet)</h2>
-<p>For landlords who would rather not run anything: you would paste your properties once and get an email the moment something needs action, plus a short monthly digest. <strong>Payments are not live yet, so you cannot buy it today.</strong> The free check above and its calendar file do the same date arithmetic now.</p></div>
-<div><div class="price">£12<span class="mut" style="font-size:1rem;font-weight:500"> a year, up to 10 properties (planned)</span></div>
-<p style="margin:14px 0 8px"><a class="btn" href="https://github.com/genzagents/rentready/issues/new?title=Interested%20in%20the%20hosted%20monthly%20watch&body=Number%20of%20properties%3A%20%0A%0A(This%20issue%20is%20public.%20Please%20do%20not%20post%20addresses%20or%20other%20personal%20details.)">Tell us you want it</a></p>
-<p class="mut" style="font-size:13px;margin:0">This opens a public GitHub issue (it needs a GitHub account). Do not post addresses or personal details there.</p></div>
+<p>For landlords who would rather not run anything: you paste your properties once and get an email the moment something needs action, plus a short monthly digest. <strong>Payments are not live yet, so you cannot buy it today.</strong> The free check above and its calendar file do the same date arithmetic now.</p></div>
+<div><div class="price">£12<span class="mut" style="font-size:1rem;font-weight:500"> a year, up to 10 properties</span></div>
+<form class="remind wait" id="wait" novalidate><p><strong>Email me when it opens.</strong> One email, the day you can buy it. No account.</p>
+<div class="remind-row"><label class="sr" for="wait-email">Email address</label><input type="email" id="wait-email" autocomplete="email" placeholder="you@example.com" required>
+<label class="sr" for="wait-n">How many properties</label><select id="wait-n"><option value="">Properties</option><option>1</option><option>2</option><option>3</option><option value="5">4 to 5</option><option value="10">6 to 10</option><option value="50">11 or more</option></select>
+<button type="submit" class="go">Notify me</button></div>
+<p class="mut remind-f">We keep only your email and the number you pick. <a href="privacy.html#reminders">How to be removed</a>.</p><p class="remind-msg" id="wait-msg" role="status"></p></form></div>
 </div>
 </div></section>
 </main>
@@ -182,6 +185,17 @@
     document.getElementById("packout").innerHTML="";
     out.scrollIntoView({behavior:"smooth",block:"start"});
   }
+  (function(){var f=document.getElementById("wait"), m=document.getElementById("wait-msg"), WKEY="rentready.wait.v1", done=null;
+    if(!f||!RM)return; try{done=localStorage.getItem(WKEY);}catch(e){}
+    if(done)m.textContent="You are on the list as "+done+". We will email once, when it opens.";
+    f.onsubmit=async function(e){e.preventDefault();
+      var em=document.getElementById("wait-email").value, d=RM.waitlist(em,document.getElementById("wait-n").value);
+      if(!d){m.textContent="That email address does not look right.";return;}
+      f.querySelector("button").disabled=true; m.textContent="Saving...";
+      try{await RM.send(d); try{localStorage.setItem(WKEY,RM.valid(em));}catch(x){}
+        m.textContent="Done. We will email "+RM.valid(em)+" once, when the watch opens.";}
+      catch(x){m.textContent="Could not save that just now. Please try again in a minute."; f.querySelector("button").disabled=false;}
+    };})();
   function remindForm(p){
     var f=document.getElementById("remind"), msg=document.getElementById("remind-msg"), done=null;
     try{done=localStorage.getItem(RKEY);}catch(e){}

@@ -212,10 +212,17 @@ main .card#make{padding:20px 22px;margin:22px 0}
 .remind-row input{flex:1;min-width:0;font:16px var(--font);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:11px 16px}
 .remind-row input:focus{outline:2px solid var(--brand);outline-offset:1px}
 .remind .remind-f{font-size:13px}
+.remind-row select{font:16px var(--font);background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:11px 14px;min-height:44px}
+.remind-row select:focus{outline:2px solid var(--brand);outline-offset:1px}
+.remind.wait{margin:14px 0 0;padding:16px 18px;gap:10px}
+.wait .remind-row{flex-direction:row;flex-wrap:wrap}
+.wait .remind-row input{flex:1 1 100%}
+.wait .remind-row select{flex:1 1 120px;min-width:0}
+.wait .remind-row button{flex:1 1 120px;width:auto}
 .remind .remind-msg{font-weight:600;color:var(--brand-text)}
 .remind .remind-msg:empty{display:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
-@media (max-width:560px){.remind-row{flex-direction:column}.remind-row button{width:100%}}
+@media (max-width:560px){.remind-row{flex-direction:column}.remind-row button{width:100%}.wait .remind-row{flex-direction:row}}
 .chart{margin:0 0 1em;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px 14px 10px}
 .chart figcaption{font-size:14px;margin-top:6px}
 
