@@ -53,6 +53,15 @@ class RemindTest(unittest.TestCase):
         self.assertIsNone(bad)
 
 
+    def test_calendar_sends_email_regions_deadline_and_source_only(self):
+        fields, d, baddate, bad = self.call(
+            ["FIELDS", []], ["calendar", ["l@x.co.uk", ["London", "South West"], "2027-11-14"]],
+            ["calendar", ["l@x.co.uk", [], "soon"]], ["calendar", ["nope", ["London"], "2027-10-14"]])
+        self.assertEqual(d, {fields["email"]: "l@x.co.uk", fields["region"]: "London; South West",
+                             fields["deadline"]: "2027-11-14", fields["source"]: "deadlines calendar"})
+        self.assertEqual(baddate[fields["deadline"]], "")
+        self.assertIsNone(bad)
+
 class RemindPagesTest(unittest.TestCase):
     def test_form_wired_and_explained(self):
         js = (DOCS / "remind.js").read_text(encoding="utf-8")

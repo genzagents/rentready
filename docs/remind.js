@@ -41,6 +41,18 @@
     return out;
   }
 
+  // Deadline reminder from the deadlines calendar guide: the email, the regions ticked and the last database deadline.
+  function calendar(email, regions, deadline) {
+    email = valid(email);
+    if (!email) return null;
+    var out = {};
+    out[FIELDS.email] = email;
+    out[FIELDS.region] = (regions || []).join("; ");
+    out[FIELDS.deadline] = /^\d{4}-\d{2}-\d{2}$/.test(deadline || "") ? deadline : "";
+    out[FIELDS.source] = "deadlines calendar";
+    return out;
+  }
+
   function removal(email) {
     email = valid(email);
     if (!email) return null;
@@ -57,7 +69,7 @@
     return fetch(FORM, { method: "POST", mode: "no-cors", body: body });
   }
 
-  var api = { FORM: FORM, FIELDS: FIELDS, valid: valid, payload: payload, waitlist: waitlist, removal: removal, send: send };
+  var api = { FORM: FORM, FIELDS: FIELDS, valid: valid, payload: payload, waitlist: waitlist, calendar: calendar, removal: removal, send: send };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.rentreadyRemind = api;
 })(this);

@@ -22,7 +22,8 @@ PUBLISHED = "2026-10-28"  # first publication of the guides; add an entry to PUB
 PUBLISHED_AT: dict = {"docs/guides/epc-expiry-by-region.html": "2026-10-29",
                      "docs/guides/landlord-database-first-year-cost.html": "2026-10-31",
                      "docs/guides/which-properties-to-register.html": "2026-10-31",
-                     "docs/guides/landlord-database-regulations-status.html": "2026-11-01"}
+                     "docs/guides/landlord-database-regulations-status.html": "2026-11-01",
+                     "docs/guides/landlord-deadlines-calendar.html": "2026-11-01"}
 MARK = '<script type="application/ld+json" id="ld-site">'
 BLOCK = re.compile(re.escape(MARK) + r".*?</script>\n", re.S)
 
