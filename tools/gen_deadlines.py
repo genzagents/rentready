@@ -214,7 +214,7 @@ __TABLE__
 <h2>Questions</h2>
 __FAQ_HTML__
 <h2>Related guides</h2>
-<ul><li><a href="landlord-database-deadline-by-region.html">Deadlines by region</a></li><li><a href="landlord-database-first-year-cost.html">The true first-year cost</a></li><li><a href="what-you-need-to-register.html">What you need to register</a></li><li><a href="landlord-database-penalties.html">Penalties</a></li></ul>
+<ul><li><a href="hmrc-signed-me-up-making-tax-digital.html">HMRC signed me up for Making Tax Digital</a></li><li><a href="landlord-database-deadline-by-region.html">Deadlines by region</a></li><li><a href="landlord-database-first-year-cost.html">The true first-year cost</a></li><li><a href="what-you-need-to-register.html">What you need to register</a></li><li><a href="landlord-database-penalties.html">Penalties</a></li></ul>
 <h2 id="sources">Sources</h2>
 <ul class="mut">
 <li><a href="https://www.gov.uk/guidance/find-out-if-and-when-you-need-to-use-making-tax-digital-for-income-tax">gov.uk: find out if and when you need to use Making Tax Digital for Income Tax (thresholds and start dates)</a></li>

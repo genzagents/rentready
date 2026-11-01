@@ -1,0 +1,219 @@
+"""HMRC signed me up for Making Tax Digital: what a landlord does now (docs/guides/hmrc-signed-me-up-making-tax-digital.html).
+
+Since September 2026 HMRC has been signing up, in stages, everyone its records say had qualifying income over £50,000
+in 2024-25 and who had not signed up for Making Tax Digital for Income Tax. The page answers "is HMRC right, and what
+is overdue?" with an in-page check whose verdict() is built from the rules below and tested under node.
+
+Sources (read 1 Nov 2026): gov.uk "Check what to do if HMRC has signed you up for Making Tax Digital for Income Tax"
+(updated 11 Sep 2026), "Find out if you can get an exemption from Making Tax Digital for Income Tax" (28 May 2026),
+"Work out your qualifying income" and "Send quarterly updates".
+
+Run `python3 tools/gen_signedup.py`, then `python3 tools/schema.py`; tests/test_signedup.py checks the page.
+"""
+import html
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / "docs/guides/hmrc-signed-me-up-making-tax-digital.html"
+URL = "https://genzagents.github.io/rentready/guides/hmrc-signed-me-up-making-tax-digital.html"
+REVIEWED = "1 November 2026"
+
+# 2026-27 quarterly updates (standard periods). Each update covers the year to date, so a late one is made up by the next.
+QUARTERS = [("2026-08-07", "6 April to 5 July 2026"), ("2026-11-07", "6 April to 5 October 2026"),
+            ("2027-02-07", "6 April 2026 to 5 January 2027"), ("2027-05-07", "the whole 2026-27 year")]
+
+FAQ = [
+    ("Why has HMRC signed me up for Making Tax Digital?",
+     "Because its records show your qualifying income was over £50,000 in the 2024-25 tax year and you had not signed "
+     "up yourself or through an agent. Since September 2026 HMRC has been signing these people up in stages and then "
+     "writing to them, in HMRC online services or by post. Qualifying income is gross property income (your share of "
+     "a jointly owned property) plus self-employment turnover, before expenses."),
+    ("What do I do after HMRC signs me up for MTD?",
+     "Sign in to HMRC online services with your Self Assessment details, select Making Tax Digital for Income Tax and "
+     "confirm the income sources HMRC holds (all UK lets count as one UK property business). Then choose compatible "
+     "software, create digital records back to 6 April 2026 and send the overdue quarterly update as soon as you can. "
+     "The 7 November 2026 update covers 6 April to 5 October, so it also makes up a missed August update."),
+    ("Will I get a penalty for missing quarterly updates after being signed up?",
+     "No penalty points for late quarterly updates in the 2026-27 tax year. You still have to send the final update "
+     "before you can file the 2026-27 tax return, and penalty points do apply if that return is late (due 31 January 2028)."),
+    ("What if HMRC signed me up by mistake?",
+     "If all your property and self-employment income stopped before 6 April 2026, update your details in your HMRC "
+     "online account; you will not need MTD but must still file your 2025-26 return by 31 January 2027. If you think "
+     "your qualifying income was £50,000 or less, or an exemption applies, contact Self Assessment general enquiries. "
+     "If you are digitally excluded you can apply for an exemption."),
+]
+
+LOGIC = r"""
+var Q=__QUARTERS__;
+// x: {prop, se: 2024-25 gross pounds or "" ; ceased: "no"|"before"|"after"; ex: "none"|"auto"|"digital"}
+// Returns {code, q (qualifying income or null), overdue: [quarters due before today], next: quarter or null}.
+function verdict(x,today){
+  function n(v){v=String(v==null?"":v).replace(/[£,\s]/g,"");return v===""||isNaN(+v)?null:Math.max(0,+v);}
+  var p=n(x.prop),s=n(x.se),q=p===null&&s===null?null:(p||0)+(s||0);
+  var r={code:"",q:q,overdue:[],next:null};
+  if(x.ceased==="before")r.code="ceased-before";
+  else if(x.ex==="auto")r.code="exempt-auto";
+  else if(x.ex==="digital")r.code="exempt-apply";
+  else if(q!==null&&q<=50000)r.code=q>30000?"under-2027":q>20000?"under-2028":"under-exempt";
+  else r.code=x.ceased==="after"?"ceased-after":"in";
+  if(r.code==="in"||r.code==="ceased-after"){
+    Q.forEach(function(e){if(e.d<today)r.overdue.push(e);else if(!r.next)r.next=e;});
+    if(r.code==="ceased-after")r.next=r.overdue.length?null:Q[0];
+  }
+  return r;
+}
+"""
+
+PAGE = """<!doctype html>
+<html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HMRC signed me up for Making Tax Digital: what landlords do now</title>
+<meta name="description" content="HMRC is signing landlords up for Making Tax Digital. Check whether it got your income right, which quarterly updates are overdue and what to do next.">
+<link rel="canonical" href="__URL__">
+<meta name="theme-color" content="#0e5a44">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230e5a44'/%3E%3Cpath d='M8 15.5 16 9l8 6.5V24H8z' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linejoin='round'/%3E%3Cpath d='m12.5 18.5 2.6 2.6 4.6-5' fill='none' stroke='%23fff' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="../assets/site.css">
+<script type="application/ld+json">
+__FAQ__
+</script>
+</head><body>
+__HEADER__
+<main>
+<p class="crumbs"><a href="https://genzagents.github.io/rentready/">rentready</a> / <a href="https://genzagents.github.io/rentready/guides/">Landlord guides</a></p>
+<h1>HMRC signed me up for Making Tax Digital: what landlords do now</h1>
+<p class="mut byline">Written by <a href="https://genzagents.github.io/rentready/about.html">GenZAgents</a>, reviewed __REVIEWED__. <a href="#sources">Sources</a> below.</p>
+<p><strong>If HMRC has written to say it signed you up for Making Tax Digital for Income Tax, its records show more than £50,000 of property and self-employment income on your 2024-25 return. You now need software, digital records back to 6 April 2026, and the overdue quarterly update.</strong> The next update is due on 7 November 2026 and covers 6 April to 5 October, so it also makes up a missed August update. There are no penalty points for late updates this year. HMRC's figure can be wrong, though, so check it first.</p>
+
+<section class="card" style="padding:18px 20px;margin:18px 0" aria-labelledby="chk-h">
+<h2 id="chk-h" style="margin-top:0">Did HMRC get it right?</h2>
+<form class="firm-form" id="chk" onsubmit="return false" style="grid-template-columns:repeat(auto-fit,minmax(250px,1fr));align-items:end">
+<label>Rent you received in 2024-25, before expenses <small class="mut" style="font-weight:400">your share only for a jointly owned property</small>
+<input class="dl-sel" id="prop" inputmode="numeric" placeholder="e.g. 42000" autocomplete="off"></label>
+<label>Self-employment turnover in 2024-25 <small class="mut" style="font-weight:400">leave blank if none; wages, pensions and dividends do not count</small>
+<input class="dl-sel" id="se" inputmode="numeric" placeholder="e.g. 12000" autocomplete="off"></label>
+<label>Has all your rental and self-employment income stopped?
+<select class="dl-sel" id="ceased"><option value="no">No, I still let property</option><option value="before">Yes, before 6 April 2026</option><option value="after">Yes, on or after 6 April 2026</option></select></label>
+<label>Does an exemption apply?
+<select class="dl-sel" id="ex"><option value="none">No, or not sure</option><option value="auto">Yes, one HMRC gives automatically (see below)</option><option value="digital">I cannot reasonably use software (age, health, disability, no internet, religion)</option></select></label>
+</form>
+<div class="who-out" id="out" aria-live="polite"></div>
+<form class="remind wait dl-rem" id="rem" novalidate><p><strong>Email me before the next quarterly update is due.</strong> One email two weeks before, nothing else. No account.</p>
+<div class="remind-row"><label class="sr" for="rem-email">Email address</label><input type="email" id="rem-email" autocomplete="email" placeholder="you@example.com" required>
+<button type="submit" class="go">Remind me</button></div>
+<p class="mut remind-f">We keep only your email and the deadline date. Your income figures never leave your browser. <a href="../privacy.html#reminders">How to be removed</a>.</p><p class="remind-msg" id="rem-msg" role="status"></p></form>
+</section>
+
+<h2>The five steps after HMRC signs you up</h2>
+<ol>
+<li><strong>Sign in to HMRC online services</strong> with the details you use for Self Assessment and choose Making Tax Digital for Income Tax. You may find the confirmation letter there, or it may come by post.</li>
+<li><strong>Check the income sources HMRC holds.</strong> They come from your 2024-25 return (and 2025-26 if you had already filed it). All your UK lets count as one UK property business, and all overseas lets as one foreign property business. Add anything new and tell HMRC about anything that has stopped.</li>
+<li><strong>Choose compatible software.</strong> HMRC does not provide any. Use its find-software tool, check the product covers property income and your update periods, and authorise it.</li>
+<li><strong>Catch up.</strong> Create digital records of rent and expenses from 6 April 2026, then send the overdue quarterly update as soon as you can. Your HMRC account lists what is overdue and what is next.</li>
+<li><strong>Keep going.</strong> One update a quarter (7 February and 7 May 2027 are next), then the 2026-27 tax return from the software by 31 January 2028.</li>
+</ol>
+
+<h2>The 2026-27 quarterly updates</h2>
+<div class="wrap"><table><thead><tr><th>Due</th><th>Covers</th></tr></thead><tbody>
+__QROWS__
+</tbody></table></div>
+<p>Each update is a running total for the year so far, not a tax return. HMRC will not give penalty points for a late update in 2026-27. From 2027-28 every late update earns a point, and four points means a £200 penalty. The tax return deadline still carries points this year.</p>
+
+<h2>When HMRC has it wrong</h2>
+<table><tr><th>Your situation</th><th>What to do</th></tr>
+<tr><td>All rental and self-employment income stopped before 6 April 2026</td><td>Update your details in your HMRC online account. You do not need MTD, but you still file your 2025-26 return by 31 January 2027.</td></tr>
+<tr><td>It stopped on or after 6 April 2026</td><td>One quarterly update covering up to the date it stopped, then the 2026-27 return from MTD software. Nothing after that.</td></tr>
+<tr><td>Your gross qualifying income was £50,000 or less (for example a joint let counted in full, or wages added in)</td><td>Contact Self Assessment general enquiries. Over £30,000 on your 2025-26 return still means MTD from 6 April 2027.</td></tr>
+<tr><td>An automatic exemption applies</td><td>Contact Self Assessment general enquiries. Automatic ones include income of £20,000 or less, no National Insurance number before the tax year, a power of attorney or deputy recorded on the 2024-25 return, and for 2026-27 only: foster or kinship carers claiming qualifying care relief, averaging relief as a farmer or creative, and returns with the SA107 or SA109 pages.</td></tr>
+<tr><td>You cannot reasonably use software</td><td>Apply for the digital exclusion exemption. HMRC refuses it if the only reasons are paper filing in the past, not knowing the software, few records, or the cost.</td></tr>
+</table>
+<p>Partnerships are outside MTD for now; partnership rental income is reported on the partnership return.</p>
+
+<h2>The other compulsory deadline for landlords</h2>
+<p>England's landlord database opens on 15 December 2026, with a separate deadline for each region, from 14 March 2027 in the West Midlands. Every property needs a valid gas safety record, EICR and EPC uploaded. <a href="https://genzagents.github.io/rentready/">Check your properties in two minutes</a>, or see <a href="landlord-deadlines-calendar.html">every landlord deadline to 2028</a> on one calendar.</p>
+
+<h2>Questions</h2>
+__FAQ_HTML__
+<h2 id="sources">Sources</h2>
+<ul class="mut">
+<li><a href="https://www.gov.uk/guidance/check-what-to-do-if-hmrc-has-signed-you-up-for-making-tax-digital-for-income-tax">gov.uk: check what to do if HMRC has signed you up for Making Tax Digital for Income Tax (updated 11 September 2026)</a></li>
+<li><a href="https://www.gov.uk/guidance/find-out-if-you-can-get-an-exemption-from-making-tax-digital-for-income-tax">gov.uk: find out if you can get an exemption from Making Tax Digital for Income Tax</a></li>
+<li><a href="https://www.gov.uk/guidance/work-out-your-qualifying-income-for-making-tax-digital-for-income-tax">gov.uk: work out your qualifying income (gross; your share of a jointly owned property)</a></li>
+<li><a href="https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/send-quarterly-updates">gov.uk: send quarterly updates (deadlines; penalty points)</a></li>
+</ul>
+<p class="mut">Not tax advice. rentready is not MTD software and is not recognised by HMRC. Check gov.uk or an accountant before relying on this. Last checked __REVIEWED__.</p>
+<script src="../remind.js"></script>
+<script id="su-logic">__LOGIC__</script>
+<script>
+(function(){
+var RM=window.rentreadyRemind,cur=null;
+function $(i){return document.getElementById(i);}
+function dd(d){return new Date(d+"T12:00:00Z").toLocaleDateString("en-GB",{day:"numeric",month:"long",year:"numeric",timeZone:"UTC"});}
+function gbp(n){return "£"+Math.round(n).toLocaleString("en-GB");}
+var HEAD={
+ "in":["ok","HMRC is right: you need Making Tax Digital now"],
+ "ceased-after":["ok","You need MTD for one last stretch"],
+ "ceased-before":["warn","You should not have been signed up"],
+ "exempt-auto":["warn","You are probably exempt"],
+ "exempt-apply":["warn","Apply for the digital exclusion exemption"],
+ "under-2027":["warn","Your figure is under £50,000, so check HMRC's"],
+ "under-2028":["warn","Your figure is under £50,000, so check HMRC's"],
+ "under-exempt":["warn","At £20,000 or less you are exempt"]};
+function body(r){
+ var q=r.q===null?"":" Your 2024-25 qualifying income comes to "+gbp(r.q)+".";
+ var od=r.overdue.length?" Overdue now: the update due "+dd(r.overdue[r.overdue.length-1].d)+". Send it as soon as you can; a later update covers the same months, and there are no penalty points for late updates in 2026-27.":"";
+ switch(r.code){
+ case "in":return (r.q===null?"If HMRC's figure is right, here is what to do. ":q.trim())+" Sign in to HMRC online services, confirm your income sources, choose software and create digital records from 6 April 2026."+od+(r.next?" Next update: "+dd(r.next.d)+", covering "+r.next.p+".":"")+" The 2026-27 tax return is due by 31 January 2028.";
+ case "ceased-after":return "Send one quarterly update covering up to the date your income stopped, then the 2026-27 tax return from MTD software by 31 January 2028. After that you leave MTD.";
+ case "ceased-before":return "Update your income sources in your HMRC online account to show they stopped. You will not need MTD, but you still file your 2025-26 return by 31 January 2027.";
+ case "exempt-auto":return "Automatic exemptions should not have been signed up. Contact Self Assessment general enquiries and say which one applies (see the table below).";
+ case "exempt-apply":return "Apply for the exemption, and explain why using software is not reasonable for you. Until HMRC agrees, keep to the steps below.";
+ case "under-2027":return q.trim()+" That is not over £50,000, so contact Self Assessment general enquiries. Common causes are a joint let counted in full or wages added in. Over £30,000 on your 2025-26 return still means MTD from 6 April 2027.";
+ case "under-2028":return q.trim()+" That is not over £50,000, so contact Self Assessment general enquiries. If it stays over £20,000, MTD starts for you on 6 April 2028.";
+ case "under-exempt":return q.trim()+" Qualifying income of £20,000 or less is automatically exempt. Contact Self Assessment general enquiries to have the sign-up reversed.";}
+}
+function go(){var today=new Date().toISOString().slice(0,10);
+ cur=verdict({prop:$("prop").value,se:$("se").value,ceased:$("ceased").value,ex:$("ex").value},today);
+ var h=cur.code==="in"&&cur.q===null?["na","Enter your 2024-25 figures to check HMRC's"]:HEAD[cur.code];
+ $("out").className="who-out"+(h[0]==="ok"?" who-yes":h[0]==="warn"?" who-later":"");
+ $("out").innerHTML="<b>"+h[1]+"</b><p>"+body(cur)+"</p>";
+ $("rem").style.display=(cur.code==="in"||cur.code==="ceased-after")&&cur.next?"":"none";}
+$("chk").addEventListener("input",go);$("chk").addEventListener("change",go);go();
+var r=$("rem"),m=$("rem-msg");
+r.addEventListener("submit",async function(ev){ev.preventDefault();
+var d=RM&&cur&&cur.next&&RM.mtd($("rem-email").value,cur.next.d);
+if(!d){m.textContent="Please enter a valid email address.";return;}
+m.textContent="Sending...";try{await RM.send(d);m.textContent="Done. We will email you two weeks before "+dd(cur.next.d)+".";r.querySelector("button").disabled=true;}
+catch(x){m.textContent="That did not send. Please try again in a moment.";}});
+})();
+</script>
+__FOOTER__"""
+
+
+def faq_ld() -> str:
+    return json.dumps({"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in FAQ]},
+        ensure_ascii=False, indent=1)
+
+
+def nice(d: str) -> str:
+    y, m, day = d.split("-")
+    return f"{int(day)} {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][int(m) - 1]} {y}"
+
+
+def build() -> str:
+    src = (ROOT / "docs/guides/landlord-database-first-year-cost.html").read_text(encoding="utf-8")
+    header = src[src.index("<header"):src.index("</header>") + 9]
+    footer = src[src.index("<footer"):]
+    faq_html = "\n".join(f"<h3>{html.escape(q)}</h3>\n<p>{html.escape(a)}</p>" for q, a in FAQ)
+    qrows = "\n".join(f"<tr><td>{nice(d)}</td><td>{html.escape(p)}</td></tr>" for d, p in QUARTERS)
+    logic = LOGIC.replace("__QUARTERS__", json.dumps([{"d": d, "p": p} for d, p in QUARTERS], separators=(",", ":")))
+    t = PAGE
+    for k, v in {"__URL__": URL, "__FAQ__": faq_ld(), "__HEADER__": header, "__REVIEWED__": REVIEWED,
+                 "__QROWS__": qrows, "__FAQ_HTML__": faq_html, "__LOGIC__": logic, "__FOOTER__": footer}.items():
+        t = t.replace(k, v)
+    return t
+
+
+if __name__ == "__main__":
+    OUT.write_text(build(), encoding="utf-8")
+    print(OUT.relative_to(ROOT))

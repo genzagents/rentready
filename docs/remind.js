@@ -53,6 +53,17 @@
     return out;
   }
 
+  // Reminder from the "HMRC signed me up" guide: the email and the next MTD quarterly deadline, nothing else.
+  function mtd(email, deadline) {
+    email = valid(email);
+    if (!email) return null;
+    var out = {};
+    out[FIELDS.email] = email;
+    out[FIELDS.deadline] = /^\d{4}-\d{2}-\d{2}$/.test(deadline || "") ? deadline : "";
+    out[FIELDS.source] = "mtd signed up";
+    return out;
+  }
+
   function removal(email) {
     email = valid(email);
     if (!email) return null;
@@ -69,7 +80,7 @@
     return fetch(FORM, { method: "POST", mode: "no-cors", body: body });
   }
 
-  var api = { FORM: FORM, FIELDS: FIELDS, valid: valid, payload: payload, waitlist: waitlist, calendar: calendar, removal: removal, send: send };
+  var api = { FORM: FORM, FIELDS: FIELDS, valid: valid, payload: payload, waitlist: waitlist, calendar: calendar, mtd: mtd, removal: removal, send: send };
   if (typeof module !== "undefined" && module.exports) module.exports = api;
   else root.rentreadyRemind = api;
 })(this);
