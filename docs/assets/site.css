@@ -249,3 +249,14 @@ main .card#make{padding:20px 22px;margin:22px 0}
 .who-table th:last-child,.who-table td:last-child{text-align:left}
 .who-wrap{overflow-x:auto;margin:12px 0}
 @media (max-width:600px){.who-table tr:first-child{display:none}.who-table tr{display:grid;grid-template-columns:1fr auto;column-gap:10px;border-bottom:1px solid var(--line)}.who-table td{border:0}.who-table td:last-child{grid-column:1/-1;padding-top:0;color:var(--muted);font-size:14px}}
+/* regulations status tracker */
+.track{list-style:none;padding:0;margin:1rem 0;display:grid;gap:.5rem}
+.track li{display:flex;justify-content:space-between;gap:1rem;align-items:baseline;padding:.65rem .9rem;border-radius:10px;border:1px solid var(--line);background:var(--na-soft)}
+.track li b{font-weight:600}
+.track li span{white-space:nowrap;color:var(--muted);font-size:.92em}
+.track li.t-done{background:var(--ok-soft);border-color:transparent}
+.track li.t-done b::before{content:"\2713\00a0\00a0";color:var(--ok)}
+.track li.t-done span{color:var(--ok)}
+.track li.t-next{background:var(--warn-soft);border-color:var(--warn)}
+.track li.t-next span{color:var(--warn);font-weight:600}
+@media (max-width:560px){.track li{flex-direction:column;gap:.15rem}.track li span{white-space:normal}}
