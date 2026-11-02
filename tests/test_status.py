@@ -49,6 +49,18 @@ class StatusTest(unittest.TestCase):
         self.assertIn("reviewed 12 November 2026", page)
         self.assertNotIn("Waits on the vote", page)
 
+    def test_is_it_live(self):
+        base = gs.parse(RECORD)
+        st = gs.status(base, date(2026, 11, 2))
+        self.assertEqual(gs.live(st, date(2026, 11, 2))[0], "Not yet.")
+        self.assertIn("still need Parliament", gs.live(st, date(2026, 11, 2))[1])
+        made = gs.status(base + [item(date(2026, 11, 12), "Instrument made")], date(2026, 11, 12))
+        self.assertIn("regulations are law", gs.live(made, date(2026, 11, 12))[1])
+        self.assertEqual(gs.live(made, date(2026, 12, 15))[0], "It should be open.")
+        page = gs.build(base, date(2026, 11, 2))
+        self.assertIn("<title>Is the PRS Database live yet?", page)
+        self.assertIn("Is it live? Not yet.", page)
+
     def test_trouble_is_shown(self):
         bad = gs.parse(RECORD) + [item(date(2026, 11, 4), "Motion to approve the instrument not approved (House of Lords)")]
         page = gs.build(bad, date(2026, 11, 4))

@@ -95,6 +95,21 @@ def headline(st: dict) -> str:
     return s
 
 
+OPENS = date(2026, 12, 15)  # registration opening day in the official guidance
+
+
+def live(st: dict, today: date) -> tuple:
+    """Answer to 'is the PRS Database live?': dates only, so the page changes on a vote or on opening day, not daily."""
+    if today >= OPENS:
+        return ("It should be open.", "The official guidance gave 15 December 2026 as the day registration opens, starting with the West Midlands; "
+                "check gov.uk for the registration service itself.")
+    if "made" in st["done"]:
+        return ("Not yet.", "The regulations are law, and the official guidance gives 15 December 2026 as the day registration opens. "
+                "No landlord has to register before then.")
+    return ("Not yet.", "Registration is due to open on 15 December 2026, and the regulations behind it still need Parliament's approval. "
+            "No landlord can register or has to register before then.")
+
+
 def build(items: list, today: date) -> str:
     e = html.escape
     st = status(items, today)
@@ -120,10 +135,11 @@ def build(items: list, today: date) -> str:
     reviewed = long_date(st["latest"])
     REG = "Made: in force as the regulations say" if "made" in done else "Waits on the vote"
     head = headline(st)
+    is_live = live(st, today)
     return f"""<!doctype html>
 <html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Is the landlord database confirmed? Where the regulations stand</title>
-<meta name="description" content="Where the landlord database (PRS Database) regulations stand in Parliament, from Parliament&apos;s own record: what is approved and what is next.">
+<title>Is the PRS Database live yet? Where the landlord database stands</title>
+<meta name="description" content="Is the PRS Database (landlord database) live yet? When registration opens, and where its regulations stand in Parliament, from Parliament&apos;s own record.">
 <link rel="canonical" href="{BASE}guides/landlord-database-regulations-status.html">
 <meta name="theme-color" content="#0e5a44">
 <link rel="icon" href="{ICON}">
@@ -136,8 +152,9 @@ def build(items: list, today: date) -> str:
 </div></header>
 <main>
 <p class="crumbs"><a href="{BASE}">rentready</a> / <a href="{BASE}guides/">Landlord database guides</a></p>
-<h1>Is the landlord database confirmed? Where the regulations stand</h1>
+<h1>Is the PRS Database live yet? Where the landlord database stands</h1>
 <p class="mut byline">Written by <a href="{BASE}about.html">GenZAgents</a>, reviewed {reviewed}. Rebuilt twice a day from <a href="{SOURCE}">Parliament's record</a>. <a href="#sources">Sources</a> below.</p>
+<div class="who-out"><b>Is it live? {e(is_live[0])}</b><p>{e(is_live[1])}</p></div>
 <p><strong>{e(head)}</strong> The database itself is set up by the Renters' Rights Act 2025, which is already law. The regulations set the detail: the £65 fee, the regional deadlines and what you upload. The <a href="{GUIDANCE}">official guidance</a> still gives 15 December 2026 as the day registration opens.</p>
 {trouble}
 <h2>The steps</h2>
@@ -166,6 +183,8 @@ def build(items: list, today: date) -> str:
 <thead><tr><th>Date</th><th>What happened</th><th>Link</th></tr></thead>
 <tbody>{rows}</tbody></table></div>
 <h2>Questions</h2>
+<h3>Is the PRS Database live yet?</h3>
+<p>{e(" ".join(is_live))} Until it opens, you can check each property's deadline and certificates with the <a href="{BASE}#tool">free checker</a>.</p>
 <h3>Is the landlord database definitely happening?</h3>
 <p>The database is in the Renters' Rights Act 2025, which is law. The regulations that set the fee, the dates and the uploads are the part still going through Parliament. Status today: {e(head[0].lower() + head[1:])}</p>
 <h3>What happens if Parliament does not approve the regulations?</h3>
