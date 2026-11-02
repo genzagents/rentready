@@ -196,6 +196,13 @@ class Sponsors(unittest.TestCase):
         rows, cid = H.latest_portfolio(cs, "LEE")
         self.assertEqual(cid, "4"); self.assertEqual(rows[0]["postcode"], "M1 1AE")
         self.assertEqual(H.latest_portfolio(cs[:3][1:], "lee")[0], [])
+    def test_own_reports_and_prose_are_never_read_as_a_list(self):
+        # the gh token's account can be the sponsor too (our own dogfood repo): reports must be skipped
+        report = H.comment_text("lee", "Your first rentready report: 2 ready", H.format_portfolio(rr.check_portfolio(H.parse_portfolio_text(CSV), today=T)))
+        cs = [{"id": 1, "author": "lee", "body": "Test list (sample, not real):\n" + LINES}, {"id": 2, "author": "lee", "body": report}]
+        rows, cid = H.latest_portfolio(cs, "lee")
+        self.assertEqual(cid, "1"); self.assertEqual([r["postcode"] for r in rows], ["B3 2TA", "SW1A 1AA"])
+        self.assertIn(H.BOT, H.welcome_body("lee"))
     def test_repo_name_is_safe(self):
         self.assertEqual(H.repo_name("genzagents", "Lee_O.K"), "genzagents/rentready-lee_o.k")
 

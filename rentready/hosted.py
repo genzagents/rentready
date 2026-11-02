@@ -62,6 +62,8 @@ ACTIVE = {"active", "trialing", "past_due"}
 MONTH = 30 * 24 * 3600
 PORTFOLIO_KEYS = ("portfolio", "properties", "csv", "property", "rentals")
 YEAR = 365 * 24 * 3600
+BOT = "<!-- rentready-watch -->"  # on every comment the runner writes, so it never reads its own reports back
+POSTCODE = re.compile(r"^[A-Z]{1,2}[0-9][A-Z0-9]?\s*[0-9][A-Z]{2}$", re.I)
 POSITIONAL = ["name", "postcode", "gas", "eicr", "epc", "epc_rating", "tenancy_start"]
 NONE_WORDS = {"", "-", "none", "n/a", "na", "?", "unknown"}
 
@@ -300,24 +302,24 @@ def welcome_body(login: str) -> str:
             "opening, a deadline nearing or passing, a property no longer ready), and a short digest once a month "
             "otherwise.\n\n"
             "Dates follow the draft regulations as published; check gov.uk before you act on one. "
-            "Terms: https://genzagents.github.io/rentready/terms.html")
+            "Terms: https://genzagents.github.io/rentready/terms.html\n" + BOT)
 
 
 def latest_portfolio(comments: List[Dict[str, Any]], login: str) -> Tuple[List[Dict[str, str]], str]:
     """The sponsor's newest comment that parses as a portfolio -> (rows, comment id). ([], '') when none yet."""
     for c in sorted(comments, key=lambda c: int(c.get("id") or 0), reverse=True):
-        if str(c.get("author") or "").lower() != login.lower():
+        if str(c.get("author") or "").lower() != login.lower() or BOT in str(c.get("body") or ""):
             continue
         body = re.sub(r"```[a-z]*", "", str(c.get("body") or ""))
         body = re.sub(r"(?im)^\s*name,\s*postcode,\s*gas safety date.*$", "", body)  # our instruction line, copied
-        rows = [r for r in parse_portfolio_text(body) if r.get("postcode")]
+        rows = [r for r in parse_portfolio_text(body) if POSTCODE.match(str(r.get("postcode") or "").strip())]
         if rows:
             return rows, str(c.get("id"))
     return [], ""
 
 
 def comment_text(login: str, subj: str, text: str) -> str:
-    return f"@{login} **{subj}**\n\n```\n{text}\n```"
+    return f"@{login} **{subj}**\n\n```\n{text}\n```\n{BOT}"
 
 
 def _http(method: str, url: str, headers: Dict[str, str], body: Optional[Dict[str, Any]] = None, timeout: int = 60) -> Dict[str, Any]:
@@ -435,7 +437,7 @@ def github_pass(org: str, now: float, dry_run: bool, out=sys.stdout) -> List[Dic
             if rec.get("issue") and not rec.get("expired_notice_at") and not dry_run:
                 post_comment(rec["repo"], rec["issue"], f"@{rec['login']} your rentready year has ended, so the watch "
                              "has stopped. Renew at https://genzagents.github.io/rentready/#watch and it carries on "
-                             "here with the same list.")
+                             "here with the same list.\n" + BOT)
                 rec["expired_notice_at"] = now
             continue
         if dry_run and not rec.get("issue"):
