@@ -25,7 +25,8 @@ PUBLISHED_AT: dict = {"docs/guides/epc-expiry-by-region.html": "2026-10-29",
                      "docs/guides/landlord-database-regulations-status.html": "2026-11-01",
                      "docs/guides/landlord-deadlines-calendar.html": "2026-11-01",
                      "docs/guides/hmrc-signed-me-up-making-tax-digital.html": "2026-11-01",
-                     "docs/guides/making-tax-digital-quarterly-update-landlords.html": "2026-11-02"}
+                     "docs/guides/making-tax-digital-quarterly-update-landlords.html": "2026-11-02",
+                     "docs/guides/making-tax-digital-software-for-landlords.html": "2026-11-02"}
 MARK = '<script type="application/ld+json" id="ld-site">'
 BLOCK = re.compile(re.escape(MARK) + r".*?</script>\n", re.S)
 

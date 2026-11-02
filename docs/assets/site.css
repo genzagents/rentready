@@ -300,3 +300,24 @@ main .card#make{padding:20px 22px;margin:22px 0}
 .qu-btns button{font:inherit;padding:9px 14px;border-radius:var(--radius-sm);border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
 .qu-btns button.go{background:var(--brand);color:#fff;border-color:var(--brand)}
 @media (max-width:600px){.qu-lines thead,.qu-lines td.d{display:none}.qu-lines tr{display:grid;grid-template-columns:minmax(0,1fr) auto;border-bottom:1px solid var(--line)}.qu-lines td{border:0}.qu-lines td.desc{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding-bottom:2px}.qu-lines td:last-child{grid-column:1/-1;padding-top:2px}.qu-lines select{max-width:none}}
+/* MTD software finder */
+.sw-f{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px 22px;margin:8px 0 4px}
+.sw-f fieldset{border:0;padding:0;margin:0;min-width:0}
+.sw-f legend{font-weight:650;font-size:15px;margin-bottom:4px;padding:0}
+.sw-f label{display:flex;gap:8px;align-items:flex-start;font-size:15px;line-height:1.35;padding:3px 0;cursor:pointer}
+.sw-f input{margin-top:3px;accent-color:var(--brand);flex:none}
+.sw-count{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin:14px 0 8px}
+.sw-count b{font-size:1.5rem;line-height:1.1}
+.sw-list{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.sw-list li{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 14px;min-width:0}
+.sw-list a.sw-n{font-weight:700;color:var(--ink);text-decoration:none;overflow-wrap:anywhere}
+.sw-list a.sw-n:hover{text-decoration:underline}
+.sw-t{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.sw-t span{font-size:12.5px;line-height:1.2;padding:3px 8px;border-radius:999px;background:var(--surface-2);color:var(--ink-2)}
+.sw-t span.y{background:var(--ok-soft);color:var(--ok)}
+.sw-t span.d{background:var(--warn-soft);color:var(--warn)}
+.sw-more{margin:12px 0 0}
+.sw-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:16px 0}
+.sw-stats div{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 14px}
+.sw-stats b{display:block;font-size:1.7rem;line-height:1.1;color:var(--brand-text)}
+.sw-stats span{font-size:14px;color:var(--ink-2)}

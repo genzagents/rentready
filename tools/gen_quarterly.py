@@ -244,7 +244,7 @@ __FAQ_HTML__
 <li><a href="https://www.gov.uk/guidance/use-making-tax-digital-for-income-tax/create-digital-records">gov.uk: create digital records (updated 16 October 2026: simpler categorisation under £90,000, restricted finance costs)</a></li>
 <li><a href="https://developer.service.hmrc.gov.uk/api-documentation/docs/api/service/property-business-api/6.0">HMRC developer hub: Property Business API v6.0, UK property cumulative period summary (the categories)</a></li>
 </ul>
-<p class="mut">Not tax advice. rentready is not MTD software and is not recognised by HMRC; send your update from software that is. Check the figures, or ask an accountant, before relying on them. Last checked __REVIEWED__.</p>
+<p class="mut">Not tax advice. rentready is not MTD software and is not recognised by HMRC; send your update from <a href="making-tax-digital-software-for-landlords.html">software that is</a>. Check the figures, or ask an accountant, before relying on them. Last checked __REVIEWED__.</p>
 <script src="../remind.js"></script>
 <script id="qu-logic">__LOGIC__</script>
 <script>
