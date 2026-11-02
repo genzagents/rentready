@@ -53,14 +53,14 @@
     return out;
   }
 
-  // Reminder from the "HMRC signed me up" guide: the email and the next MTD quarterly deadline, nothing else.
-  function mtd(email, deadline) {
+  // Reminder from the MTD guides: the email and the next quarterly deadline, nothing else. source names the page.
+  function mtd(email, deadline, source) {
     email = valid(email);
     if (!email) return null;
     var out = {};
     out[FIELDS.email] = email;
     out[FIELDS.deadline] = /^\d{4}-\d{2}-\d{2}$/.test(deadline || "") ? deadline : "";
-    out[FIELDS.source] = "mtd signed up";
+    out[FIELDS.source] = source || "mtd signed up";
     return out;
   }
 
