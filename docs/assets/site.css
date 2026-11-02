@@ -321,3 +321,6 @@ main .card#make{padding:20px 22px;margin:22px 0}
 .sw-stats div{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 14px}
 .sw-stats b{display:block;font-size:1.7rem;line-height:1.1;color:var(--brand-text)}
 .sw-stats span{font-size:14px;color:var(--ink-2)}
+.buy-steps{margin:0 0 18px;padding-left:1.3em}
+.buy-steps li{margin:0 0 8px;line-height:1.5}
+.buy-steps code{font-size:.9em;background:var(--brand-soft);padding:1px 6px;border-radius:6px}

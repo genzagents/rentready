@@ -4,6 +4,19 @@ No server. One always-on machine runs `rentready hosted run` once an hour. Every
 checkout form, receipts, VAT) and Resend (email delivery). It is the same runner shape as citable's, so one machine
 and the same two accounts serve both products.
 
+## Live now: GitHub Sponsors, no Polar or Resend (2 Nov 2026)
+
+`rentready hosted run --source=github` sells the same watch through the genzagents GitHub Sponsors page.
+A landlord pays $16 once (about £12, a year) at
+https://github.com/sponsors/genzagents/sponsorships?amount=16&frequency=one-time . Within the hour the runner:
+
+1. records the payment in `~/.rentready-hosted/sponsors.json` (GitHub lists a one-time sponsor as active for 30 days only, so the ledger is what holds the year),
+2. creates the private repo `genzagents/rentready-<login>`, invites them with triage access and opens one issue asking for their properties,
+3. reads their newest comment that parses as a portfolio, and from then on posts the first report, alerts and the monthly digest as comments that @mention them, so GitHub emails each one,
+4. posts one notice when the year ends and stops.
+
+Addresses never touch a public page. Runs hourly from `~/Library/LaunchAgents/io.genzagents.rentready.hosted.plist` with the `gh` token (repo + read:org). `--dry-run` shows what it would create and post.
+
 ## What a subscriber sees
 
 1. Pays on the Polar checkout. The checkout asks for one custom field: their portfolio, one property per line

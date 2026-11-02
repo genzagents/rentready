@@ -163,5 +163,94 @@ class Launchd(unittest.TestCase):
         self.assertIn("rentready.hosted", buf.getvalue()); self.assertIn("<integer>3600</integer>", buf.getvalue())
 
 
+class Sponsors(unittest.TestCase):
+    def test_one_time_buys_a_year_once(self):
+        led = {}
+        new = H.update_ledger(led, [{"login": "Lee", "monthly": 16, "one_time": True}], NOW)
+        self.assertEqual(new, ["lee"]); self.assertEqual(led["lee"]["paid_until"], NOW + H.YEAR)
+        # GitHub keeps listing it for 30 days: no second year
+        self.assertEqual(H.update_ledger(led, [{"login": "Lee", "monthly": 16, "one_time": True}], NOW + 86400), [])
+        self.assertEqual(led["lee"]["paid_until"], NOW + H.YEAR)
+    def test_renewal_after_the_year(self):
+        led = {}
+        H.update_ledger(led, [{"login": "lee", "monthly": 16, "one_time": True}], NOW)
+        later = NOW + H.YEAR + 10
+        self.assertEqual(H.update_ledger(led, [{"login": "lee", "monthly": 20, "one_time": True}], later), [])
+        self.assertEqual(led["lee"]["paid_until"], later + H.YEAR)
+    def test_too_little_is_ignored_and_monthly_has_grace(self):
+        led = {}
+        self.assertEqual(H.update_ledger(led, [{"login": "a", "monthly": 5, "one_time": True},
+                                               {"login": "b", "monthly": 1}, {"login": "c", "monthly": 2}], NOW), ["c"])
+        self.assertGreater(led["c"]["paid_until"], NOW + H.MONTH); self.assertEqual(led["c"]["plan"], "monthly")
+    def test_welcome_example_parses_back(self):
+        body = H.welcome_body("lee")
+        example = body.split("```")[1]
+        rows, cid = H.latest_portfolio([{"id": 5, "author": "Lee", "body": "```\n" + example + "```"}], "lee")
+        self.assertEqual(cid, "5"); self.assertEqual([r["postcode"] for r in rows], ["B15 2TT", "CV37 6BB"])
+        self.assertEqual(rows[1].get("no_gas"), "yes")
+        copied = "name, postcode, gas safety date, EICR date, EPC date, EPC rating, tenancy start\n" + example
+        self.assertEqual(len(H.latest_portfolio([{"id": 6, "author": "lee", "body": copied}], "lee")[0]), 2)
+    def test_latest_comment_by_sponsor_wins(self):
+        cs = [{"id": 1, "author": "lee", "body": LINES}, {"id": 2, "author": "genzagents-bot", "body": CSV},
+              {"id": 3, "author": "lee", "body": "thanks!"}, {"id": 4, "author": "lee", "body": "Flat 9, M1 1AE, -, -, 2019-09-01, E"}]
+        rows, cid = H.latest_portfolio(cs, "LEE")
+        self.assertEqual(cid, "4"); self.assertEqual(rows[0]["postcode"], "M1 1AE")
+        self.assertEqual(H.latest_portfolio(cs[:3][1:], "lee")[0], [])
+    def test_repo_name_is_safe(self):
+        self.assertEqual(H.repo_name("genzagents", "Lee_O.K"), "genzagents/rentready-lee_o.k")
+
+
+class GithubPass(unittest.TestCase):
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory(); os.environ["RENTREADY_STATE_DIR"] = self.tmp.name
+        self.calls = []
+        self.comments = []
+        def fake(method, path, body=None):
+            self.calls.append((method, path, body))
+            if path == "/graphql":
+                return {"data": {"organization": {"sponsorshipsAsMaintainer": {"nodes": [
+                    {"tier": {"monthlyPriceInDollars": 16, "isOneTime": True}, "sponsorEntity": {"login": "Lee"}}]}}}}
+            if path.endswith("/issues") and method == "POST":
+                return {"number": 1}
+            if "/comments" in path and method == "GET":
+                return self.comments
+            if "/comments" in path and method == "POST":
+                return {"html_url": "https://github.com/x#c"}
+            return {}
+        self._old = H._gh; H._gh = fake
+    def tearDown(self):
+        H._gh = self._old; del os.environ["RENTREADY_STATE_DIR"]; self.tmp.cleanup()
+    def test_new_sponsor_gets_private_repo_invite_and_issue_then_report(self):
+        out = io.StringIO()
+        self.assertEqual(H.github_pass("genzagents", NOW, False, out), [])
+        paths = [(m, p) for m, p, _ in self.calls]
+        self.assertIn(("POST", "/orgs/genzagents/repos"), paths)
+        self.assertTrue([b for m, p, b in self.calls if p == "/orgs/genzagents/repos"][0]["private"])
+        self.assertIn(("PUT", "/repos/genzagents/rentready-lee/collaborators/Lee"), paths)
+        self.assertIn("waiting for their properties", out.getvalue())
+        # they reply with their list; the next pass reports on the issue
+        self.comments = [{"id": 9, "user": {"login": "Lee"}, "body": CSV}]
+        self.calls.clear()
+        subs = H.github_pass("genzagents", NOW + 3600, False, out)
+        self.assertEqual(len(subs), 1); self.assertEqual(subs[0]["repo"], "genzagents/rentready-lee")
+        self.assertNotIn(("POST", "/orgs/genzagents/repos"), [(m, p) for m, p, _ in self.calls])
+        H.run(subs, dry_run=False, now=NOW + 3600, today=T, out=out)
+        posted = [b for m, p, b in self.calls if m == "POST" and p.endswith("/issues/1/comments")]
+        self.assertEqual(len(posted), 1); self.assertTrue(posted[0]["body"].startswith("@Lee **Your first rentready report"))
+        self.assertIn("Post your whole list again here", posted[0]["body"]); self.assertNotIn("Polar", posted[0]["body"])
+    def test_expired_year_posts_one_notice(self):
+        out = io.StringIO()
+        H.github_pass("genzagents", NOW, False, out)
+        H._gh_saved = H._gh
+        self.calls.clear()
+        later = NOW + H.YEAR + 40 * 86400
+        real = H._gh
+        H._gh = lambda m, p, b=None: ({"data": {"organization": {"sponsorshipsAsMaintainer": {"nodes": []}}}}
+                                      if p == "/graphql" else real(m, p, b))
+        H.github_pass("genzagents", later, False, out); H.github_pass("genzagents", later + 3600, False, out)
+        notices = [b for m, p, b in self.calls if m == "POST" and "comments" in p]
+        self.assertEqual(len(notices), 1); self.assertIn("year has ended", notices[0]["body"])
+
+
 if __name__ == "__main__":
     unittest.main()

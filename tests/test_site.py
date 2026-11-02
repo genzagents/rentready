@@ -48,8 +48,14 @@ class SiteTest(unittest.TestCase):
 
     def test_paid_watch_is_worded_honestly(self):
         t = (DOCS / "index.html").read_text(encoding="utf-8")
-        self.assertIn("Payments are not live yet", t)
+        # on sale through GitHub Sponsors: the page must say what it costs, that GitHub is needed, and link terms
+        self.assertIn("sponsorships?amount=16&amp;frequency=one-time", t)
+        self.assertIn("needs a free GitHub account", t)
+        self.assertIn('href="terms.html#watch"', t)
         self.assertNotIn("checkout opens shortly", t)
+        self.assertNotIn("Payments are not live yet", t)
+        for page in ("terms.html", "privacy.html"):
+            self.assertIn('id="watch"', (DOCS / page).read_text(encoding="utf-8"))
 
     def test_every_page_uses_the_shared_stylesheet(self):
         for p, t in pages():
