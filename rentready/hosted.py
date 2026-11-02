@@ -377,7 +377,7 @@ def _gh(method: str, path: str, body: Optional[Dict[str, Any]] = None) -> Any:
 
 
 def fetch_sponsors(org: str) -> List[Dict[str, Any]]:
-    q = ("query($org:String!){organization(login:$org){sponsorshipsAsMaintainer(first:100,activeOnly:true){nodes{"
+    q = ("query($org:String!){organization(login:$org){sponsorshipsAsMaintainer(first:100,activeOnly:true,includePrivate:true){nodes{"
          "tier{monthlyPriceInDollars isOneTime} "
          "sponsorEntity{... on User{login} ... on Organization{login}}}}}}")
     res = _gh("POST", "/graphql", {"query": q, "variables": {"org": org}})
