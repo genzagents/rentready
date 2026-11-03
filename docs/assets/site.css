@@ -341,3 +341,13 @@ main .card#make{padding:20px 22px;margin:22px 0}
 .upcoming-list span{font-size:14px;color:var(--muted)}
 .upcoming-list em{font-style:normal;font-weight:600;color:var(--warn)}
 @media (max-width:640px){.upcoming-list li{grid-template-columns:56px 1fr;gap:12px}.upcoming-list li .btn{grid-column:2;justify-self:start}}
+/* selective licensing list */
+.lt td:nth-child(3){min-width:220px}.lt td,.lt th{font-size:14px;vertical-align:top}
+.lr{margin-top:28px}.lr small{font-weight:400;font-size:14px;display:block;margin-top:2px}
+.lookup{display:flex;gap:10px;flex-wrap:wrap;align-items:end}.lookup label{flex:1 1 220px}
+.lookup input{width:100%;max-width:none}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:18px 0}
+.kpis div{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius-sm);padding:12px 14px}
+.kpis b{display:block;font-size:1.6rem;line-height:1.1;color:var(--ink)}.kpis span{font-size:14px;color:var(--muted,inherit)}
+#lic-out ul{margin:6px 0 0}#lic-out li{margin:4px 0 4px 18px;list-style:disc;font-size:15px}
+.lt td:first-child{white-space:nowrap}
