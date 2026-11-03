@@ -58,7 +58,7 @@
       const r = await fetch("https://api.postcodes.io/postcodes/" + encodeURIComponent(postcode.trim()));
       if (!r.ok) return { error: `postcode lookup failed: HTTP ${r.status}` };
       const res = (await r.json()).result || {};
-      return { postcode: res.postcode || postcode, region: res.region, country: res.country };
+      return { postcode: res.postcode || postcode, region: res.region, country: res.country, district: res.admin_district };
     } catch (e) {
       return { error: `postcode lookup failed: ${e.name}: ${e.message}` };
     }

@@ -164,10 +164,26 @@
   var MON=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   function dd(s){return String(s==null?"":s).replace(/\b(\d{4})-(\d{2})-(\d{2})\b/g,function(m,y,mo,d){return (+d)+" "+MON[+mo-1]+" "+y;});}
   function stat(n,l){return '<div class="stat"><b>'+esc(n)+'</b><span>'+esc(l)+'</span></div>';}
+  var licP=null;
+  function licensing(){return licP||(licP=fetch("data/licensing.json").then(function(r){return r.ok?r.json():null;}).catch(function(){return null;}));}
+  function licLine(kind,x){var n={selective:"Selective licensing",additional:"Additional HMO licensing"}[kind];
+    var a=(x.area||"").replace(/^parts:\s*/i,"in parts: ");
+    return '<li><strong>'+n+'</strong> '+(x.status==="designated"?'starts '+dd(x.starts||""):'in force')+(a?', '+esc(a):'')+(x.until?', until '+dd(x.until):'')+'. <a href="'+esc(x.source)+'" target="_blank" rel="noopener">Council page</a></li>';}
+  function licCard(L,district){
+    if(!L||!district)return "";var c=L.councils[district];if(!c)return "";
+    var name=district.replace(/^(.*), (City|County) of$/,"$1"), live=["selective","additional"].filter(function(k){return c[k].status==="in force"||c[k].status==="designated";});
+    var unv=["selective","additional"].filter(function(k){return c[k].status==="not verified";});
+    var h='<div class="lic"><strong>Council licensing: '+esc(name)+'</strong>';
+    if(live.length) h+='<ul>'+live.map(function(k){return licLine(k,c[k]);}).join("")+'</ul><p>Check the council\'s map for your street. If this property needs a licence, the registration service asks for the licence number, and you pay the licence fee <em>and</em> the £65 database fee: the draft regulations give no exemption or discount for licensed homes.</p>';
+    else if(unv.length===2) h+='<p>We could not read '+esc(name)+'\'s website to confirm its schemes. Check with the council before you register: the service asks for any licence number.</p>';
+    else h+='<p>No selective or additional licensing scheme found on the council\'s website (checked '+dd(c.checked)+')'+(unv.length?', though we could not confirm its '+(unv[0]==="selective"?"selective":"additional HMO")+' licensing':'')+'. Mandatory HMO licensing (5 or more people from 2 or more households) still applies everywhere.</p>';
+    return h+'</div>';}
   async function run(){
     var list=rows(); if(!list.length){out.innerHTML="<p>Add a property first.</p>";return;}
     out.innerHTML='<p class="mut">Checking '+list.length+" propert"+(list.length>1?"ies":"y")+"...</p>";
-    var p=await rr.checkPortfolio(list); last={p:p,list:list};
+    var D={}, LIC=licensing();
+    var p=await rr.checkPortfolio(list,null,async function(pc){var lk=await rr.lookupRegion(pc);if(lk&&lk.district)D[pc.trim().toUpperCase()]=lk.district;return lk;}); last={p:p,list:list};
+    LIC=await LIC;
     var h='<div class="summary" id="sum">'+stat(p.ready,"ready")+stat(p.not_ready,"not ready")+stat("£"+p.fee_gbp_per_year,"fee a year")+(p.earliest_deadline?stat(dd(p.earliest_deadline),"earliest deadline"):"")+'</div>'+
       (p.count>p.in_scope?'<p class="mut">'+(p.count-p.in_scope)+' outside England: this database does not apply.</p>':'');
     p.properties.forEach(function(r){
@@ -175,7 +191,7 @@
       h+='<div class="prop"><div class="prop-top"><strong>'+esc(r.name)+'</strong> '+st+'</div><div class="mut" style="font-size:14px">'+esc(r.postcode||"")+(r.region?' · '+esc(r.region):'')+
         (r.window?' · register '+dd(r.window.opens)+' to '+dd(r.window.deadline):'')+'</div><ul>';
       r.findings.forEach(function(f){h+='<li><span class="st '+f.status+'">'+f.status+'</span><span><strong>'+esc(f.check)+':</strong> '+esc(dd(f.detail.replace('; pass --region to continue','; check the postcode is right')))+(PT&&PT.offers(partner,f)?'<span class="book">Book with '+esc(partner.by)+(partner.tel||partner.web?': '+contact(partner):'')+'</span>':'')+'</span></li>';});
-      h+='</ul>'; if(r.actions.length){h+='<div class="next"><strong>Do next</strong><ul>'+r.actions.map(function(a){return '<li>'+esc(dd(a))+'</li>';}).join("")+'</ul></div>';}
+      h+='</ul>'+licCard(LIC,r.ready!==null&&r.ready!==undefined?D[(r.postcode||'').trim().toUpperCase()]:null); if(r.actions.length){h+='<div class="next"><strong>Do next</strong><ul>'+r.actions.map(function(a){return '<li>'+esc(dd(a))+'</li>';}).join("")+'</ul></div>';}
       h+='</div>';
     });
     h+='<div class="bar"><button type="button" class="go" id="ics">Add every date to my calendar</button><button type="button" id="packbtn">Show my registration pack</button><button type="button" id="csv">Save my list (CSV)</button></div>'+

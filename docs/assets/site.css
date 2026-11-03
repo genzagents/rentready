@@ -136,6 +136,8 @@ button:hover{border-color:var(--muted)}
 .prop-top strong{font-size:1.05rem}
 .prop ul{list-style:none;padding:0;margin:10px 0 0}
 .prop li{display:flex;gap:10px;align-items:baseline;font-size:15px;margin:6px 0}
+.prop .lic{margin-top:10px;padding:10px 12px;border-radius:var(--radius-sm);background:var(--surface-2,var(--bg));border:1px solid var(--line);font-size:14px}
+.prop .lic ul{margin:6px 0 0}.prop .lic li{display:list-item;list-style:disc;margin:4px 0 4px 18px;font-size:14px}.prop .lic p{margin:6px 0 0}
 .prop .next{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:15px}
 .st{display:inline-block;font:700 11px/1 var(--font);letter-spacing:.04em;padding:5px 8px;border-radius:999px;white-space:nowrap}
 .PASS,.READY,.FILLED{background:var(--ok-soft);color:var(--ok)}
