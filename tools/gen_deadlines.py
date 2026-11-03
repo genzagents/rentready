@@ -268,6 +268,62 @@ def build() -> str:
     return t
 
 
+# The home page's "Coming up" strip: the next few dated events from EVENTS, each with the tool that helps with it.
+# Written between markers in docs/index.html; a small script hides events once their day has passed.
+HOME = ROOT / "docs/index.html"
+HOME_WHO = {"all": "Every landlord in England", "m50": "Landlords in Making Tax Digital (income over £50,000)",
+            "m30": "Landlords with income over £30,000", "r:West Midlands": "West Midlands landlords"}
+
+
+def home_cta(title: str, who: str) -> tuple:
+    if title.startswith("MTD quarterly update"):
+        return "Work out your figures", "guides/making-tax-digital-quarterly-update-landlords.html"
+    if title.startswith("Lords vote"):
+        return "Live status", "guides/landlord-database-regulations-status.html"
+    if title.startswith("Landlord database opens"):
+        return "Check your properties", "#tool"
+    if title.startswith("Self Assessment"):
+        return "Does MTD start for you?", "guides/hmrc-signed-me-up-making-tax-digital.html"
+    if title.startswith("MTD starts"):
+        return "Find MTD software", "guides/making-tax-digital-software-for-landlords.html"
+    if who.startswith("r:"):
+        return "West Midlands guide", "guides/west-midlands.html"
+    return "All deadlines", "guides/landlord-deadlines-calendar.html"
+
+
+def home_strip(today: date, n: int = 6) -> str:
+    rows = []
+    for d, title, who, _ in EVENTS:
+        if d < today.isoformat() or who not in HOME_WHO:
+            continue
+        x = date.fromisoformat(d)
+        cta, href = home_cta(title, who)
+        rows.append(f'<li data-date="{d}"><time datetime="{d}"><b>{x.day}</b>{x.strftime("%b")}</time>'
+                    f'<div><strong>{html.escape(title.replace(" (listed)", ""))}</strong><span>{html.escape(HOME_WHO[who])}'
+                    f' · <em class="when"></em></span></div><a class="btn sm ghost" href="{href}">{html.escape(cta)}</a></li>')
+        if len(rows) == n:
+            break
+    return ("<!-- upcoming:start -->\n"
+            '<section class="band upcoming" aria-labelledby="upcoming-h"><div class="container">\n'
+            '<div class="upcoming-head"><h2 id="upcoming-h">Coming up for landlords</h2>'
+            '<a href="guides/landlord-deadlines-calendar.html">Every deadline to 2028</a></div>\n'
+            '<ol class="upcoming-list">\n' + "\n".join(rows) + "\n</ol>\n"
+            "<script>(function(){var t=new Date();t.setHours(0,0,0,0);var shown=0;"
+            "document.querySelectorAll('.upcoming-list li').forEach(function(li){"
+            "var d=new Date(li.dataset.date+'T00:00:00');var n=Math.round((d-t)/864e5);"
+            "if(n<0||shown>=3){li.hidden=true;return;}shown++;"
+            "li.querySelector('.when').textContent=n===0?'today':n===1?'tomorrow':'in '+n+' days';});})();</script>\n"
+            "</div></section>\n<!-- upcoming:end -->")
+
+
+def write_home(today: date) -> None:
+    s = HOME.read_text(encoding="utf-8")
+    a, b = s.index("<!-- upcoming:start -->"), s.index("<!-- upcoming:end -->") + len("<!-- upcoming:end -->")
+    HOME.write_text(s[:a] + home_strip(today) + s[b:], encoding="utf-8")
+
+
 if __name__ == "__main__":
     OUT.write_text(build(), encoding="utf-8")
     print(OUT.relative_to(ROOT))
+    write_home(date.today())
+    print(HOME.relative_to(ROOT))
