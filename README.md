@@ -61,12 +61,12 @@ and committees of both Houses debated them on 28 October 2026 ([Parliament recor
 and [HCR Law](https://www.hcrlaw.com/news-and-insights/renters-rights-act-2025-private-rented-sector-database-to-go-live-from-15-december-2026/);
 the same dates are in the official guidance at [housinghub.campaign.gov.uk](https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/), which names the region "Yorkshire and Humber".
 Upload within 28 days of the entry and one renewal date for every property are in the draft regulations
-([regulation 6(2)](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6), [regulation 10](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/10)) and reported by the NRLA; the official guidance
-says the fee is pro-rated during the rollout, and the method for later properties is reported by the NRLA. The £65 fee is
+([regulation 6(2)](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/6), [regulation 10](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/10)) and in the [official guidance](https://www.gov.uk/guidance/register-your-rental-property-service-guidance-for-landlords)
+(29 October 2026), which also gives the fee formula: no charge for days before 15 November 2027, so the first payment is £5.34 to £64.82. The £65 fee is
 from the official guidance; the draft leaves the amount to the database operator ([regulation 14](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/14)).
 Miss the 28-day upload and the entry becomes inactive ([regulation 11(2)(a)](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/11)); any later change
-must be updated within 28 days ([regulation 9(4)](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/9)). The two 28-day rules and the single renewal date
-are not in the official guidance yet. Check gov.uk before relying on a date.
+must be updated within 28 days ([regulation 9(4)](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/9)). The official guidance confirms the two 28-day rules and the
+single renewal date. Check gov.uk before relying on a date.
 
 ## Install
 
