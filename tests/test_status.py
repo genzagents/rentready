@@ -61,6 +61,33 @@ class StatusTest(unittest.TestCase):
         self.assertIn("<title>Is the PRS Database live yet?", page)
         self.assertIn("Is it live? Not yet.", page)
 
+    def test_deferred_commons_vote(self):
+        items = gs.parse(RECORD) + [
+            item(date(2026, 11, 3), "Question on motion to approve the instrument put (House of Commons)",
+                 "Decision on motion to approve the instrument deferred (House of Commons)"),
+            item(date(2026, 11, 4), "Motion to approve the instrument approved (House of Lords)")]
+        st = gs.status(items, date(2026, 11, 4))
+        self.assertEqual(st["deferred"], date(2026, 11, 4))  # Tuesday's deferral is voted on Wednesday
+        self.assertIn("deferred division on 4 November 2026", gs.headline(st))
+        self.assertIn("deferred vote 4 November 2026", gs.build(items, date(2026, 11, 4)))
+        done = items + [item(date(2026, 11, 4), "Division: 320 ayes, 100 noes",
+                             "Motion to approve the instrument approved (House of Commons)")]
+        st = gs.status(done, date(2026, 11, 5))
+        self.assertIsNone(st["deferred"])
+        self.assertTrue(gs.headline(st).startswith("Almost."))
+
+    def test_votes_from_hansard_and_divisions(self):
+        debates = [
+            {"date": "2026-10-28", "house": "Lords", "id": "A", "items": [{"Value": "Motion to Consider"}, {"Value": "Motion agreed."}]},
+            {"date": "2026-11-04", "house": "Lords", "id": "B", "items": [{"Value": "Motion to Approve"}, {"Value": "<p>Motion agreed.</p>"}]}]
+        out = gs.votes_from(debates, [{"date": "2026-11-04", "id": 9, "ayes": 300, "noes": 120}])
+        self.assertEqual(len(out), 2)
+        self.assertEqual(out[0]["steps"], ["Motion to approve the instrument approved (House of Lords)"])
+        self.assertIn("/Lords/2026-11-04/debates/B/", out[0]["link"])
+        self.assertIn("Motion to approve the instrument approved (House of Commons)", out[1]["steps"])
+        lost = gs.votes_from([], [{"date": "2026-11-04", "id": 9, "ayes": 100, "noes": 120}])
+        self.assertIn("not approved", lost[0]["steps"][1])
+
     def test_trouble_is_shown(self):
         bad = gs.parse(RECORD) + [item(date(2026, 11, 4), "Motion to approve the instrument not approved (House of Lords)")]
         page = gs.build(bad, date(2026, 11, 4))
@@ -70,7 +97,7 @@ class StatusTest(unittest.TestCase):
         committed = gs.OUT.read_text(encoding="utf-8")
         # the page depends on the build day only through a listed vote date, so some day since launch must reproduce it
         days = (gs.FIRST + timedelta(n) for n in range((date.today() - gs.FIRST).days + 2))
-        builds = {gs.apply("docs/guides/landlord-database-regulations-status.html", gs.build(gs.parse(RECORD), d)) for d in days}
+        builds = {gs.apply("docs/guides/landlord-database-regulations-status.html", gs.build(gs.load_items(), d)) for d in days}
         self.assertIn(committed, builds, "run python3 tools/gen_status.py")
 
     def test_linked_from_guides(self):

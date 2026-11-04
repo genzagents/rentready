@@ -7,10 +7,11 @@ Regulations 2026 stand in Parliament, from the Parliament procedure browser's re
 The page only changes when Parliament's record changes: the "reviewed" date is the date of the latest business item,
 never today's date, so the scheduled run commits nothing on quiet days."""
 import html
+import json
 import re
 import sys
 import urllib.request
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 
 from gen_numbers import BASE, BRAND, FOOT, ICON
@@ -19,6 +20,9 @@ from schema import apply
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "docs" / "guides" / "landlord-database-regulations-status.html"
 RECORD = ROOT / "tools" / "data" / "procedure.html"
+EXTRA = ROOT / "tools" / "data" / "hansard.json"  # same-day votes from Hansard and Commons Votes; the procedure browser lags a day or more
+HANSARD = "https://hansard-api.parliament.uk"
+VOTES = "https://commonsvotes-api.parliament.uk"
 SOURCE = "https://api.parliament.uk/procedure-browser/work-packages/mNlSJVmc"
 DRAFT = "https://www.legislation.gov.uk/ukdsi/2026/9780348286861"
 ACT = "https://www.legislation.gov.uk/ukpga/2025/26"
@@ -71,7 +75,14 @@ def status(items: list, today: date) -> dict:
             if m:
                 d = datetime.strptime(m.group(1), "%Y-%m-%d").date()
                 lords_vote = (d, it["link"]) if d >= today and "lords" not in done else None
-    return {"done": done, "trouble": trouble, "lords_vote": lords_vote,
+    deferred = None
+    for it in items:
+        if any("Decision on motion to approve the instrument deferred (House of Commons)" in s for s in it["steps"]):
+            d = it["date"]
+            deferred = d + timedelta((2 - d.weekday()) % 7 or 7)  # deferred divisions are held on the next Wednesday
+    if "commons" in done:
+        deferred = None
+    return {"done": done, "trouble": trouble, "lords_vote": lords_vote, "deferred": deferred,
             "latest": max([it["date"] for it in items] + [FIRST])}
 
 
@@ -82,6 +93,10 @@ def headline(st: dict) -> str:
     if "lords" in done and "commons" in done:
         return ("Almost. Both Houses of Parliament have approved the regulations "
                 f"(the last vote on {long_date(max(done['lords'], done['commons']))}); the minister still has to sign them into law.")
+    if "lords" in done and st.get("deferred"):
+        return (f"Not yet final. The House of Lords approved the regulations on {long_date(done['lords'])}. "
+                f"The House of Commons vote went to a deferred division on {long_date(st['deferred'])} (MPs vote on paper) "
+                "and its result is not in Parliament's record yet; then the minister signs them into law.")
     if "lords" in done or "commons" in done:
         house, other = ("House of Lords", "House of Commons") if "lords" in done else ("House of Commons", "House of Lords")
         return (f"Not yet final. The {house} approved the regulations on {long_date(done.get('lords') or done.get('commons'))}; "
@@ -123,9 +138,11 @@ def build(items: list, today: date) -> str:
             note = ""
             if key == "lords" and st["lords_vote"]:
                 note = f'listed for {long_date(st["lords_vote"][0])}'
+            if key == "commons" and st.get("deferred"):
+                note = f'deferred vote {long_date(st["deferred"])}'
             track.append(f'<li class="{"t-next" if key == nxt else "t-todo"}"><b>{e(label)}</b><span>{note or "not yet"}</span></li>')
     def row(it):
-        link = f'<a href="{e(it["link"])}">record</a>' if it["link"] else ""
+        link = f'<a href="{e(it["link"])}">{e(it.get("source", "record"))}</a>' if it["link"] else ""
         return f"<tr><td>{long_date(it['date'])}</td><td>{'<br>'.join(e(s) for s in it['steps'])}</td><td>{link}</td></tr>"
     rows = "".join(row(it) for it in reversed(items))
     trouble = ""
@@ -178,7 +195,7 @@ def build(items: list, today: date) -> str:
 <p>A draft like this cannot be amended in Parliament, only approved or not, and its dates match the official guidance. The work a landlord can do today does not depend on the vote: find each property's gas safety record, EICR and EPC, and renew any that lapse before your region's deadline. Registration needs them all.</p>
 <p><a class="btn" href="{BASE}#tool">Check your properties free</a> <span class="mut">Shows each property's deadline and which certificate lapses first. Runs in your browser; only the postcode leaves it.</span></p>
 <h2>Parliament's record</h2>
-<p class="mut">Every business item so far, newest first, as the Parliament procedure browser lists it.</p>
+<p class="mut">Every business item so far, newest first, as the Parliament procedure browser lists it, plus votes from Hansard and the Commons division record on the day they happen.</p>
 <div class="wrap"><table class="record">
 <thead><tr><th>Date</th><th>What happened</th><th>Link</th></tr></thead>
 <tbody>{rows}</tbody></table></div>
@@ -201,6 +218,49 @@ def build(items: list, today: date) -> str:
 """
 
 
+def get_json(url: str):
+    req = urllib.request.Request(url, headers={"User-Agent": "rentready-status (+https://github.com/genzagents/rentready)"})
+    return json.loads(urllib.request.urlopen(req, timeout=30).read().decode("utf-8"))
+
+
+def votes_from(debates: list, divisions: list) -> list:
+    """Approval votes as business items: Hansard debates whose motion to approve was agreed, and Commons divisions."""
+    out = []
+    for d in debates:
+        texts = [re.sub(r"<[^>]+>", "", i.get("Value") or "").strip() for i in d["items"]]
+        if "Motion to Approve" in texts and any(t.startswith("Motion agreed") for t in texts):
+            out.append({"date": d["date"], "steps": [f"Motion to approve the instrument approved (House of {d['house']})"],
+                        "link": f"https://hansard.parliament.uk/{d['house']}/{d['date']}/debates/{d['id']}/", "source": "Hansard"})
+    for v in divisions:
+        result = "approved" if v["ayes"] > v["noes"] else "not approved"
+        out.append({"date": v["date"], "steps": [f"Division: {v['ayes']} ayes, {v['noes']} noes",
+                                                f"Motion to approve the instrument {result} (House of Commons)"],
+                    "link": f"https://votes.parliament.uk/votes/commons/division/{v['id']}", "source": "division"})
+    return out
+
+
+def fetch_votes() -> None:
+    q = "queryParameters.searchTerm=Private%20Rented%20Sector%20Database&queryParameters.startDate=2026-10-27"
+    debates = []
+    for r in get_json(f"{HANSARD}/search/debates.json?{q}&queryParameters.take=50").get("Results", []):
+        full = get_json(f"{HANSARD}/debates/debate/{r['DebateSectionExtId']}.json")
+        debates.append({"date": r["SittingDate"][:10], "house": r["House"], "id": r["DebateSectionExtId"], "items": full.get("Items", [])})
+    divisions = [{"date": d["Date"][:10], "id": d["DivisionId"], "ayes": d["AyeCount"], "noes": d["NoCount"]}
+                 for d in get_json(f"{VOTES}/data/divisions.json/search?{q}")]
+    EXTRA.write_text(json.dumps(votes_from(debates, divisions), indent=1) + "\n", encoding="utf-8")
+
+
+def load_items() -> list:
+    """Parliament's record plus same-day votes it does not list yet, in date order."""
+    items = parse(RECORD.read_text(encoding="utf-8"))
+    seen = {s for it in items for s in it["steps"]}
+    extra = json.loads(EXTRA.read_text(encoding="utf-8")) if EXTRA.exists() else []
+    for x in extra:
+        if not any(s in seen for s in x["steps"]):
+            items.append(dict(x, date=datetime.strptime(x["date"], "%Y-%m-%d").date()))
+    return sorted(items, key=lambda it: it["date"])
+
+
 def fetch() -> None:
     req = urllib.request.Request(SOURCE, headers={"User-Agent": "rentready-status (+https://github.com/genzagents/rentready)"})
     t = urllib.request.urlopen(req, timeout=30).read().decode("utf-8")
@@ -212,6 +272,7 @@ def fetch() -> None:
 if __name__ == "__main__":
     if "--fetch" in sys.argv:
         fetch()
-    page = apply("docs/guides/landlord-database-regulations-status.html", build(parse(RECORD.read_text(encoding="utf-8")), date.today()))
+        fetch_votes()
+    page = apply("docs/guides/landlord-database-regulations-status.html", build(load_items(), date.today()))
     OUT.write_text(page, encoding="utf-8")
     print(OUT.relative_to(ROOT))
