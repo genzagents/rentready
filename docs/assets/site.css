@@ -352,3 +352,10 @@ main .card#make{padding:20px 22px;margin:22px 0}
 .kpis b{display:block;font-size:1.6rem;line-height:1.1;color:var(--ink)}.kpis span{font-size:14px;color:var(--muted,inherit)}
 #lic-out ul{margin:6px 0 0}#lic-out li{margin:4px 0 4px 18px;list-style:disc;font-size:15px}
 .lt td:first-child{white-space:nowrap}
+
+/* visibility timeline (can-you-search guide) */
+main ol.vis-list{list-style:none;padding:0;margin:14px 0;display:grid;gap:10px}
+.vis{padding:14px 18px;border-left:4px solid var(--brand)}
+.vis b{font-size:17px}
+.vis p{margin:6px 0 0}
+.vis p.mut{font-size:14px}
