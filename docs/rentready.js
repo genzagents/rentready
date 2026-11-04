@@ -247,7 +247,18 @@
     const deadlines = inScope.filter(p => p.window).map(p => p.window.deadline).sort();
     return { version: VERSION, today: t, properties: props, count: props.length, in_scope: inScope.length,
       fee_gbp_per_year: FEE_PER_PROPERTY_GBP * inScope.length, earliest_deadline: deadlines[0] || null,
+      first_payment: portfolioFirstPayment(inScope.length, t),
       ready: inScope.filter(p => p.ready === true).length, not_ready: inScope.filter(p => p.ready === false).length, renewal: RENEWAL };
+  }
+
+  // The official fee formula (gov.uk guidance for landlords, 29 Oct 2026), as rentready/fee.py: (65 / year_length) *
+  // (remaining days - days before 15 Nov 2027), rounded down to the penny. Every property registered on one day.
+  function addYear(s, n) { const [y, m, d] = s.split("-").map(Number); return iso(Date.UTC(y + n, m - 1, m === 2 && d === 29 ? 28 : d)); }
+  function portfolioFirstPayment(n, today) {
+    const on = today > "2026-12-15" ? today : "2026-12-15", renewal = addYear(on, 1);
+    const rem = days(on, renewal), free = Math.min(rem, Math.max(0, days(on, "2027-11-15")));
+    const each = Math.floor(FEE_PER_PROPERTY_GBP * 100 * (rem - free) / days(addYear(renewal, -1), renewal));
+    return { register_on: on, each_gbp: each / 100, total_gbp: each * n / 100, renewal };
   }
 
   function calendarEvents(reports) {
@@ -458,7 +469,7 @@
     return L.join("\n");
   }
 
-  const api = { VERSION, ROLLOUT, EICR_ASSUMED, FEE_PER_PROPERTY_GBP, UPLOADS, PACK_COLUMNS, normaliseRegion, lookupRegion, checkProperty, readPortfolio,
+  const api = { VERSION, ROLLOUT, portfolioFirstPayment, EICR_ASSUMED, FEE_PER_PROPERTY_GBP, UPLOADS, PACK_COLUMNS, normaliseRegion, lookupRegion, checkProperty, readPortfolio,
     checkPortfolio, nextDate, calendarEvents, formatIcs, validDate, todayLocal, propertyPack, buildPack, formatPack };
   if (typeof module !== "undefined" && module.exports) module.exports = api; else root.rentready = api;
 })(typeof window !== "undefined" ? window : globalThis);

@@ -200,6 +200,7 @@
     var p=await rr.checkPortfolio(list,null,async function(pc){var lk=await rr.lookupRegion(pc);if(lk&&lk.district)D[pc.trim().toUpperCase()]=lk.district;return lk;}); last={p:p,list:list};
     LIC=await LIC;
     var h='<div class="summary" id="sum">'+stat(p.ready,"ready")+stat(p.not_ready,"not ready")+stat("£"+p.fee_gbp_per_year,"fee a year")+(p.earliest_deadline?stat(dd(p.earliest_deadline),"earliest deadline"):"")+'</div>'+
+      (p.in_scope?'<p class="firstpay"><strong>First payment: £'+p.first_payment.total_gbp.toFixed(2)+'</strong> if you register '+(p.in_scope>1?'all '+p.in_scope+' properties':'it')+' on '+dd(p.first_payment.register_on)+(p.in_scope>1?' (£'+p.first_payment.each_gbp.toFixed(2)+' each)':'')+'. Nobody is charged for days before 15 Nov 2027, then it is £65 a property a year from your renewal date, '+dd(p.first_payment.renewal)+'. <a href="guides/landlord-database-fee.html#first-payment">How the fee works</a></p>':'')+
       (p.count>p.in_scope?'<p class="mut">'+(p.count-p.in_scope)+' outside England: this database does not apply.</p>':'');
     p.properties.forEach(function(r){
       var st=r.ready===true?'<span class="st READY">READY</span>':r.ready===false?'<span class="st NOT">NOT READY</span>':'<span class="st NA">N/A</span>';

@@ -42,3 +42,14 @@ def first_payment(registered: date, first: Optional[date] = None) -> float:
     free = min(remaining, max(0, (CHARGING_STARTS - registered).days))
     pence = Fraction(FEE * 100, year_length) * (remaining - free)
     return int(pence) / 100  # rounded down, as the guidance says
+
+
+SERVICE_OPENS = date(2026, 12, 15)
+
+
+def portfolio_first_payment(properties: int, today: date) -> dict:
+    """The first payment for registering every property on one day: the day the service opens, or today if later."""
+    on = max(today, SERVICE_OPENS)
+    each = int(round(first_payment(on) * 100))
+    return {"register_on": on.isoformat(), "each_gbp": each / 100, "total_gbp": each * properties / 100,
+            "renewal": renewal_date(on).isoformat()}

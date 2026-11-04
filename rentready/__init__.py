@@ -46,6 +46,11 @@ import urllib.request
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, Dict, List, Optional
 
+try:
+    from .fee import portfolio_first_payment
+except ImportError:  # run as a script: python3 rentready/__init__.py
+    from fee import portfolio_first_payment
+
 __version__ = "0.8.1"
 
 FEE_PER_PROPERTY_GBP = 65
@@ -319,6 +324,7 @@ def check_portfolio(rows: List[Dict[str, str]], today: Optional[str] = None) -> 
            "count": len(props), "in_scope": len(in_scope),
            "fee_gbp_per_year": FEE_PER_PROPERTY_GBP * len(in_scope),
            "earliest_deadline": deadlines[0] if deadlines else None,
+           "first_payment": portfolio_first_payment(len(in_scope), t),
            "ready": sum(1 for p in in_scope if p.get("ready") is True),
            "not_ready": sum(1 for p in in_scope if p.get("ready") is False),
            "renewal": RENEWAL}
@@ -358,6 +364,10 @@ def format_portfolio(p: Dict[str, Any]) -> str:
             lines.append(f"{r['name']}:")
             lines += [f"  {f['status']:<4} {f['check']}: {f['detail']}" for f in bad]
     lines.append(f"Fee: £{p['fee_gbp_per_year']} a year for {p['in_scope']} properties (£{FEE_PER_PROPERTY_GBP} each); renewal {p['renewal']}")
+    fp = p.get("first_payment")
+    if fp and p["in_scope"]:
+        lines.append(f"First payment: £{fp['total_gbp']:.2f} registering all {p['in_scope']} on {fp['register_on']} (£{fp['each_gbp']:.2f} each; "
+                     f"no charge for days before 2027-11-15), then £{FEE_PER_PROPERTY_GBP} a property a year from {fp['renewal']}")
     if p.get("earliest_deadline"):
         lines.append(f"Earliest deadline: {p['earliest_deadline']}. {p['ready']} ready, {p['not_ready']} not ready.")
     return "\n".join(lines)

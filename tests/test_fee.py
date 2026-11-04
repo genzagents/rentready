@@ -59,3 +59,15 @@ class FeeTest(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class PortfolioFirstPayment(unittest.TestCase):
+    def test_before_the_service_opens_counts_from_15_december(self):
+        from rentready.fee import portfolio_first_payment
+        p = portfolio_first_payment(3, date(2026, 11, 4))
+        self.assertEqual(p, {"register_on": "2026-12-15", "each_gbp": 5.34, "total_gbp": 16.02, "renewal": "2027-12-15"})
+
+    def test_after_charging_starts_is_the_full_fee(self):
+        from rentready.fee import portfolio_first_payment
+        self.assertEqual(portfolio_first_payment(2, date(2027, 12, 1))["total_gbp"], 130.0)
+        self.assertEqual(portfolio_first_payment(0, date(2027, 3, 14))["total_gbp"], 0.0)

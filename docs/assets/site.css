@@ -123,6 +123,7 @@ button:hover{border-color:var(--muted)}
 .stat b{display:block;font-size:1.6rem;line-height:1.1;letter-spacing:-.02em}
 .stat span{font-size:13px;color:var(--muted)}
 .summary.wide .stat{min-width:180px}
+.firstpay{background:var(--surface);border:1px solid var(--line);border-left:5px solid var(--brand);border-radius:var(--radius-sm);padding:12px 16px;margin:0 0 14px;font-size:15px}
 .ybars{display:grid;gap:6px;margin:8px 0 1.6em;font-size:14px}
 .ybars>div{display:grid;grid-template-columns:3.2em minmax(0,1fr) 3.4em;gap:10px;align-items:center}
 .ybars .track{height:18px;background:var(--surface-2);border-radius:4px;overflow:hidden}

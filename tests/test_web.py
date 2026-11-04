@@ -85,7 +85,7 @@ class WebParity(unittest.TestCase):
     def test_same_answers_on_many_dates(self):
         for today in ("2026-10-28", "2026-12-20", "2027-03-15", "2027-12-01", "2036-01-01"):
             py, ics, js = self.run_both(today)
-            for k in ("count", "in_scope", "fee_gbp_per_year", "earliest_deadline", "ready", "not_ready", "renewal", "today"):
+            for k in ("count", "in_scope", "fee_gbp_per_year", "earliest_deadline", "ready", "not_ready", "renewal", "today", "first_payment"):
                 self.assertEqual(py[k], js["p"][k], f"{k} on {today}")
             self.assertEqual(len(py["properties"]), len(js["p"]["properties"]))
             for a, b in zip(py["properties"], js["p"]["properties"]):
