@@ -359,3 +359,7 @@ main ol.vis-list{list-style:none;padding:0;margin:14px 0;display:grid;gap:10px}
 .vis b{font-size:17px}
 .vis p{margin:6px 0 0}
 .vis p.mut{font-size:14px}
+/* what ministers said guide */
+.said-means{background:var(--surface-2);border-radius:var(--radius-sm);padding:10px 12px}
+.est{display:flex;flex-wrap:wrap;gap:12px;align-items:end}.est input{width:7em}
+#est-out b{font-size:1.15rem}
