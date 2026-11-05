@@ -363,3 +363,11 @@ main ol.vis-list{list-style:none;padding:0;margin:14px 0;display:grid;gap:10px}
 .said-means{background:var(--surface-2);border-radius:var(--radius-sm);padding:10px 12px}
 .est{display:flex;flex-wrap:wrap;gap:12px;align-items:end}.est input{width:7em}
 #est-out b{font-size:1.15rem}
+/* embed.html: deadline card maker */
+.embed-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:24px;align-items:start}
+.embed-grid label{display:block;font-weight:600;font-size:15px;margin:0 0 12px}
+.embed-grid select{display:block;width:100%;margin-top:4px;font:15px var(--font);padding:9px 10px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.snippet{width:100%;box-sizing:border-box;min-height:150px;font:13px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;padding:12px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);resize:vertical}
+.preview{padding:18px;border-radius:var(--radius-sm);border:1px dashed var(--line);background:var(--bg)}
+.preview .cap{font-size:13px;color:var(--muted);margin:0 0 10px}
+@media (max-width:760px){.embed-grid{grid-template-columns:1fr}}
