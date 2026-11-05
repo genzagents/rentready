@@ -71,6 +71,8 @@
     E.render(box.firstChild, (function(){var d=new Date();return Date.UTC(d.getFullYear(),d.getMonth(),d.getDate());})());
     $("e-done").hidden=true;
   }
+  try{var q=new URLSearchParams(location.search).get("region"), sel=$("e-region");
+    if(q) for(var i=0;i<sel.options.length;i++){if((sel.options[i].value||sel.options[i].text).toLowerCase()===q.toLowerCase()){sel.selectedIndex=i;break;}}}catch(e){}
   $("e-region").addEventListener("change",update); $("e-theme").addEventListener("change",update);
   $("e-copy").addEventListener("click",function(){
     var t=$("e-code"); t.select();

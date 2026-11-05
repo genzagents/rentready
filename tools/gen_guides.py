@@ -14,6 +14,7 @@ import re
 import sys
 from datetime import date
 from pathlib import Path
+from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -238,7 +239,10 @@ def region_page(region: str, w: dict) -> tuple:
             f"(<a href=\"{REGS}/regulation/11\">draft reg 11(2)(a)</a>); renew anything that lapses before {dl} first. "
             f"Up to £7,000 if you miss it (<a href=\"landlord-database-penalties.html\">penalties</a>).</p>\n"
             "<h2>Questions</h2>\n" + "".join(f"<h3>{esc(q)}</h3>\n<p>{esc(a)}</p>\n" for q, a in faq)
-            + "<h2>Related guides</h2>\n<p>" + " · ".join(f'<a href="{u}">{esc(t)}</a>' for u, t in RELATED) + "</p>\n")
+            + "<h2>Related guides</h2>\n<p>" + " · ".join(f'<a href="{u}">{esc(t)}</a>' for u, t in RELATED) + "</p>\n"
+            + f'<p class="mut">Letting agent, accountant or landlord body in {esc(the(region))}? '
+            f'<a href="{BASE}embed.html?region={quote(region)}">Show this deadline and the days left on your own website</a>: '
+            "one free snippet, no sign-up, no cookies.</p>\n")
     sources = SOURCES + [ONS_LOOKUP, (SCHEDULE_3, "Draft Schedule 3, Part 2: what the service asks, including licences")]
     doc = f"""<!doctype html>
 <html lang="en-GB"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
