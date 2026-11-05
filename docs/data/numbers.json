@@ -19,7 +19,51 @@
         "First AI-answer panel: Google shows an AI Overview for all 15 landlord database questions we track, and cites us in none, because no page of ours is in Google's index yet."
       ],
       "next": "Get the site verified with Google and Bing so the pages can be indexed, then switch on payments for the £12-a-year reminder service."
+    },
+    {
+      "date": "2026-11-05",
+      "github_views_14d": null,
+      "github_uniques_14d": 40,
+      "stars": 0,
+      "pages_in_google": 24,
+      "search_impressions_7d": 88,
+      "search_clicks_7d": 1,
+      "panel_questions": 15,
+      "panel_cited": 0,
+      "panel_ai_overviews": 15,
+      "reminder_signups": 0,
+      "paying": 0,
+      "revenue_gbp": 0,
+      "done": [
+        "Google now indexes 24 rentready pages, up from none a week ago: the checker, every regional deadline guide, the fee, penalties, EPC, gas and EICR guides, and the regulations status page.",
+        "In the last 7 days rentready appeared 88 times in Google results, at an average position of 22.6, and was clicked once.",
+        "AI-answer panel, week 2: Google showed an AI Overview for all 15 questions and cited rentready in none of them. Being indexed is not enough; the pages have to rank on the first page before AI Overviews pick them up.",
+        "New guides answer questions nobody else had written up: what the public will be able to search, what ministers told Parliament about bulk upload and HMO rooms, and the first payment for a whole portfolio (£5.34 a property before charging starts in November 2027).",
+        "The regulations status page now reads Hansard and the Commons voting record, so it showed the House of Lords approval on 4 November the same day."
+      ],
+      "next": "Turn on payments for the £12-a-year reminder service, and get rentready onto the first page for the questions where AI Overviews cite weak sources (whether an expired EPC blocks registration, and bulk upload)."
     }
   ],
-  "panel_top_sources": [["nrla.org.uk", 9], ["theindependentlandlord.com", 5], ["gov.uk", 5], ["housinghub.campaign.gov.uk", 5], ["osborneslaw.com", 4]]
+  "panel_top_sources": [
+    [
+      "nrla.org.uk",
+      13
+    ],
+    [
+      "gov.uk",
+      10
+    ],
+    [
+      "theindependentlandlord.com",
+      8
+    ],
+    [
+      "housinghub.campaign.gov.uk",
+      4
+    ],
+    [
+      "osborneslaw.com",
+      3
+    ]
+  ]
 }

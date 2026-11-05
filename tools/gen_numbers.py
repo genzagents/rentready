@@ -48,13 +48,15 @@ def build(data: dict) -> str:
         stat(w["paying"], "paying landlords"),
         stat(w["reminder_signups"], "reminder sign-ups"),
         stat(w["pages_in_google"], "pages in Google's index"),
+        stat(f"{w.get('search_clicks_7d', 0)} of {w.get('search_impressions_7d', 0)}", "search clicks of times seen (7 days)"),
         stat(f"{w['panel_cited']} of {w['panel_questions']}", "AI answers that cite us"),
         stat(w["github_uniques_14d"], "people who opened the code on GitHub (14 days)"),
+        stat(f"{w['panel_ai_overviews']} of {w['panel_questions']}", "questions where Google shows an AI Overview"),
     ])
     done = "".join(f"<li>{e(x)}</li>" for x in w["done"])
     rows = "".join(
         f"<tr><td>{short(x['date'])}</td><td>£{x['revenue_gbp']:,}</td><td>{x['paying']}</td><td>{x['reminder_signups']}</td>"
-        f"<td>{x['pages_in_google']}</td><td>{x['panel_cited']}/{x['panel_questions']}</td><td>{x['github_uniques_14d']}</td></tr>"
+        f"<td>{x['pages_in_google']}</td><td>{x.get('search_impressions_7d', '–')}</td><td>{x.get('search_clicks_7d', '–')}</td><td>{x['panel_cited']}/{x['panel_questions']}</td><td>{x['github_uniques_14d']}</td></tr>"
         for x in weeks)
     top = ", ".join(f"{e(h)} ({n})" for h, n in data["panel_top_sources"])
     return f"""<!doctype html>
@@ -81,13 +83,14 @@ def build(data: dict) -> str:
 <p><strong>Next:</strong> {e(w['next'])}</p>
 <h2>Every week</h2>
 <div class="weekly"><table>
-<thead><tr><th>Week</th><th>Revenue</th><th>Paying</th><th>Sign-ups</th><th>Indexed</th><th>AI cites</th><th>GitHub</th></tr></thead>
+<thead><tr><th>Week</th><th>Revenue</th><th>Paying</th><th>Sign-ups</th><th>Indexed</th><th>Seen</th><th>Clicks</th><th>AI cites</th><th>GitHub</th></tr></thead>
 <tbody>{rows}</tbody></table></div>
 <h2>How we count</h2>
 <ul>
 <li><strong>Revenue and paying landlords:</strong> money actually received for the reminder service (£12 a year for up to 10 properties). No projections and no annualised figures.</li>
 <li><strong>Reminder sign-ups:</strong> landlords who asked for the monthly certificate and deadline email.</li>
 <li><strong>Pages in Google's index:</strong> rentready pages that a <code>site:</code> search on Google returns.</li>
+<li><strong>Google search clicks and impressions:</strong> from Google Search Console for the 7 days before each report: how often a rentready page appeared in Google's results (seen) and how often someone clicked it.</li>
 <li><strong>AI answers that cite us:</strong> each week we ask the same {w['panel_questions']} landlord database questions and count the answers that link to a rentready page. This week Google showed an AI Overview for {w['panel_ai_overviews']} of them. The sources it cited most were {top}.</li>
 <li><strong>GitHub visitors:</strong> unique people who opened the rentready or citable code on GitHub in the last 14 days, from GitHub's own traffic figures. The checker itself has no analytics and no cookies, so we do not count its visitors yet.</li>
 </ul>
