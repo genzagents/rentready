@@ -373,5 +373,5 @@ main ol.vis-list{list-style:none;padding:0;margin:14px 0;display:grid;gap:10px}
 @media (max-width:760px){.embed-grid{grid-template-columns:1fr}}
 /* EPC guide: is my EPC OK to register? */
 .firm-form select{min-height:44px;font:inherit;font-weight:400;padding:10px 12px;border:1px solid var(--line);border-radius:var(--radius-sm);background:var(--surface);color:var(--ink)}
-#epc-out.who-no{background:var(--bad-soft)}#epc-out.who-no b{color:var(--bad)}
-#epc-out p:first-child{margin-top:8px}
+#epc-out.who-no,#gas-out.who-no{background:var(--bad-soft)}#epc-out.who-no b,#gas-out.who-no b{color:var(--bad)}
+#epc-out p:first-child,#gas-out p:first-child{margin-top:8px}
