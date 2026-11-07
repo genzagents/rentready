@@ -35,7 +35,7 @@ def councils() -> str:
         rows += f'<tr><td><a href="{href}">{e(r)}</a></td><td>{len(cs)}</td><td>{told}</td><td>{dated}</td></tr>'
     checked = max(date.fromisoformat(v["checked"]) for v in regions.values())
     return f"""<h2 id="councils">Second story: most councils have not told landlords when to register</h2>
-<p>On {checked.day} {checked:%B %Y} we read the landlord pages of every council in the first two regions to register. <strong>{told_all} of {n_all}</strong> mention the landlord database at all, and only <strong>{dated_all}</strong> give the right dates. Some give wrong ones: Castle Point tells landlords the database is unlikely before 2028. Every quote links to the council's own page.</p>
+<p>On {checked.day} {checked:%B %Y} we read the landlord pages of every council in the first {['one', 'two', 'three', 'four', 'five'][len(regions) - 1]} regions to register. <strong>{told_all} of {n_all}</strong> mention the landlord database at all, and only <strong>{dated_all}</strong> give the right dates. Some give wrong ones: Castle Point tells landlords the database is unlikely before 2028. In the East Midlands only the three Lincolnshire councils that share one partnership page (Boston, East Lindsey, South Holland) give the dates; Nottingham, Mansfield and Chesterfield say nothing about the database. Every quote links to the council's own page.</p>
 <div class="wrap"><table>
 <thead><tr><th>Region</th><th>Councils read</th><th>Mention the database</th><th>Give the right dates</th></tr></thead>
 <tbody>{rows}</tbody></table></div>
