@@ -98,6 +98,7 @@ button:hover{border-color:var(--muted)}
 
 /* The checker */
 #tool{padding:24px;scroll-margin-top:80px}
+h2[id]{scroll-margin-top:80px}
 #tool h2{margin:0 0 4px;font-size:1.4rem}
 #tool .intro{font-size:14px;color:var(--muted);margin-bottom:16px}
 .pcard{border:1px solid var(--line);border-radius:var(--radius-sm);padding:14px;margin:0 0 12px;background:var(--bg)}

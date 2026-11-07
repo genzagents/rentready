@@ -210,6 +210,43 @@ def epc_section(region: str) -> tuple:
     return out, faq
 
 
+# What each council's own website tells landlords about the database (tools/data/council-notices.json), read by hand
+# and by research agents on the date in 'checked'. Only regions with a survey get the section.
+NOTICES = json.loads((ROOT / "tools" / "data" / "council-notices.json").read_text(encoding="utf-8"))
+NOTICE_LABEL = {"deadline": "Gives the dates", "mentions": "Mentions it, no dates",
+                "act only": "Renters' Rights Act only, no word of the database", "nothing": "Nothing yet on its landlord pages",
+                "unreachable": "Could not check (the site blocked our reader)"}
+
+
+def notice_section(region: str) -> tuple:
+    """Which councils have told their landlords about the database: a quote and link for each that has, the rest named."""
+    if region not in NOTICES:
+        return "", []
+    data = NOTICES[region]
+    cs, checked = data["councils"], long(data["checked"])
+    told = sorted(c for c, v in cs.items() if v["status"] in ("deadline", "mentions"))
+    dated = [c for c in told if cs[c]["status"] == "deadline"]
+    checkable = [c for c, v in cs.items() if v["status"] != "unreachable"]
+    rows = "".join(
+        f"<tr><td>{esc(council_name(c))}</td><td>{esc(NOTICE_LABEL[cs[c]['status']])}<br><span class=\"mut\">&ldquo;{esc(cs[c]['quote'])}&rdquo; "
+        f"(<a href=\"{html.escape(cs[c]['url'])}\">council page</a>)</span></td></tr>\n"
+        for c in sorted(told, key=lambda c: (cs[c]["status"] != "deadline", c)))
+    rest = "".join(
+        f"<p><strong>{esc(NOTICE_LABEL[k])}:</strong> {esc(names(g))}.</p>\n"
+        for k in ("act only", "nothing", "unreachable") if (g := sorted(c for c, v in cs.items() if v["status"] == k)))
+    out = (f"<h2 id=\"council-notices\">Has your council told landlords yet?</h2>\n"
+           f"<p>Landlords in {esc(the(region))} register first, so on {checked} we read every council's own landlord pages. "
+           f"<strong>{len(told)} of {len(checkable)}</strong> mention the landlord database at all, and only {len(dated)} give the dates "
+           f"(the {long(FIRST)} opening or the {long(rr.ROLLOUT[region]['deadline'])} deadline). Don't wait for a letter from the council: "
+           f"the duty to register is yours, and the government's service is the only place to do it.</p>\n"
+           f'<div class="wrap"><table><thead><tr><th>Council</th><th>What its website says</th></tr></thead><tbody>\n{rows}</tbody></table></div>\n'
+           + rest +
+           f'<p class="mut">Something changed on your council\'s page? <a href="https://github.com/genzagents/rentready/issues">Tell us</a> and we re-check it.</p>\n')
+    faq = [(f"Has my council in {the(region)} told landlords about the landlord database?",
+            f"On {checked}, {len(told)} of the {len(checkable)} councils in {the(region)} mentioned it on their own website"
+            + (f" ({names(told)})" if told else "") + f", and {len(dated)} gave the dates. Registration is the landlord's duty either way.")]
+    return out, faq
+
 RELATED = [("landlord-database-deadline-by-region.html", "Other regions"), ("what-you-need-to-register.html", "What you need"),
            ("gas-safety-certificate-landlord-database.html", "Gas"), ("eicr-landlord-database.html", "EICR"), ("epc-rating-landlord-database.html", "EPC")]
 
@@ -222,17 +259,18 @@ def region_page(region: str, w: dict) -> tuple:
     title = f"{TITLE_NAME.get(region, region)} landlord database deadline: {dl}"
     councils_html, council_faq, (n_c, n_sel, n_add) = councils_section(region)
     epc_html, epc_faq = epc_section(region)
+    notice_html, notice_faq = notice_section(region)
     desc = (f"Landlords in {the(region)} must join England's landlord database by {dl}. "
             f"Its {n_c} councils, licensing schemes and the EPCs that lapse first.")
     faq = [(f"When do landlords in {the(region)} have to register?",
-            f"The requirement starts on {o} and the deadline is {dl}. The service opens to every landlord in England on {long(FIRST)}, so you can register earlier.")] + council_faq + epc_faq
+            f"The requirement starts on {o} and the deadline is {dl}. The service opens to every landlord in England on {long(FIRST)}, so you can register earlier.")] + notice_faq + council_faq + epc_faq
     ld = [{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
               {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]}]
     body = (f"<p><strong>If your rental is in {esc(the(region))}, you must register it on the government's "
             f"<em>Register your rental property</em> service (the landlord database, or PRS Database) by {dl}.</strong> The requirement for {esc(the(region))} starts on {o}; "
             f"the service opens to every landlord in England on {long(FIRST)}, so you can register earlier. "
             f"The region goes by the property's address, not yours. {esc(The(region))} covers {esc(PLACES[region])}.</p>\n"
-            + councils_html + epc_html
+            + notice_html + councils_html + epc_html
             + f"<h2>Before {dl}</h2>\n"
             f"<p>£{fee} a property a year (<a href=\"landlord-database-fee.html\">fee</a>). Upload the gas safety record, EICR and EPC "
             f"(<a href=\"what-you-need-to-register.html\">full list</a>) within 28 days or the entry becomes inactive "

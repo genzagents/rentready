@@ -1,0 +1,141 @@
+{
+ "_about": "What each council's own website tells private landlords about the landlord database (Register your rental property), read on the date in 'checked'. status: deadline = mentions it and gives the 15 Dec 2026 opening or the region's deadline; mentions = mentions it without dates; act only = Renters' Rights Act but not the database; nothing = landlord pages found, neither; unreachable = could not read. Quotes checked word for word against the live page on that date ('...' joins parts of one sentence). Research: co-founder/research/west-midlands-council-notices-2026-11-07.md.",
+ "West Midlands": {
+  "checked": "2026-11-07",
+  "councils": {
+   "Birmingham": {
+    "status": "act only",
+    "url": "https://www.birmingham.gov.uk/info/20006/housing/2555/accommodation_finding_team"
+   },
+   "Bromsgrove": {
+    "status": "mentions",
+    "url": "https://www.bromsgrove.gov.uk/residents/my-home/the-renters-rights-act/",
+    "quote": "All landlords must register their properties on a new national Private Rented Sector database"
+   },
+   "Cannock Chase": {
+    "status": "mentions",
+    "url": "https://www.cannockchasedc.gov.uk/residents/environmental-health/private-sector-housing",
+    "quote": "All landlords must register themselves and the properties they rent on a new online central database"
+   },
+   "Coventry": {
+    "status": "deadline",
+    "url": "https://www.coventry.gov.uk/housing-enforcement/renters-rights-act/3",
+    "quote": "landlords letting properties in the West Midlands will be the first required to register ... with a deadline of 14 March 2027"
+   },
+   "Dudley": {
+    "status": "nothing",
+    "url": "https://www.dudley.gov.uk/residents/housing/housing-options/private-sector-housing-enforcement/private-landlords"
+   },
+   "East Staffordshire": {
+    "status": "nothing",
+    "url": "https://www.eaststaffsbc.gov.uk/housing-and-property/landlords/information-landlords"
+   },
+   "Herefordshire, County of": {
+    "status": "act only",
+    "url": "https://www.herefordshire.gov.uk/family-support/housing/advice-for-landlords/renters-rights-act-2025/"
+   },
+   "Lichfield": {
+    "status": "act only",
+    "url": "https://www.lichfielddc.gov.uk/landlord-advice-support/renters-reform-bill-1"
+   },
+   "Malvern Hills": {
+    "status": "act only",
+    "url": "https://www.malvernhills.gov.uk/housing/housing-advice"
+   },
+   "Newcastle-under-Lyme": {
+    "status": "mentions",
+    "url": "https://www.newcastle-staffs.gov.uk/housing/renters-rights-landlords/4",
+    "quote": "All landlords will have to register their properties on a new national private rented sector database"
+   },
+   "North Warwickshire": {
+    "status": "nothing",
+    "url": "https://www.northwarks.gov.uk/private-rented-housing"
+   },
+   "Nuneaton and Bedworth": {
+    "status": "deadline",
+    "url": "https://www.nuneatonandbedworth.gov.uk/private-landlords/landlord-information-zone",
+    "quote": "From 15 December 2026, the Government is rolling out the 'Register your rental property' service ... with a deadline of 14 March 2027"
+   },
+   "Redditch": {
+    "status": "mentions",
+    "url": "https://www.redditchbc.gov.uk/business/landlords/the-renters-rights-act/",
+    "quote": "All landlords must register their properties on a new national Private Rented Sector database"
+   },
+   "Rugby": {
+    "status": "act only",
+    "url": "https://www.rugby.gov.uk/w/the-renters-rights-act-help-and-guidance"
+   },
+   "Sandwell": {
+    "status": "deadline",
+    "url": "https://www.sandwell.gov.uk/find-home/private-landlord-advice/17",
+    "quote": "required to register their let property with the national database scheme from have from 15th December 2026 and by 14th March 2027"
+   },
+   "Shropshire": {
+    "status": "act only",
+    "url": "https://next.shropshire.gov.uk/housing/private-sector-rented-housing-enforcement/"
+   },
+   "Solihull": {
+    "status": "act only",
+    "url": "https://www.solihull.gov.uk/news/2025/advice-and-support-shared-successful-solihull-landlord-forum-event"
+   },
+   "South Staffordshire": {
+    "status": "mentions",
+    "url": "https://www.sstaffs.gov.uk/housing/renters-rights-act-2025-information-landlords-and-tenants",
+    "quote": "You must register each property on the new private rented sector database"
+   },
+   "Stafford": {
+    "status": "mentions",
+    "url": "https://www.staffordbc.gov.uk/renters-rights-act-2025",
+    "quote": "All landlords must register themselves and the properties they rent on a new online central database"
+   },
+   "Staffordshire Moorlands": {
+    "status": "act only",
+    "url": "https://www.staffsmoorlands.gov.uk/article/4401/Private-rented-homes"
+   },
+   "Stoke-on-Trent": {
+    "status": "nothing",
+    "url": "https://www.stoke.gov.uk/directory_record/333278/private_sector_housing_development_enforcement_and_empty_homes"
+   },
+   "Stratford-on-Avon": {
+    "status": "mentions",
+    "url": "https://www.stratford.gov.uk/doc/214498/name/2026%20Landlords%20Newsletter%20MAY26.pdf",
+    "quote": "The Private Rented Sector (PRS) Database is expected to be introduced in late 2026"
+   },
+   "Tamworth": {
+    "status": "nothing",
+    "url": "https://tamworth.gov.uk/housing/private-sector-housing/help-landlords"
+   },
+   "Telford and Wrekin": {
+    "status": "act only",
+    "url": "https://www.telford.gov.uk/housing-homeowners-tenants-and-landlords-better-homes-for-all/"
+   },
+   "Walsall": {
+    "status": "mentions",
+    "url": "https://go.walsall.gov.uk/housing/information-landlords/renters-rights-act-2025-information-landlords-and-tenants",
+    "quote": "You must register each property on the new private rented sector database"
+   },
+   "Warwick": {
+    "status": "act only",
+    "url": "https://www.warwickdc.gov.uk/info/20163/private_housing/178/private_landlords"
+   },
+   "Wolverhampton": {
+    "status": "act only",
+    "url": "https://www.wolverhampton.gov.uk/housing/private-rented-housing/renters-rights-information-landlords-tenants"
+   },
+   "Worcester": {
+    "status": "nothing",
+    "url": "https://www.worcester.gov.uk/housing/landlord-advice"
+   },
+   "Wychavon": {
+    "status": "mentions",
+    "url": "https://www.wychavon.gov.uk/housing/housing-advice/advice-for-landlords",
+    "quote": "new 'Register your rental property' service"
+   },
+   "Wyre Forest": {
+    "status": "deadline",
+    "url": "https://www.wyreforestdc.gov.uk/housing-and-homes/landlords",
+    "quote": "Landlords across the West Midlands will be required to register ... when it launches on 15 December 2026"
+   }
+  }
+ }
+}

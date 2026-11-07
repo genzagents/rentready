@@ -63,6 +63,20 @@ class GuidesTest(unittest.TestCase):
             stub = 'http-equiv="refresh"' in page.read_text(encoding="utf-8")
             self.assertEqual(sm.count(loc), 0 if stub else 1, loc)
 
+    def test_council_notices_cover_every_council_with_evidence(self):
+        """Each surveyed region lists every one of its councils once; anything counted as telling landlords has a quote and a link."""
+        for region, data in gen_guides.NOTICES.items():
+            if region.startswith("_"):
+                continue
+            self.assertEqual(set(data["councils"]), set(gen_guides.COUNCILS[region]["councils"]), region)
+            for c, v in data["councils"].items():
+                self.assertIn(v["status"], gen_guides.NOTICE_LABEL, c)
+                if v["status"] in ("deadline", "mentions"):
+                    self.assertTrue(v.get("quote") and v["url"].startswith("https://"), c)
+            page = (ROOT / "docs/guides" / gen_guides.region_href(region)).read_text(encoding="utf-8")
+            told = sum(v["status"] in ("deadline", "mentions") for v in data["councils"].values())
+            self.assertIn(f"<strong>{told} of ", page)
+
 
 if __name__ == "__main__":
     unittest.main()
