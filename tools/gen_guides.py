@@ -218,6 +218,11 @@ NOTICE_LABEL = {"deadline": "Gives the dates", "mentions": "Mentions it, no corr
                 "unreachable": "Could not check (the site blocked our reader)"}
 
 
+def updated(region: str) -> str:
+    """A region page's reviewed date (byline, Article dateModified, sitemap lastmod): its council survey can be newer."""
+    return max(UPDATED, NOTICES.get(region, {}).get("checked", UPDATED))
+
+
 def notice_section(region: str) -> tuple:
     """Which councils have told their landlords about the database: a quote and link for each that has, the rest named."""
     if region not in NOTICES:
@@ -301,12 +306,12 @@ def region_page(region: str, w: dict) -> tuple:
 <main>
 <p class="crumbs"><a href="{BASE}">rentready</a> / <a href="{BASE}guides/">Landlord database guides</a></p>
 <h1>{esc(h1)}</h1>
-<p class="mut byline">Written by <a href="https://genzagents.github.io/rentready/about.html">GenZAgents</a>, reviewed {long(UPDATED)}. <a href="#sources">Sources</a> below.</p>
+<p class="mut byline">Written by <a href="https://genzagents.github.io/rentready/about.html">GenZAgents</a>, reviewed {long(updated(region))}. <a href="#sources">Sources</a> below.</p>
 {body}<div class="cta"><p><strong>Check your properties against {dl}.</strong> Postcode and certificate dates in; deadline, what lapses first and a registration pack out. Free, in your browser.</p>
 <a class="btn" href="{BASE}#tool">Check my properties</a></div>
 <h2 id="sources">Sources</h2>
 <ul class="mut">{''.join(f'<li><a href="{u}">{esc(t)}</a></li>' for u, t in sources)}</ul>
-<p class="mut">Dates: official guidance and the draft regulations, which Parliament has not yet approved (<a href="landlord-database-registration.html">status</a>). Fee: official guidance. Councils and schemes: read on each council's own website on {long(COUNCILS[region]['checked'])}. Not legal advice. Last checked {long(UPDATED)}.</p>
+<p class="mut">Dates: official guidance and the draft regulations, which Parliament has not yet approved (<a href="landlord-database-registration.html">status</a>). Fee: official guidance. Councils and schemes: read on each council's own website on {long(COUNCILS[region]['checked'])}. Not legal advice. Last checked {long(updated(region))}.</p>
 <footer class="foot mut"><a href="https://genzagents.github.io/rentready/about.html">About</a> · <a href="https://genzagents.github.io/rentready/guides/">Guides</a> · <a href="https://genzagents.github.io/rentready/developers.html">Developers</a> · <a href="https://genzagents.github.io/rentready/privacy.html">Privacy</a> · <a href="https://genzagents.github.io/rentready/terms.html">Terms</a> · <a href="https://github.com/genzagents/rentready/issues">Contact (GitHub issues)</a><br>rentready is made by GenZAgents in London. Not legal advice.</footer>
 </main></body></html>
 """
@@ -360,7 +365,7 @@ def sitemap(existing: str) -> str:
     """Add the region pages to the hand-written sitemap, keeping its other entries and dropping merged regions."""
     every = [f"{slug(r)}.html" for r in rr.ROLLOUT]
     keep = [line for line in existing.splitlines() if "<url>" in line and not any("guides/" + f + "<" in line for f in every)]
-    add = [f"  <url><loc>{BASE}guides/{f}</loc><lastmod>{UPDATED}</lastmod></url>" for f in REGION_FILES]
+    add = [f"  <url><loc>{BASE}guides/{slug(r)}.html</loc><lastmod>{updated(r)}</lastmod></url>" for r in rr.ROLLOUT if r not in MERGED]
     return ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
             + "\n".join(keep + add) + "\n</urlset>\n")
 
