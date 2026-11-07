@@ -1,6 +1,8 @@
 """Build docs/press.html, the press page for the EPC expiry data story, and docs/data/epc-expiry-by-year.svg, a
 standalone chart journalists can download. Figures come from gen_epc_story.compute(), so they always match the story."""
 import html
+import json
+from datetime import date
 from pathlib import Path
 
 import gen_epc_story as story
@@ -13,6 +15,32 @@ SVG_OUT = ROOT / "docs" / "data" / "epc-expiry-by-year.svg"
 YEARS = range(2026, 2036)  # full calendar years only: the table ends at Q3 2026, so 2036 is part-year
 STORY = BASE + "guides/epc-expiry-by-region.html"
 REVIEWED = "31 October 2026"
+NOTICES = json.loads((ROOT / "tools" / "data" / "council-notices.json").read_text(encoding="utf-8"))
+
+
+def councils() -> str:
+    """The second story: how many councils in the first regions to register have told landlords about the database.
+    Same data as the council-notices section of each region guide, so the two always agree."""
+    regions = {r: v for r, v in NOTICES.items() if not r.startswith("_")}
+    if not regions:
+        return ""
+    e = html.escape
+    rows, told_all, dated_all, n_all = "", 0, 0, 0
+    for r, v in regions.items():
+        cs = [c for c in v["councils"].values() if c["status"] != "unreachable"]
+        told = sum(c["status"] in ("deadline", "mentions") for c in cs)
+        dated = sum(c["status"] == "deadline" for c in cs)
+        told_all, dated_all, n_all = told_all + told, dated_all + dated, n_all + len(cs)
+        href = f"{BASE}guides/{r.lower().replace(' ', '-')}.html#council-notices"
+        rows += f'<tr><td><a href="{href}">{e(r)}</a></td><td>{len(cs)}</td><td>{told}</td><td>{dated}</td></tr>'
+    checked = max(date.fromisoformat(v["checked"]) for v in regions.values())
+    return f"""<h2 id="councils">Second story: most councils have not told landlords when to register</h2>
+<p>On {checked.day} {checked:%B %Y} we read the landlord pages of every council in the first two regions to register. <strong>{told_all} of {n_all}</strong> mention the landlord database at all, and only <strong>{dated_all}</strong> give the right dates. Some give wrong ones: Castle Point tells landlords the database is unlikely before 2028. Every quote links to the council's own page.</p>
+<div class="wrap"><table>
+<thead><tr><th>Region</th><th>Councils read</th><th>Mention the database</th><th>Give the right dates</th></tr></thead>
+<tbody>{rows}</tbody></table></div>
+<p class="mut">The full council-by-council table with quotes is on each region's guide (linked). Data: <a href="https://github.com/genzagents/rentready/blob/main/tools/data/council-notices.json">council-notices.json</a>.</p>
+"""
 
 
 def chart(years: dict, inline: bool) -> str:
@@ -99,7 +127,7 @@ def build() -> str:
 <thead><tr><th>Region</th><th>Deadline to register</th><th>Reach ten years, 1 Nov 2026 to deadline</th><th>Inside the region's window</th><th>2028 to 2030</th></tr></thead>
 <tbody>{rows}</tbody></table></div>
 <p class="mut">Rounded to the nearest hundred. * The North East figure includes a one-off quarter (27,114 rental EPCs lodged from April to June 2017, about four times its usual quarter), likely a bulk lodgement by a large landlord. Region deadlines are from the official guidance and the draft regulations, which Parliament has not yet approved.</p>
-<h2>Data you can use</h2>
+{councils()}<h2>Data you can use</h2>
 <ul>
 <li><a href="{BASE}data/epc-rental-expiry-by-region.csv">Region figures (CSV)</a></li>
 <li><a href="{BASE}data/epc-rental-expiry-by-council.csv">Every English council, 296 rows (CSV)</a>: a local figure for any area, for example Birmingham about 2,040 before 14 March 2027.</li>

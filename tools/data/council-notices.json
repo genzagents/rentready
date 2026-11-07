@@ -137,5 +137,215 @@
     "quote": "Landlords across the West Midlands will be required to register ... when it launches on 15 December 2026"
    }
   }
+ },
+ "East of England": {
+  "checked": "2026-11-07",
+  "note": "Two councils give landlords the wrong date: Castle Point says the database is unlikely to be in place before 2028, and Babergh still says it is coming in October 2026. The service opens on 15 December 2026, and East of England landlords must register between 15 January and 14 April 2027.",
+  "councils": {
+   "Babergh": {
+    "status": "mentions",
+    "url": "https://www.babergh.gov.uk/w/central-suffolk-lettings",
+    "quote": "Property registered on the Government property database (coming October 2026)"
+   },
+   "Basildon": {
+    "status": "nothing",
+    "url": "https://www.basildon.gov.uk/landlords"
+   },
+   "Bedford": {
+    "status": "mentions",
+    "url": "https://www.bedford.gov.uk/housing/housing-advice/private-rented-housing-landlords-and-tenants/renters-rights-act",
+    "quote": "All landlords must register their properties on a new national private rented sector database."
+   },
+   "Braintree": {
+    "status": "mentions",
+    "url": "https://www.braintree.gov.uk/homepage/480/about-renters-rights-act-2025",
+    "quote": "In late 2026, landlords will have to register their properties on a national Private Rented Sector database."
+   },
+   "Breckland": {
+    "status": "act only",
+    "url": "https://www.breckland.gov.uk/housing-ps-setting-up-tenancy"
+   },
+   "Brentwood": {
+    "status": "mentions",
+    "url": "https://www.brentwood.gov.uk/renters-rights-act-2025",
+    "quote": "In late 2026, landlords will have to register their properties on a new national Private Rented Sector database."
+   },
+   "Broadland": {
+    "status": "mentions",
+    "url": "https://www.southnorfolkandbroadland.gov.uk/housing/landlords-and-private-rent/renters-rights-act",
+    "quote": "Phase 2 – PRS Database & Ombudsman: due late 2026"
+   },
+   "Broxbourne": {
+    "status": "deadline",
+    "url": "https://www.broxbourne.gov.uk/housing/private-renting-simple-lets-landlords",
+    "quote": "Rollout of the new national landlord database will start in December 2026"
+   },
+   "Cambridge": {
+    "status": "deadline",
+    "url": "https://www.cambridge.gov.uk/private-renters-rights",
+    "quote": "Landlords must register themselves and their properties from January 2027"
+   },
+   "Castle Point": {
+    "status": "mentions",
+    "url": "https://castlepoint.gov.uk/your-rights-as-a-private-tenant-from-1-may-2026",
+    "quote": "The introduction of a landlord database and Private Rented Sector Ombudsman will help address disputes ... however this is unlikely to be in place before 2028."
+   },
+   "Central Bedfordshire": {
+    "status": "act only",
+    "url": "https://www.centralbedfordshire.gov.uk/housing/private-renting-enforcement/what-you-need-know-renters-rights-act-2025"
+   },
+   "Chelmsford": {
+    "status": "mentions",
+    "url": "https://www.chelmsford.gov.uk/housing/landlords/renters-rights-act-2025/",
+    "quote": "In late 2026, landlords will have to register their properties on a national Private Rented Sector database."
+   },
+   "Colchester": {
+    "status": "act only",
+    "url": "https://www.new.colchester.gov.uk/renters-rights-act-2025"
+   },
+   "Dacorum": {
+    "status": "nothing",
+    "url": "https://www.dacorum.gov.uk/home/housing/private-housing/private-landlords"
+   },
+   "East Cambridgeshire": {
+    "status": "act only",
+    "url": "https://eastcambs.gov.uk/services/housing-and-community-advice/find-home/private-renting/services/housing-and-community"
+   },
+   "East Hertfordshire": {
+    "status": "nothing",
+    "url": "https://www.eastherts.gov.uk/housing/poor-conditions-private-rented-housing"
+   },
+   "East Suffolk": {
+    "status": "act only",
+    "url": "https://www.eastsuffolk.gov.uk/housing/privately-rented-housing/renters-rights-act"
+   },
+   "Epping Forest": {
+    "status": "act only",
+    "url": "https://www.eppingforestdc.gov.uk/housing/landlords/renting-is-changing/"
+   },
+   "Fenland": {
+    "status": "mentions",
+    "url": "https://fenland.gov.uk/article/18878/Renters-Rights-Act-information-for-landlords",
+    "quote": "From winter 2026, Government requires landlords to register their properties under Renters' Rights Act rules"
+   },
+   "Great Yarmouth": {
+    "status": "act only",
+    "url": "https://www.great-yarmouth.gov.uk/article/16749/Renters-Rights-Act"
+   },
+   "Harlow": {
+    "status": "act only",
+    "url": "https://www.harlow.gov.uk/housing-and-garages/landlords-and-private-tenants/changes-private-renting-law-renters-rights-act"
+   },
+   "Hertsmere": {
+    "status": "act only",
+    "url": "https://www.hertsmere.gov.uk/news/renters-rights-act-funding-announced-to-support-new-protections-for-private-renters"
+   },
+   "Huntingdonshire": {
+    "status": "act only",
+    "url": "https://www.huntingdonshire.gov.uk/housing/housing-standards-tenants-and-landlords/"
+   },
+   "Ipswich": {
+    "status": "act only",
+    "url": "https://www.ipswich.gov.uk/housing/private-landlords-and-tenants/your-requirements-landlord"
+   },
+   "King's Lynn and West Norfolk": {
+    "status": "act only",
+    "url": "https://www.west-norfolk.gov.uk/info/20180/information_for_landlords/1288/renting_is_changing_from_1_may_2026"
+   },
+   "Luton": {
+    "status": "mentions",
+    "url": "https://www.luton.gov.uk/housing/private-tenants-homeowners-landlords/renters-rights-act-2025",
+    "quote": "landlords must register on a national database"
+   },
+   "Maldon": {
+    "status": "mentions",
+    "url": "https://www.maldon.gov.uk/housing",
+    "quote": "a requirement for landlords to register with a private rented sector portal will come into force towards the end of 2026"
+   },
+   "Mid Suffolk": {
+    "status": "mentions",
+    "url": "https://midsuffolk.gov.uk/w/renters-rights-act",
+    "quote": "Registration & Redress: Mandatory membership of the PRS database and Ombudsman scheme."
+   },
+   "North Hertfordshire": {
+    "status": "mentions",
+    "url": "https://www.north-herts.gov.uk/renters-rights-act-private-landlords-and-letting-agents",
+    "quote": "In the future, a database, an ombudsman, Awaab's Law, and the Decent Homes Standard will all be implemented in the private rented sector."
+   },
+   "North Norfolk": {
+    "status": "mentions",
+    "url": "https://www.north-norfolk.gov.uk/info/housing/supporting-information/faqs-renters-rights-act-2025/",
+    "quote": "Expected late 2026: Private Rent Sector Database and Landlord Ombudsman"
+   },
+   "Norwich": {
+    "status": "mentions",
+    "url": "https://new.norwich.gov.uk/support-private-tenants-and-landlords/private-landlords-register/private-sector-housing-standards/property-registration-and-general-lettings",
+    "quote": "Phase 2 of the Renters' Rights Act rollout includes a Private Rented Sector Database."
+   },
+   "Peterborough": {
+    "status": "mentions",
+    "url": "https://www.peterborough.gov.uk/regulatory-services/housing-standards/renters-rights-act",
+    "quote": "Further changes, including the creation of a National Landlord Database, are due to follow"
+   },
+   "Rochford": {
+    "status": "act only",
+    "url": "https://www.rochford.gov.uk/private-sector-Housing"
+   },
+   "South Cambridgeshire": {
+    "status": "mentions",
+    "url": "https://www.scambs.gov.uk/housing/renting-privately/renters-rights-act",
+    "quote": "Late 2026 - PRS Database rollout begins"
+   },
+   "South Norfolk": {
+    "status": "mentions",
+    "url": "https://www.southnorfolkandbroadland.gov.uk/housing/landlords-and-private-rent/renters-rights-act",
+    "quote": "Phase 2 – PRS Database & Ombudsman: due late 2026"
+   },
+   "Southend-on-Sea": {
+    "status": "nothing",
+    "url": "https://www.southend.gov.uk/info/200367/private_landlords"
+   },
+   "St Albans": {
+    "status": "act only",
+    "url": "https://www.stalbans.gov.uk/renters-rights-act-landlord-info"
+   },
+   "Stevenage": {
+    "status": "mentions",
+    "url": "https://www.stevenage.gov.uk/housing/private-sector-housing/renters-rights-act-2025",
+    "quote": "a new landlord database and property portal (being introduced in phases)"
+   },
+   "Tendring": {
+    "status": "mentions",
+    "url": "https://www.tendringdc.gov.uk/sub-content-pages/important-changes-coming-for-private-renters-and-landlords-the-renters-rights-act-2025",
+    "quote": "Landlords must register on the new Private Rented Sector Database and join a Landlord Ombudsman Scheme (phased in from late 2026)."
+   },
+   "Three Rivers": {
+    "status": "act only",
+    "url": "https://www.threerivers.gov.uk/news/renters-rights-act"
+   },
+   "Thurrock": {
+    "status": "mentions",
+    "url": "https://www.thurrock.gov.uk/private-landlords/renters-rights-act-2025",
+    "quote": "This includes a database of private landlords, a new landlord Ombudsman to help resolve disputes"
+   },
+   "Uttlesford": {
+    "status": "mentions",
+    "url": "https://www.uttlesford.gov.uk/article/10055/Renters-Rights-Act-2025",
+    "quote": "All landlords will have to register their properties on a new national private rented sector database"
+   },
+   "Watford": {
+    "status": "act only",
+    "url": "https://www.watford.gov.uk/landlord-forum-timetable"
+   },
+   "Welwyn Hatfield": {
+    "status": "mentions",
+    "url": "https://www.welhat.gov.uk/landlords/renters-rights-act/3",
+    "quote": "All landlords will have to register their properties on a new national Database for Landlords and Local Councils."
+   },
+   "West Suffolk": {
+    "status": "act only",
+    "url": "https://www.westsuffolk.gov.uk/news/pr20260224ws01.cfm"
+   }
+  }
  }
 }

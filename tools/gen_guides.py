@@ -213,7 +213,7 @@ def epc_section(region: str) -> tuple:
 # What each council's own website tells landlords about the database (tools/data/council-notices.json), read by hand
 # and by research agents on the date in 'checked'. Only regions with a survey get the section.
 NOTICES = json.loads((ROOT / "tools" / "data" / "council-notices.json").read_text(encoding="utf-8"))
-NOTICE_LABEL = {"deadline": "Gives the dates", "mentions": "Mentions it, no dates",
+NOTICE_LABEL = {"deadline": "Gives the dates", "mentions": "Mentions it, no correct date",
                 "act only": "Renters' Rights Act only, no word of the database", "nothing": "Nothing yet on its landlord pages",
                 "unreachable": "Could not check (the site blocked our reader)"}
 
@@ -227,20 +227,27 @@ def notice_section(region: str) -> tuple:
     told = sorted(c for c, v in cs.items() if v["status"] in ("deadline", "mentions"))
     dated = [c for c in told if cs[c]["status"] == "deadline"]
     checkable = [c for c, v in cs.items() if v["status"] != "unreachable"]
-    rows = "".join(
-        f"<tr><td>{esc(council_name(c))}</td><td>{esc(NOTICE_LABEL[cs[c]['status']])}<br><span class=\"mut\">&ldquo;{esc(cs[c]['quote'])}&rdquo; "
-        f"(<a href=\"{html.escape(cs[c]['url'])}\">council page</a>)</span></td></tr>\n"
-        for c in sorted(told, key=lambda c: (cs[c]["status"] != "deadline", c)))
+    rank = sorted(rr.ROLLOUT, key=lambda r: rr.ROLLOUT[r]["deadline"]).index(region)
+    order = "first" if rank == 0 else f"{['second', 'third', 'fourth', 'fifth'][rank - 1]}, from {long(rr.ROLLOUT[region]['opens'])}" if rank < 5 else f"from {long(rr.ROLLOUT[region]['opens'])}"
+    def table(group):
+        rows = "".join(
+            f"<tr><td>{esc(council_name(c))}</td><td>{esc(NOTICE_LABEL[cs[c]['status']])}<br><span class=\"mut\">&ldquo;{esc(cs[c]['quote'])}&rdquo; "
+            f"(<a href=\"{html.escape(cs[c]['url'])}\">council page</a>)</span></td></tr>\n" for c in group)
+        return f'<div class="wrap"><table><thead><tr><th>Council</th><th>What its website says</th></tr></thead><tbody>\n{rows}</tbody></table></div>\n'
+    undated = [c for c in told if c not in dated]
+    # A long table pushes everything else off a phone screen: past a dozen rows the undated quotes fold away (still crawlable).
+    tables = (table(dated + undated) if len(told) <= 12 else
+              (table(dated) if dated else "") + f"<details class=\"more\"><summary>What the other {len(undated)} councils say (no correct date)</summary>\n{table(undated)}</details>\n")
     rest = "".join(
         f"<p><strong>{esc(NOTICE_LABEL[k])}:</strong> {esc(names(g))}.</p>\n"
         for k in ("act only", "nothing", "unreachable") if (g := sorted(c for c, v in cs.items() if v["status"] == k)))
     out = (f"<h2 id=\"council-notices\">Has your council told landlords yet?</h2>\n"
-           f"<p>Landlords in {esc(the(region))} register first, so on {checked} we read every council's own landlord pages. "
+           f"<p>Landlords in {esc(the(region))} register {order}, so on {checked} we read every council's own landlord pages. "
            f"<strong>{len(told)} of {len(checkable)}</strong> mention the landlord database at all, and only {len(dated)} give the dates "
            f"(the {long(FIRST)} opening or the {long(rr.ROLLOUT[region]['deadline'])} deadline). Don't wait for a letter from the council: "
            f"the duty to register is yours, and the government's service is the only place to do it.</p>\n"
-           f'<div class="wrap"><table><thead><tr><th>Council</th><th>What its website says</th></tr></thead><tbody>\n{rows}</tbody></table></div>\n'
-           + rest +
+           + tables
+           + (f"<p>{esc(data['note'])}</p>\n" if data.get("note") else "") + rest +
            f'<p class="mut">Something changed on your council\'s page? <a href="https://github.com/genzagents/rentready/issues">Tell us</a> and we re-check it.</p>\n')
     faq = [(f"Has my council in {the(region)} told landlords about the landlord database?",
             f"On {checked}, {len(told)} of the {len(checkable)} councils in {the(region)} mentioned it on their own website"
