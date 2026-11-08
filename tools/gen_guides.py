@@ -248,8 +248,9 @@ def notice_section(region: str) -> tuple:
         for k in ("act only", "nothing", "unreachable") if (g := sorted(c for c, v in cs.items() if v["status"] == k)))
     out = (f"<h2 id=\"council-notices\">Has your council told landlords yet?</h2>\n"
            f"<p>Landlords in {esc(the(region))} register {order}, so on {checked} we read every council's own landlord pages. "
-           f"<strong>{len(told)} of {len(checkable)}</strong> mention the landlord database at all, and only {len(dated)} give the dates "
-           f"(the {long(FIRST)} opening or the {long(rr.ROLLOUT[region]['deadline'])} deadline). Don't wait for a letter from the council: "
+           f"<strong>{len(told)} of {len(checkable)}</strong> mention the landlord database at all, and "
+           + ("none gives" if not dated else "only 1 gives" if len(dated) == 1 else f"only {len(dated)} give") +
+           f" the dates (the {long(FIRST)} opening or the {long(rr.ROLLOUT[region]['deadline'])} deadline). Don't wait for a letter from the council: "
            f"the duty to register is yours, and the government's service is the only place to do it.</p>\n"
            + tables
            + (f"<p>{esc(data['note'])}</p>\n" if data.get("note") else "") + rest +
@@ -334,13 +335,20 @@ def region_href(region: str) -> str:
     return f"{DEADLINE_PAGE}#{slug(region)}" if region in MERGED else f"{slug(region)}.html"
 
 
+def notices_href(region: str) -> str:
+    """Where a region's council survey lives, relative to docs/guides/."""
+    return f"{DEADLINE_PAGE}#council-notices-{slug(region)}" if region in MERGED else f"{slug(region)}.html#council-notices"
+
+
 def merged_section(region: str) -> str:
     w = rr.ROLLOUT[region]
     body, _, _ = councils_section(region)
     body = body.replace("<h3>", "<h4>").replace("</h3>", "</h4>").replace("<h2>", "<h3>").replace("</h2>", "</h3>")
+    # The council survey sits under the region's heading here, so its id carries the region (one page, several regions).
+    notices = notice_section(region)[0].replace('<h2 id="council-notices">', f'<h3 id="council-notices-{slug(region)}">').replace("</h2>", "</h3>")
     return (f'<h2 id="{slug(region)}">{esc(NAMED.get(region, region))}: register by {long(w["deadline"])}</h2>\n'
             f"<p>The requirement for {esc(the(region))} starts on {long(w['opens'])} and the deadline is {long(w['deadline'])}. "
-            f"{esc(The(region))} covers {esc(PLACES[region])}.</p>\n" + body
+            f"{esc(The(region))} covers {esc(PLACES[region])}.</p>\n" + notices + body
             + epc_section(region)[0].replace("<h2>", "<h3>").replace("</h2>", "</h3>"))
 
 

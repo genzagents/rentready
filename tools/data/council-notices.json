@@ -1,5 +1,5 @@
 {
- "_about": "What each council's own website tells private landlords about the landlord database (Register your rental property), read on the date in 'checked'. status: deadline = mentions it and gives the 15 Dec 2026 opening or the region's deadline; mentions = mentions it without dates; act only = Renters' Rights Act but not the database; nothing = landlord pages found, neither; unreachable = could not read. Quotes checked word for word against the live page on that date (where a site blocks automated readers entirely, the council's 'note' says where the quote was read) ('...' joins parts of one sentence). Research: co-founder/research/{west-midlands,east-of-england,east-midlands,south-east}-council-notices-2026-11-07.md.",
+ "_about": "What each council's own website tells private landlords about the landlord database (Register your rental property), read on the date in 'checked'. status: deadline = mentions it and gives the 15 Dec 2026 opening or the region's deadline; mentions = mentions it without dates; act only = Renters' Rights Act but not the database; nothing = landlord pages found, neither; unreachable = could not read. Quotes checked word for word against the live page on that date (where a site blocks automated readers entirely, the council's 'note' says where the quote was read) ('...' joins parts of one sentence). Research: co-founder/research/{west-midlands,east-of-england,east-midlands,south-east}-council-notices-2026-11-07.md and {yorkshire,north-east}-council-notices-2026-11-08.md.",
  "West Midlands": {
   "checked": "2026-11-07",
   "councils": {
@@ -847,5 +847,144 @@
     "note": "Shared Adur & Worthing site; no date given."
    }
   }
+ },
+ "Yorkshire and The Humber": {
+  "checked": "2026-11-08",
+  "councils": {
+   "Barnsley": {
+    "status": "mentions",
+    "url": "https://www.barnsley.gov.uk/services/housing/private-landlords/your-responsibilities-as-a-private-landlord/",
+    "quote": "A national Private Rented Sector Database and mandatory Ombudsman scheme will follow later in 2026 to 2028."
+   },
+   "Bradford": {
+    "status": "mentions",
+    "url": "https://www.bradford.gov.uk/housing/advice-for-landlords/important-changes-in-the-law/",
+    "quote": "Rollout of Private Rented Sector Database and set up of the Private Rented Sector Landlord Ombudsman from late 2026"
+   },
+   "Calderdale": {
+    "status": "act only",
+    "url": "https://new.calderdale.gov.uk/housing/private-landlords-and-tenants"
+   },
+   "Doncaster": {
+    "status": "deadline",
+    "url": "https://www.doncaster.gov.uk/services/housing/renters-rights-act-2025-what-it-means-for-landlords-and-tenants",
+    "quote": "Yorkshire & Humber region registration window is from 15 April 2027 to 14 July 2027."
+   },
+   "East Riding of Yorkshire": {
+    "status": "act only",
+    "url": "https://www.eastriding.gov.uk/housing/private-housing-landlords/advice-for-landlords-and-letting-agents/"
+   },
+   "Kingston upon Hull, City of": {
+    "status": "mentions",
+    "url": "https://www.hull.gov.uk/private-landlords/renters-rights-landlords",
+    "quote": "a national Private Rented Sector Database"
+   },
+   "Kirklees": {
+    "status": "mentions",
+    "url": "https://www.kirklees.gov.uk/beta/housing/renters-rights-act.aspx",
+    "quote": "All landlords will be required to register their properties on a new national database."
+   },
+   "Leeds": {
+    "status": "mentions",
+    "url": "https://www.leeds.gov.uk/housing/information-for-landlords/private-sector-housing-civil-penalty-policy",
+    "quote": "breaches and offences in relation to landlord redress schemes and the private rented sector database under Part 2 of the Renters’ Rights Act 2025"
+   },
+   "North East Lincolnshire": {
+    "status": "mentions",
+    "url": "https://www.nelincs.gov.uk/homes-and-property/rented-properties/renters-rights-act/",
+    "quote": "A private rented sector database will be created to help landlords understand their legal obligations"
+   },
+   "North Lincolnshire": {
+    "status": "unreachable",
+    "url": "https://www.northlincs.gov.uk/council-tax-benefits-and-housing/housing-advice-for-landlords/"
+   },
+   "North Yorkshire": {
+    "status": "mentions",
+    "url": "https://www.northyorks.gov.uk/housing-and-homelessness/housing-information-landlords/renting-out-your-property",
+    "quote": "a national private rented sector landlord database"
+   },
+   "Rotherham": {
+    "status": "mentions",
+    "url": "https://www.rotherham.gov.uk/private-housing/landlords-managing-agents",
+    "quote": "Regional rollout of the database for landlords and local councils"
+   },
+   "Sheffield": {
+    "status": "act only",
+    "url": "https://haveyoursay.sheffield.gov.uk/private-housing-standards"
+   },
+   "Wakefield": {
+    "status": "mentions",
+    "url": "https://www.wakefield.gov.uk/your-district/new-legal-requirements-for-private-renters-and-landlords",
+    "quote": "A new national database that all private landlords must register on and all Councils will have access to"
+   },
+   "York": {
+    "status": "mentions",
+    "url": "https://www.york.gov.uk/private-landlords-tenants/renters-rights-act-2025-landlords-guide-compliance",
+    "quote": "Landlords will need to register their properties on a new private rented sector database as part of the changes introduced by the Renters' Rights Act."
+   }
+  },
+  "note": "Doncaster gives the region's window; every other council that mentions the database says 'late 2026', 'later in 2026' or gives no date (Rotherham's page also says 'probably in 2028'). Leeds mentions it only in its civil penalty policy. North Lincolnshire's site shows a bot check to every reader, so it is not counted."
+ },
+ "North East": {
+  "checked": "2026-11-08",
+  "councils": {
+   "County Durham": {
+    "status": "mentions",
+    "url": "https://www.durham.gov.uk/article/35009/New-rights-and-responsibilities-for-landlords-in-England-Renters-Rights-Act-2026",
+    "quote": "In the future, a database, an ombudsman, Awaab's Law, and the Decent Homes Standard will all be implemented in the private rented sector."
+   },
+   "Darlington": {
+    "status": "act only",
+    "url": "https://www.darlington.gov.uk/housing/private-sector-housing/renters-rights-act-2025/"
+   },
+   "Gateshead": {
+    "status": "act only",
+    "url": "https://www.gateshead.gov.uk/article/5929/Private-landlord-support"
+   },
+   "Hartlepool": {
+    "status": "mentions",
+    "url": "https://www.hartlepool.gov.uk/news/article/202/private-renting-is-changing-how-new-law-will-affect-landlords",
+    "quote": "a Private Rented Sector (PRS) Database containing details of all landlords and rental properties in England"
+   },
+   "Middlesbrough": {
+    "status": "act only",
+    "url": "https://www.middlesbrough.gov.uk/housing/landlords/renters-rights-act-2025-information-for-landlords-and-letting-agents/"
+   },
+   "Newcastle upon Tyne": {
+    "status": "act only",
+    "url": "https://new.newcastle.gov.uk/what-do-landlords-need-know-about-renters-rights-act"
+   },
+   "North Tyneside": {
+    "status": "mentions",
+    "url": "https://www.northtyneside.gov.uk/renters-rights-bill-practical-checklist-landlords/private-rented-sector-database",
+    "quote": "All landlords must register their properties on a new national Private Rented Sector database."
+   },
+   "Northumberland": {
+    "status": "mentions",
+    "url": "https://www.northumberland.gov.uk/housing/renters-rights-act-2026",
+    "quote": "A landlord database"
+   },
+   "Redcar and Cleveland": {
+    "status": "mentions",
+    "url": "https://www.redcar-cleveland.gov.uk/housing/housing-standards",
+    "quote": "The government will soon establish the ‘Register your rental property’ service (previously known as the ‘PRS Database’)."
+   },
+   "South Tyneside": {
+    "status": "mentions",
+    "url": "https://www.southtyneside.gov.uk/article/26417/Renters-Rights-Bill",
+    "quote": "If you're a landlord of an assured or regulated tenancy, then you must register yourself and each of your properties through the service."
+   },
+   "Stockton-on-Tees": {
+    "status": "mentions",
+    "url": "https://www.stockton.gov.uk/article/20296/Renters-Rights-Act-2025",
+    "quote": "In the future, a database, an ombudsman, Awaab's Law, and the Decent Homes Standard will all be implemented in the private rented sector."
+   },
+   "Sunderland": {
+    "status": "mentions",
+    "url": "https://www.sunderland.gov.uk/article/41582/PRS-Property-Registration-Portal",
+    "quote": "Landlords of assured or regulated tenancies must register themselves and each of their properties through the service."
+   }
+  },
+  "note": "None of the 12 councils gives the dates. Gateshead, Middlesbrough, South Tyneside, Stockton-on-Tees and Sunderland block automated readers; we read their pages in a normal browser on 8 Nov. County Durham and Stockton-on-Tees use the same sentence, copied from government guidance."
  }
 }

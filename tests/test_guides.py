@@ -73,9 +73,10 @@ class GuidesTest(unittest.TestCase):
                 self.assertIn(v["status"], gen_guides.NOTICE_LABEL, c)
                 if v["status"] in ("deadline", "mentions"):
                     self.assertTrue(v.get("quote") and v["url"].startswith("https://"), c)
-            page = (ROOT / "docs/guides" / gen_guides.region_href(region)).read_text(encoding="utf-8")
+            page = (ROOT / "docs/guides" / gen_guides.region_href(region).split("#")[0]).read_text(encoding="utf-8")
             told = sum(v["status"] in ("deadline", "mentions") for v in data["councils"].values())
             self.assertIn(f"<strong>{told} of ", page)
+            self.assertIn(f'id="{gen_guides.notices_href(region).split("#")[1]}"', page)
 
 
 if __name__ == "__main__":

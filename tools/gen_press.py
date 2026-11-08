@@ -6,6 +6,7 @@ from datetime import date
 from pathlib import Path
 
 import gen_epc_story as story
+import gen_guides as guides
 from gen_numbers import BASE, BRAND, FOOT, ICON
 from schema import apply
 
@@ -31,11 +32,11 @@ def councils() -> str:
         told = sum(c["status"] in ("deadline", "mentions") for c in cs)
         dated = sum(c["status"] == "deadline" for c in cs)
         told_all, dated_all, n_all = told_all + told, dated_all + dated, n_all + len(cs)
-        href = f"{BASE}guides/{r.lower().replace(' ', '-')}.html#council-notices"
+        href = f"{BASE}guides/{guides.notices_href(r)}"
         rows += f'<tr><td><a href="{href}">{e(r)}</a></td><td>{len(cs)}</td><td>{told}</td><td>{dated}</td></tr>'
     checked = max(date.fromisoformat(v["checked"]) for v in regions.values())
     return f"""<h2 id="councils">Second story: most councils have not told landlords when to register</h2>
-<p>On {checked.day} {checked:%B %Y} we read the landlord pages of every council in the first {['one', 'two', 'three', 'four', 'five'][len(regions) - 1]} regions to register. <strong>{told_all} of {n_all}</strong> mention the landlord database at all, and only <strong>{dated_all}</strong> give the right dates. Some give wrong ones: Castle Point tells landlords the database is unlikely before 2028. In the East Midlands only the three Lincolnshire councils that share one partnership page (Boston, East Lindsey, South Holland) give the dates; Nottingham, Mansfield and Chesterfield say nothing about the database. In the South East, Oxford is helping the government trial the database but its pages give landlords no date, and nor do Brighton and Hove, Portsmouth or Reading; Horsham's banner gives a deadline a month late (14 July 2027). Every quote links to the council's own page.</p>
+<p>On {checked.day} {checked:%B %Y} we read the landlord pages of every council in {['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'][len(regions) - 1]} of England's nine regions, starting with the first to register. <strong>{told_all} of {n_all}</strong> mention the landlord database at all, and only <strong>{dated_all}</strong> give the right dates. Some give wrong ones: Castle Point tells landlords the database is unlikely before 2028. In the East Midlands only the three Lincolnshire councils that share one partnership page (Boston, East Lindsey, South Holland) give the dates; Nottingham, Mansfield and Chesterfield say nothing about the database. In the South East, Oxford is helping the government trial the database but its pages give landlords no date, and nor do Brighton and Hove, Portsmouth or Reading; Horsham's banner gives a deadline a month late (14 July 2027). In Yorkshire only Doncaster gives the region's dates, and Rotherham says the database will probably come in 2028. In the North East none of the 12 councils gives a date, and Newcastle and Gateshead say nothing about the database. Every quote links to the council's own page.</p>
 <div class="wrap"><table>
 <thead><tr><th>Region</th><th>Councils read</th><th>Mention the database</th><th>Give the right dates</th></tr></thead>
 <tbody>{rows}</tbody></table></div>
