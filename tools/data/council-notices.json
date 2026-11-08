@@ -1,5 +1,5 @@
 {
- "_about": "What each council's own website tells private landlords about the landlord database (Register your rental property), read on the date in 'checked'. status: deadline = mentions it and gives the 15 Dec 2026 opening or the region's deadline; mentions = mentions it without dates; act only = Renters' Rights Act but not the database; nothing = landlord pages found, neither; unreachable = could not read. Quotes checked word for word against the live page on that date (where a site blocks automated readers entirely, the council's 'note' says where the quote was read) ('...' joins parts of one sentence). Research: co-founder/research/{west-midlands,east-of-england,east-midlands,south-east}-council-notices-2026-11-07.md and {yorkshire,north-east}-council-notices-2026-11-08.md and {north-west,london}-council-notices-2026-11-08.md.",
+ "_about": "What each council's own website tells private landlords about the landlord database (Register your rental property), read on the date in 'checked'. status: deadline = mentions it and gives the 15 Dec 2026 opening or the region's deadline; mentions = mentions it without dates; act only = Renters' Rights Act but not the database; nothing = landlord pages found, neither; unreachable = could not read. Quotes checked word for word against the live page on that date (where a site blocks automated readers entirely, the council's 'note' says where the quote was read) ('...' joins parts of one sentence). Research: co-founder/research/{west-midlands,east-of-england,east-midlands,south-east}-council-notices-2026-11-07.md and {yorkshire,north-east}-council-notices-2026-11-08.md and {north-west,london,south-west}-council-notices-2026-11-08.md.",
  "West Midlands": {
   "checked": "2026-11-07",
   "councils": {
@@ -1367,5 +1367,142 @@
     "note": "'Later phases'; no date. Page last updated 19 March 2026."
    }
   }
+ },
+ "South West": {
+  "checked": "2026-11-08",
+  "councils": {
+   "Bath and North East Somerset": {
+    "status": "mentions",
+    "url": "https://www.bathnes.gov.uk/guidance-landlords-and-tenants",
+    "quote": "Register your rental property service: guidance for landlords"
+   },
+   "Bournemouth, Christchurch and Poole": {
+    "status": "mentions",
+    "url": "https://www.bcpcouncil.gov.uk/housing/help-for-landlords/renters-rights-act-2025-information-for-landlords",
+    "quote": "launch of a mandatory PRS Database for landlord and property registration"
+   },
+   "Bristol, City of": {
+    "status": "act only",
+    "url": "https://www.bristol.gov.uk/private-landlords/private-housing-policies-and-performance",
+    "note": "Landlord pages cover enforcement under the Act; the only 'database' is the rogue landlord database. Committee papers mention the new database but are not landlord pages."
+   },
+   "Cheltenham": {
+    "status": "act only",
+    "url": "https://www.cheltenham.gov.uk/housing/private-housing/housing-standards/"
+   },
+   "Cornwall": {
+    "status": "act only",
+    "url": "https://www.cornwall.gov.uk/housing/private-housing/renters-rights-act-2025/renters-rights-act-2025-information-for-landlords/"
+   },
+   "Cotswold": {
+    "status": "mentions",
+    "url": "https://www.cotswold.gov.uk/housing/private-housing/information-for-landlords-and-tenants/",
+    "quote": "Phase 2: from late 2026 - Private Rented Sector database and landlord ombudsman",
+    "note": "Found by a Google site: search; no date given."
+   },
+   "Dorset": {
+    "status": "deadline",
+    "url": "https://www.dorsetcouncil.gov.uk/w/renters-rights-2025",
+    "quote": "It will go live in Dorset from 15 August 2027 and the deadline to register will be 14 November 2027."
+   },
+   "East Devon": {
+    "status": "deadline",
+    "url": "https://eastdevon.gov.uk/housing/housing-in-the-private-sector/landlord-and-tenant-rights-and-responsibilities/",
+    "quote": "Registration for landlords with properties in Devon will commence on the 15 August 2027.",
+    "note": "Gives the 15 August 2027 start; the same page's FAQ still says 'Expected late 2026'."
+   },
+   "Exeter": {
+    "status": "nothing",
+    "url": "https://www.exeter.gov.uk/benefits-and-welfare/landlord-advice/benefits-advice-for-landlords/"
+   },
+   "Forest of Dean": {
+    "status": "mentions",
+    "url": "https://www.fdean.gov.uk/housing/private-housing/information-for-landlords-and-tenants/",
+    "quote": "Phase 2: from late 2026 - Private Rented Sector database and landlord ombudsman"
+   },
+   "Gloucester": {
+    "status": "mentions",
+    "url": "https://www.gloucester.gov.uk/housing/renters-rights-act-2025/",
+    "quote": "It is proposed to roll out the Database from late 2026."
+   },
+   "Isles of Scilly": {
+    "status": "act only",
+    "url": "https://scilly.gov.uk/community-safety/housing-1"
+   },
+   "Mid Devon": {
+    "status": "deadline",
+    "url": "https://www.middevon.gov.uk/residents/pin-point-news-bites-for-landlords/pin-point-2nd-october-2026/",
+    "quote": "Dates have now been published for the first stage of Phase 2 - the regional roll out of the ‘Register your rental property’ service.",
+    "note": "Its 2 Oct 2026 landlord bulletin has the full table, South West 15 August 2027 to 14 November 2027 (found by a Google site: search)."
+   },
+   "North Devon": {
+    "status": "deadline",
+    "url": "https://www.northdevon.gov.uk/renters-rights-act-2025/private-rented-sector-database",
+    "quote": "The service is due to roll out region by region across England from 15 December 2026, beginning in the West Midlands."
+   },
+   "North Somerset": {
+    "status": "act only",
+    "url": "https://n-somerset.gov.uk/my-services/housing/help-if-you-rent-or-want-rent-home"
+   },
+   "Plymouth": {
+    "status": "deadline",
+    "url": "https://www.plymouth.gov.uk/renters-rights-act-2025",
+    "quote": "The database is being rolled out regionally and will begin in December 2026."
+   },
+   "Somerset": {
+    "status": "mentions",
+    "url": "https://www.somerset.gov.uk/housing-support/renters-rights-act/",
+    "quote": "All landlords must register their properties on a new national Private Rented Sector database."
+   },
+   "South Gloucestershire": {
+    "status": "deadline",
+    "url": "https://beta.southglos.gov.uk/renters-rights-act/",
+    "quote": "A new national database called Register Your Rental Property will be introduced from 15 December 2026.",
+    "note": "Gives the 15 December 2026 opening but not the South West dates, and says the service is expected to launch in full in 2028."
+   },
+   "South Hams": {
+    "status": "nothing",
+    "url": "https://www.southhams.gov.uk/landlords-and-seamoor-lettings"
+   },
+   "Stroud": {
+    "status": "mentions",
+    "url": "https://www.stroud.gov.uk/news/stroud-district-council-prepares-residents-for-major-changes-under-the-renters-rights-act/",
+    "quote": "A new national landlord database will be introduced within 18 months, and a new private rented sector ombudsman will be formed."
+   },
+   "Swindon": {
+    "status": "act only",
+    "url": "https://www.swindon.gov.uk/downloads/download/3507/the_renters_rights_act_information_sheet_2026"
+   },
+   "Teignbridge": {
+    "status": "act only",
+    "url": "https://www.teignbridge.gov.uk/housing/landlords-and-agents/renters-rights-act-2025/"
+   },
+   "Tewkesbury": {
+    "status": "nothing",
+    "url": "https://www.tewkesbury.gov.uk/services/housing/renting-from-a-private-landlord"
+   },
+   "Torbay": {
+    "status": "mentions",
+    "url": "https://www.torbay.gov.uk/housing/renters-rights-act/prs-landlord-database/",
+    "quote": "Once launched in late 2026, landlords need to register their properties."
+   },
+   "Torridge": {
+    "status": "mentions",
+    "url": "https://torridge.gov.uk/article/22524/Renters-Rights-Act-2025",
+    "quote": "Landlords required to register on a private landlord database"
+   },
+   "West Devon": {
+    "status": "mentions",
+    "url": "https://www.westdevon.gov.uk/housing/housing-support/housing-advice/rental-housing-standards",
+    "quote": "The bill also includes a national register for landlords, the ability for tenants to request a pet, and the requirement for landlords to meet the Decent Homes Standard."
+   },
+   "Wiltshire": {
+    "status": "mentions",
+    "url": "https://www.wiltshire.gov.uk/news/wiltshire-council-launches-landlord-forum-ahead-of-renters-rights-act-changes",
+    "quote": "Phase 2 includes the introduction of the new Private Rented Sector Ombudsman and Private Landlord Database.",
+    "note": "The site blocks automated readers; quote read in a normal browser on 8 Nov."
+   }
+  },
+  "note": "Dorset, North Devon, Plymouth and Mid Devon give both South West dates (15 August and 14 November 2027). Bournemouth, Christchurch and Poole, Cotswold, Forest of Dean, Gloucester and Torbay still say only 'late 2026'. Wiltshire blocks automated readers; we read its page in a normal browser on 8 Nov."
  }
 }
