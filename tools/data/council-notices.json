@@ -1,5 +1,5 @@
 {
- "_about": "What each council's own website tells private landlords about the landlord database (Register your rental property), read on the date in 'checked'. status: deadline = mentions it and gives the 15 Dec 2026 opening or the region's deadline; mentions = mentions it without dates; act only = Renters' Rights Act but not the database; nothing = landlord pages found, neither; unreachable = could not read. Quotes checked word for word against the live page on that date (where a site blocks automated readers entirely, the council's 'note' says where the quote was read) ('...' joins parts of one sentence). Research: co-founder/research/{west-midlands,east-of-england,east-midlands,south-east}-council-notices-2026-11-07.md and {yorkshire,north-east}-council-notices-2026-11-08.md.",
+ "_about": "What each council's own website tells private landlords about the landlord database (Register your rental property), read on the date in 'checked'. status: deadline = mentions it and gives the 15 Dec 2026 opening or the region's deadline; mentions = mentions it without dates; act only = Renters' Rights Act but not the database; nothing = landlord pages found, neither; unreachable = could not read. Quotes checked word for word against the live page on that date (where a site blocks automated readers entirely, the council's 'note' says where the quote was read) ('...' joins parts of one sentence). Research: co-founder/research/{west-midlands,east-of-england,east-midlands,south-east}-council-notices-2026-11-07.md and {yorkshire,north-east}-council-notices-2026-11-08.md and north-west-council-notices-2026-11-08.md.",
  "West Midlands": {
   "checked": "2026-11-07",
   "councils": {
@@ -986,5 +986,201 @@
    }
   },
   "note": "None of the 12 councils gives the dates. Gateshead, Middlesbrough, South Tyneside, Stockton-on-Tees and Sunderland block automated readers; we read their pages in a normal browser on 8 Nov. County Durham and Stockton-on-Tees use the same sentence, copied from government guidance."
+ },
+ "North West": {
+  "checked": "2026-11-08",
+  "councils": {
+   "Blackburn with Darwen": {
+    "status": "act only",
+    "url": "https://www.blackburn.gov.uk/landlords",
+    "note": "Page has a 'Landlords: Renters' Rights Act' heading and says 'Rules for landlords in England are changing from 1 May 2026.' No database mention on the page. Linked RRA subpage returned 404."
+   },
+   "Blackpool": {
+    "status": "nothing",
+    "url": "https://www.blackpool.gov.uk/Business/Residential-landlords/Residential-landlords.aspx",
+    "note": "Residential landlords page read: no Renters' Rights Act or database mention (page is about selective licensing). No RRA page found in search."
+   },
+   "Bolton": {
+    "status": "act only",
+    "url": "https://www.bolton.gov.uk/landlords",
+    "note": "Page says 'From 1 May 2026, landlords in England must comply with the Renters' Rights Act, which abolishes Section 21 no-fault evictions and converts all tenancies to periodic agreements.' No database mention."
+   },
+   "Burnley": {
+    "status": "mentions",
+    "url": "https://burnley.gov.uk/housing/private-rented-sector/renters-rights/",
+    "quote": "In the future, a database, an ombudsman, Awaab’s Law, and the Decent Homes Standard will all be implemented in the private rented sector.",
+    "note": "No date on the page. The Burnley landlord checklist PDF (burnley.gov.uk/wp-content/uploads/2026/04/HOUS_Renters-Rights-Act-20956_A5_landlord.pdf) reportedly says the database is Phase 2 from late 2026 per search snippet, but the PDF could not be text-extracted, so this is unverified."
+   },
+   "Bury": {
+    "status": "mentions",
+    "url": "https://www.bury.gov.uk/housing/private-rent/landlords/renting-is-changing-advice-for-landlords",
+    "quote": "The first phase of reforms will be introduced on 1 May 2026 with other measures, such as the Private Rented Sector Database and Private Rented Sector Ombudsman, introduced in later phases.",
+    "note": "Same page also says: 'This winter the government is rolling out the ‘Register your rental property’ service, as part of the second phase of Renters’ Rights Act implementation.' 'This winter' is not a dated deadline, so status stays at mentions."
+   },
+   "Cheshire East": {
+    "status": "act only",
+    "url": "https://www.cheshireeast.gov.uk/housing/managing-a-tenancy-information-for-landlords/starting-a-tenancy",
+    "note": "Page says: 'See our managing a tenancy information page for information about how the Renters' Rights Act 2025 changes things.' No database mention on the landlord pages read."
+   },
+   "Cheshire West and Chester": {
+    "status": "deadline",
+    "url": "https://www.cheshirewestandchester.gov.uk/residents/housing/private-rented-sector/property-conditions-legislation-and-guidance/national-landlord-register",
+    "quote": "All private landlords will be required to register themselves and their rented properties.",
+    "note": "Same page: 'The Register is expected to be introduced: between 15 May 2027 and 14 August 2027.' Read in Chrome on 8 Nov."
+   },
+   "Chorley": {
+    "status": "mentions",
+    "url": "https://chorley.gov.uk/housing/renters-rights-act-2025",
+    "quote": "The rest of the of the Renters' Rights Act, including a private rented database, Housing Ombudsman, the Decent Homes Standard and reforms introduced to the social rented sector, will follow at a later date.",
+    "note": "No date on the page (the 'of the of the' typo is on the published page). A search snippet said a Chorley timetable lists the database for late 2026, but that text was not found on the fetched page, so it is unverified."
+   },
+   "Cumberland": {
+    "status": "mentions",
+    "url": "https://www.cumberland.gov.uk/news/2026/cumberland-council-host-events-major-renters-rights-reforms",
+    "quote": "From 2027, a landlord database and property portal will be introduced, with further measures such as a Landlord Ombudsman and Decent Homes Standard expected in future years.",
+    "note": "Gives only the year 2027, not the 15 Dec 2026 opening or the NW 15 May to 14 Aug 2027 window, so mentions not deadline. The housing strategy page (https://www.cumberland.gov.uk/housing/housing-strategies/cumberland-housing-strategy-2025-2039/national-context/renters-rights-bill) also mentions a 'Private Rented Sector Database' with no date."
+   },
+   "Fylde": {
+    "status": "act only",
+    "url": "https://new.fylde.gov.uk/resident/housing/the-renters-rights-act/",
+    "note": "Page is titled 'The Renters’ Rights Act – What It Means for You' and mentions the Act and the GOV.UK Information Sheet 2026. No database or registration mention found."
+   },
+   "Halton": {
+    "status": "mentions",
+    "url": "https://www.halton.gov.uk/planning-housing-your-environment/housing/renters-rights-act",
+    "quote": "The database will also be required for all landlords to join directly, even if they have an agent.",
+    "note": "No 2026 or NW window date for the database. Page says 'Phase 2 is likely to be implemented from 2026 all the way up until 2028, with the ombudsman more likely to be brought in to affect late 2028.' The 2028 date is odd/late. Old www3.halton.gov.uk URL redirects to this page."
+   },
+   "Hyndburn": {
+    "status": "nothing",
+    "url": "https://www.hyndburnbc.gov.uk/private-sector-housing/",
+    "note": "Private Sector Housing page and the Private Rented Sector / Private landlords pages read: no Renters' Rights Act or database mention found. Site content looks dated."
+   },
+   "Knowsley": {
+    "status": "mentions",
+    "url": "https://www.knowsley.gov.uk/housing/renters-rights-act-information-private-tenants-and-landlords",
+    "quote": "By 2027, a database of private landlords will be created to help landlords understand their obligations.",
+    "note": "Generic national-policy line. No 15 Dec 2026 or North West window, no registration instructions. Page checked via curl; quote matches HTML."
+   },
+   "Lancaster": {
+    "status": "mentions",
+    "url": "https://www.lancaster.gov.uk/assets/attach/16544/Renters-Rights-Act.pdf",
+    "quote": "Compliance will become checked centrally via the PRS Database",
+    "note": "A January 2026 landlord presentation (PDF); it says 'Late 2026 onwards: PRS Database regional rollout'. The council's web page does not mention the database."
+   },
+   "Liverpool": {
+    "status": "act only",
+    "url": "https://liverpool.gov.uk/business/licences-and-permits/landlord-licensing/guide-to-being-a-good-landlord/renters-rights-act-guidance-for-landlords/",
+    "note": "Full Renters' Rights Act guide for landlords, no mention of the database. Read in Chrome on 8 Nov."
+   },
+   "Manchester": {
+    "status": "act only",
+    "url": "https://www.manchester.gov.uk/homes-and-property/private-landlords-information/managing-tenancies/renters-rights-act-information-for-landlords",
+    "note": "Blocks automated readers; read in Chrome on 8 Nov. The landlord page covers the Act with no mention of the database; a 9 Sep 2026 committee report says registration is mandatory, but nothing tells landlords."
+   },
+   "Oldham": {
+    "status": "nothing",
+    "url": "https://www.oldham.gov.uk/info/100007/housing/3107/renting_privately",
+    "note": "Renting privately page has an 'Information for landlords' section (gas safety, tenancy relations) but no Renters' Rights Act or database text. No dedicated RRA page found; oldham.gov.uk/info/200/private_housing/landlords returned 404."
+   },
+   "Pendle": {
+    "status": "act only",
+    "url": "https://www.pendle.gov.uk/info/20055/landlords/706/renters_rights_act/2",
+    "note": "RRA landlord page read; no database or registration text. Only 'Register' nav link matched."
+   },
+   "Preston": {
+    "status": "deadline",
+    "url": "https://www.preston.gov.uk/article/12525/Renters-Rights-Act",
+    "quote": "will begin on 15 December; all landlords or assured or regulated tenancies will need to register themselves and their properties on the service by their regional deadline.",
+    "note": "The page gives '15 December' without a year, under 'Rollout of the \"register your rental property\" service'."
+   },
+   "Ribble Valley": {
+    "status": "nothing",
+    "url": "https://www.ribblevalley.gov.uk/landlords/landlords-1",
+    "note": "Landlords page read; no Renters' Rights Act or database text. Ribble Valley's June 2025 committee report on civil penalties under the RRA 2025 is on ribblevalley.moderngov.co.uk (not read in full); it is a committee paper, not landlord guidance. ribblevalley.gov.uk/info/200/private_housing/landlords returned 404."
+   },
+   "Rochdale": {
+    "status": "act only",
+    "url": "https://www.rochdale.gov.uk/housing/renters-rights-act",
+    "note": "RRA page read: 'From 1 May 2026, the Renters' Rights Act gives tenants new rights and introduces new rules for private landlords.' No database or registration text."
+   },
+   "Rossendale": {
+    "status": "nothing",
+    "url": "https://www.rossendale.gov.uk/homepage/20026/housing-homelessness-and-property",
+    "note": "Housing pages read; nothing on the database or the Act for landlords."
+   },
+   "Salford": {
+    "status": "deadline",
+    "url": "https://www.salford.gov.uk/housing/information-for-landlords/the-renters-rights-act-2025/",
+    "quote": "In the North West, property registration will run from 15 May to 14 August 2027.",
+    "note": "Same page also says 'Phase 2 begins at the end of 2026, introducing \"register your rental property\"' and 'The registration fee is £65 per property per year.' Quote matched in the page HTML via curl."
+   },
+   "Sefton": {
+    "status": "mentions",
+    "url": "https://www.sefton.gov.uk/housing/private-sector-housing/renters-rights-act-2025/renters-rights-information-for-landlords/",
+    "quote": "Private Rented Property Database – anticipated late 2026",
+    "note": "Listed under 'Next phases of the Renters' Rights Act will include'. 'Late 2026' is not a December date and no North West window is given, so this is 'mentions' rather than 'deadline'. The Sefton news story and landlord checklist PDF (https://www.sefton.gov.uk/media/yhfn5xsl/landlord-checklist.pdf) do not mention the database; the checklist PDF had no readable text."
+   },
+   "South Ribble": {
+    "status": "nothing",
+    "url": "https://southribble.gov.uk/privaterentedhousing",
+    "note": "Landlord page found (private rented housing). No Renters' Rights Act or database text. Council homepage and housing page also read; no RRA page found."
+   },
+   "St. Helens": {
+    "status": "act only",
+    "url": "https://www.sthelens.gov.uk/article/14433/Changes-to-the-private-rented-sector-1-May-2026",
+    "note": "RRA page (last modified 21 April 2026) has RRA info but no database or registration text. Landlord info page /article/2978 also checked (curl): no database mention. Its GOV.UK links were not read."
+   },
+   "Stockport": {
+    "status": "act only",
+    "url": "https://www.stockport.gov.uk/information-for-landlords/renters-rights-act-2025",
+    "note": "RRA page verified via raw HTML: says Renters' Rights Act 2025 brings big changes and points landlords to GOV.UK. No database or registration text. WebFetch failed (header overflow); curl used."
+   },
+   "Tameside": {
+    "status": "act only",
+    "url": "https://tameside.gov.uk/documents/d/guest/landlord-guidance-final",
+    "note": "Landlord guidance 'Renters' Rights Act: What landlords need to know' (Word doc) read in full via curl and unzip: covers 1 May 2026 changes, no database or registration mention. WebFetch returned HTTP 403 for this document."
+   },
+   "Trafford": {
+    "status": "act only",
+    "url": "https://www.trafford.gov.uk/news/2026/traffords-landlord-forum-2026-discuss-renters-rights-act",
+    "note": "Landlord forum news item on the Act; no database or registration text. Contact prs@trafford.gov.uk. No dedicated Trafford RRA landlord page found."
+   },
+   "Warrington": {
+    "status": "deadline",
+    "url": "https://www.warrington.gov.uk/landlords",
+    "quote": "The PRS Database is expected to be introduced in Warrington between 15 May 2027 and 14 August 2027.",
+    "note": "Quote verified verbatim in raw HTML (curl). Page also names the 'Private Rented Sector (PRS) Database' as a national landlord register. Dates match the North West window."
+   },
+   "West Lancashire": {
+    "status": "mentions",
+    "url": "https://www.westlancs.gov.uk/housing/private-housing/help-advice-for-private-sector-tenants.aspx",
+    "quote": "The creation of a landlord database",
+    "note": "On the tenant advice page; the landlords page does not mention it."
+   },
+   "Westmorland and Furness": {
+    "status": "mentions",
+    "url": "https://www.westmorlandandfurness.gov.uk/housing/housing-standards/advice-tenants",
+    "quote": "a database where landlords must register their properties",
+    "note": "On the tenant advice page."
+   },
+   "Wigan": {
+    "status": "mentions",
+    "url": "https://www.wigan.gov.uk/Resident/Housing/Private-Sector-Housing/Tenants/Renters-Rights-Act.aspx",
+    "quote": "A regional rollout of the database will commence in late 2026, with regulations to mandate landlord registration and the payment of an annual fee",
+    "note": "Quote verified verbatim (curl). Says 'late 2026', not 15 December 2026, so 'mentions' not 'deadline'. Also says the Ombudsman membership requirement likely takes effect from 2028 (a 2028 date for the Ombudsman, not the database). Full landlord page is /Business/Property-and-Land/Private-Landlords/index.aspx, which links to the RRA page."
+   },
+   "Wirral": {
+    "status": "deadline",
+    "url": "https://www.wirral.gov.uk/housing/housing-information-and-advice/guidance-renters-rights-act-tenants-and-landlords",
+    "quote": "If you are a landlord in Wirral, you should get ready to register your rental property with the Government ... you must register by 14 August 2027",
+    "note": "Page renders with JavaScript; read in Chrome on 8 Nov."
+   },
+   "Wyre": {
+    "status": "nothing",
+    "url": "https://www.wyre.gov.uk/landlords",
+    "note": "Landlord pages (/landlords, /landlord-portal-1/landlord-guidance/1) read. No Renters' Rights Act or database text. Searches found no Wyre RRA page."
+   }
+  }
  }
 }
