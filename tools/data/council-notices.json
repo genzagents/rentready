@@ -1,5 +1,5 @@
 {
- "_about": "What each council's own website tells private landlords about the landlord database (Register your rental property), read on the date in 'checked'. status: deadline = mentions it and gives the 15 Dec 2026 opening or the region's deadline; mentions = mentions it without dates; act only = Renters' Rights Act but not the database; nothing = landlord pages found, neither; unreachable = could not read. Quotes checked word for word against the live page on that date (where a site blocks automated readers entirely, the council's 'note' says where the quote was read) ('...' joins parts of one sentence). Research: co-founder/research/{west-midlands,east-of-england,east-midlands,south-east}-council-notices-2026-11-07.md and {yorkshire,north-east}-council-notices-2026-11-08.md and north-west-council-notices-2026-11-08.md.",
+ "_about": "What each council's own website tells private landlords about the landlord database (Register your rental property), read on the date in 'checked'. status: deadline = mentions it and gives the 15 Dec 2026 opening or the region's deadline; mentions = mentions it without dates; act only = Renters' Rights Act but not the database; nothing = landlord pages found, neither; unreachable = could not read. Quotes checked word for word against the live page on that date (where a site blocks automated readers entirely, the council's 'note' says where the quote was read) ('...' joins parts of one sentence). Research: co-founder/research/{west-midlands,east-of-england,east-midlands,south-east}-council-notices-2026-11-07.md and {yorkshire,north-east}-council-notices-2026-11-08.md and {north-west,london}-council-notices-2026-11-08.md.",
  "West Midlands": {
   "checked": "2026-11-07",
   "councils": {
@@ -1180,6 +1180,191 @@
     "status": "nothing",
     "url": "https://www.wyre.gov.uk/landlords",
     "note": "Landlord pages (/landlords, /landlord-portal-1/landlord-guidance/1) read. No Renters' Rights Act or database text. Searches found no Wyre RRA page."
+   }
+  }
+ },
+ "London": {
+  "checked": "2026-11-08",
+  "councils": {
+   "Barking and Dagenham": {
+    "status": "act only",
+    "url": "https://www.lbbd.gov.uk/private-sector-housing/important-changes-private-landlords-barking-and-dagenham-1-may-2026",
+    "note": "Landlord page on the Renters' Rights Act changes from 1 May 2026; no database mention (read with curl)."
+   },
+   "Barnet": {
+    "status": "mentions",
+    "url": "https://www.barnet.gov.uk/housing/private-housing/landlords-barnet/renters-rights-act-information-landlords",
+    "quote": "All landlords will have to register their properties on a new national private rented sector database.",
+    "note": "Site blocks automated readers; read in Chrome on 8 Nov. Puts it in 'Phase 2: likely to start in late 2026'; no date."
+   },
+   "Bexley": {
+    "status": "act only",
+    "url": "https://www.bexley.gov.uk/services/housing/renting-your-property",
+    "note": "Renters' Rights Act 2025 section for landlords; no database mention (curl)."
+   },
+   "Brent": {
+    "status": "mentions",
+    "url": "https://www.brent.gov.uk/housing/landlords/renters-rights-act-for-landlords",
+    "quote": "A new national database will be introduced.",
+    "note": "Under 'Phase 2: Changes expected from late 2026'; no date. Says failure to register may lead to fines."
+   },
+   "Bromley": {
+    "status": "nothing",
+    "url": "https://www.bromley.gov.uk/PrivateLandlords",
+    "note": "Private landlords page has no Renters' Rights Act or database mention (curl)."
+   },
+   "Camden": {
+    "status": "mentions",
+    "url": "https://www.camden.gov.uk/renters-rights-act",
+    "quote": "All landlords will have to register their properties on a new national private rented sector database.",
+    "note": "Site blocks automated readers; read in Chrome on 8 Nov. 'Phase 2: likely to start in late 2026'; no date."
+   },
+   "City of London": {
+    "status": "nothing",
+    "url": "https://www.cityoflondon.gov.uk/services/housing",
+    "note": "No landlord page on the Renters' Rights Act found; housing pages have no database mention."
+   },
+   "Croydon": {
+    "status": "deadline",
+    "url": "https://www.croydon.gov.uk/housing/renters-rights-act",
+    "quote": "Starting from 15 July 2027, properties in London will need to be registered on the Rental Property Service.",
+    "note": "Found by a Google site: search after the research agent read only the landlord sub-page (/housing/renters-rights-act/landlords, no database mention); quote checked with curl on 8 Nov. Gives the start of London's window, not the 14 October 2027 deadline, and links to GOV.UK's Register your rental property guidance."
+   },
+   "Ealing": {
+    "status": "act only",
+    "url": "https://www.ealing.gov.uk/info/201086/housing/3306/private_rented_properties/10",
+    "note": "Landlord resources page links to GOV.UK Renters' Rights Act guidance; no database mention (curl)."
+   },
+   "Enfield": {
+    "status": "act only",
+    "url": "https://www.enfield.gov.uk/services/housing/renters-rights-act",
+    "note": "Site blocks automated readers; Renters' Rights Act page read in Chrome on 8 Nov, no database mention."
+   },
+   "Greenwich": {
+    "status": "mentions",
+    "url": "https://www.royalgreenwich.gov.uk/housing/letting-out-your-property/renters-rights-act-2025-what-landlords-need-know",
+    "quote": "This includes the introduction of a PRS landlord database and ombudsman from late 2026.",
+    "note": "Also says 'You'll have to sign up to the database and pay a yearly fee.' No date beyond 'late 2026'."
+   },
+   "Hackney": {
+    "status": "act only",
+    "url": "https://www.hackney.gov.uk/housing/private-tenants-and-landlords/changes-private-renting-law-renters-rights-act",
+    "note": "Renters' Rights Act page; no database mention (curl)."
+   },
+   "Hammersmith and Fulham": {
+    "status": "mentions",
+    "url": "https://www.lbhf.gov.uk/housing/private-housing/renters-rights-act/what-it-means-landlords",
+    "quote": "There will be more changes to follow in the later implementation phases such as the new private rented sector landlord database",
+    "note": "Site blocks automated readers from outside the UK; read in Chrome on 8 Nov. No date."
+   },
+   "Haringey": {
+    "status": "mentions",
+    "url": "https://haringey.gov.uk/housing/private-sector-renting/renters-rights-act/renters-rights-act-phase-2-likely-to-start-late-2026",
+    "quote": "All landlords will have to register their properties on a new national private rented sector database.",
+    "note": "Site blocks automated readers; read in Chrome on 8 Nov. Page title says phase 2 is 'likely to start in late 2026'; no date."
+   },
+   "Harrow": {
+    "status": "mentions",
+    "url": "https://www.harrow.gov.uk/housing-property/renters-rights-act",
+    "quote": "All landlords will have to register their properties on a new national private rented sector database.",
+    "note": "'Phase 2: likely to start in late 2026'; no date."
+   },
+   "Havering": {
+    "status": "act only",
+    "url": "https://www.havering.gov.uk/rentersrightsact",
+    "note": "Renters' Rights Act page with landlord rules; no database mention (curl)."
+   },
+   "Hillingdon": {
+    "status": "mentions",
+    "url": "https://pre.hillingdon.gov.uk/housing-advice-support/renters-rights",
+    "quote": "All landlords will have to register their properties on a new national private rented sector database.",
+    "note": "Read on the council's pre.hillingdon.gov.uk site, which is the copy Google indexes; the same address on www.hillingdon.gov.uk returns 'page not found'. 'Phase 2 - late 2026'; no date."
+   },
+   "Hounslow": {
+    "status": "act only",
+    "url": "https://www.hounslow.gov.uk/housing/renters-rights-act-2026-information-landlords",
+    "note": "Landlord page on the Act's first phase; no database mention (curl)."
+   },
+   "Islington": {
+    "status": "nothing",
+    "url": "https://www.islington.gov.uk/housing/private-sector-housing/private-rented-accommodation/private-rented-sector-charter",
+    "note": "No Renters' Rights Act landlord page found. The landlord charter's 'Work to create a national register of landlords' is a campaign aim, not the database."
+   },
+   "Kensington and Chelsea": {
+    "status": "mentions",
+    "url": "https://www.rbkc.gov.uk/housing/information-homeowners-private-rented-tenants-and-landlords/renters-rights-act",
+    "quote": "all private landlords must register their properties and contact details on a new national database",
+    "note": "Site blocks automated readers; read in Chrome on 8 Nov. Under 'Phase two By late 2026:'; no date."
+   },
+   "Kingston upon Thames": {
+    "status": "mentions",
+    "url": "https://www.kingston.gov.uk/housing/landlords-and-private-sector/renters-rights-act",
+    "quote": "Further changes will follow, including: A national landlord and property database",
+    "note": "Under 'Future changes'; no timing."
+   },
+   "Lambeth": {
+    "status": "nothing",
+    "url": "https://www.lambeth.gov.uk/housing/landlords-licensing/landlords-rights-responsibilities",
+    "note": "Landlord guidance has no database mention. Not counted: a council news story of 26 March 2026 (love.lambeth.gov.uk) says 'Further changes will follow later in 2026, including a new national landlord database'; news releases are not landlord guidance, as in the other regions."
+   },
+   "Lewisham": {
+    "status": "mentions",
+    "url": "https://lewisham.gov.uk/myservices/housing/private-tenants-and-landlords/landlords/renters-rights-act",
+    "quote": "A national database will be launched where all landlords must register their properties.",
+    "note": "Phase 2, 'Expected late 2026'; no date."
+   },
+   "Merton": {
+    "status": "nothing",
+    "url": "https://www.merton.gov.uk/council-tax-benefits-and-housing/housing-advice/renters-right-act",
+    "note": "Only a tenant-facing Renters' Rights Act page found; no landlord page, no database mention. (The Mayor's Rogue Landlord database is a different thing.)"
+   },
+   "Newham": {
+    "status": "act only",
+    "url": "https://www.newham.gov.uk/housing-homes-homelessness/renters%E2%80%99-rights-act-2025-key-changes-landlords",
+    "note": "Landlord page on key changes; no database mention. Not counted: its enforcement policy PDF lists penalties for failing to register on the database."
+   },
+   "Redbridge": {
+    "status": "mentions",
+    "url": "https://www.redbridge.gov.uk/housing/renters-rights-act/",
+    "quote": "All landlords will have to register their properties on a new national private rented sector database.",
+    "note": "Under 'Changes taking place in late 2026-2027'; no date."
+   },
+   "Richmond upon Thames": {
+    "status": "nothing",
+    "url": "https://www.richmond.gov.uk/landlord_lettings",
+    "note": "Landlord page has no Renters' Rights Act or database text; the Act page is for renters."
+   },
+   "Southwark": {
+    "status": "act only",
+    "url": "https://www.southwark.gov.uk/housing/private-tenants-and-landlords/renters-rights-act",
+    "note": "Renters' Rights Act page; no database mention (curl). A committee report puts the database in 'Late 2026-2028' (not counted)."
+   },
+   "Sutton": {
+    "status": "nothing",
+    "url": "https://www.sutton.gov.uk/w/information-for-landlords",
+    "note": "Information for landlords page has no Renters' Rights Act or database text (curl)."
+   },
+   "Tower Hamlets": {
+    "status": "mentions",
+    "url": "https://www.towerhamlets.gov.uk/lgnl/housing/Private-tenants-landlords-and-homeowners/Renters-Rights-Act.aspx",
+    "quote": "A national digital private rented sector database is proposed",
+    "note": "Still described as 'proposed'; no date."
+   },
+   "Waltham Forest": {
+    "status": "act only",
+    "url": "https://www.walthamforest.gov.uk/stories/changes-tenants-and-landlords-under-renters-rights-act-2025",
+    "note": "Act page for tenants and landlords; no database mention. Not counted: a Propertymark slide deck it hosts lists 'New PRS Database'."
+   },
+   "Wandsworth": {
+    "status": "nothing",
+    "url": "https://www.wandsworth.gov.uk/housing/private-housing/private-housing-landlords/landlord-responsibilities/",
+    "note": "Landlord responsibilities page has no Renters' Rights Act or database text (curl)."
+   },
+   "Westminster": {
+    "status": "mentions",
+    "url": "https://www.westminster.gov.uk/housing/private-sector-housing/renters-rights-act",
+    "quote": "Some additional measures, such as a national landlord database and Ombudsman, will be introduced in later phases.",
+    "note": "'Later phases'; no date. Page last updated 19 March 2026."
    }
   }
  }
