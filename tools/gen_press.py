@@ -1,6 +1,8 @@
 """Build docs/press.html, the press page for the EPC expiry data story, and docs/data/epc-expiry-by-year.svg, a
 standalone chart journalists can download. Figures come from gen_epc_story.compute(), so they always match the story."""
+import csv
 import html
+import io
 import json
 from datetime import date
 from pathlib import Path
@@ -17,6 +19,65 @@ YEARS = range(2026, 2036)  # full calendar years only: the table ends at Q3 2026
 STORY = BASE + "guides/epc-expiry-by-region.html"
 REVIEWED = "31 October 2026"
 NOTICES = json.loads((ROOT / "tools" / "data" / "council-notices.json").read_text(encoding="utf-8"))
+NOTICES_CSV = ROOT / "docs" / "data" / "council-notices-by-council.csv"
+NOTICES_SVG = ROOT / "docs" / "data" / "council-notices-by-region.svg"
+# Order and wording of the council chart's segments; 'unreachable' councils are left out of every count.
+SEGMENTS = (("deadline", "Give the right dates"), ("mentions", "Mention it, no date"),
+            ("act only", "Act only, no database"), ("nothing", "Nothing yet"))
+
+
+def notices_csv() -> str:
+    """Every council read in the survey, one row each, for journalists who want their own area."""
+    buf = io.StringIO()
+    w = csv.writer(buf, lineterminator="\n")
+    w.writerow(["region", "council", "status", "quote", "source_url", "checked"])
+    for r, v in NOTICES.items():
+        if r.startswith("_"):
+            continue
+        for name, c in sorted(v["councils"].items()):
+            w.writerow([r, name, c["status"], c.get("quote", ""), c.get("url", ""), v["checked"]])
+    return buf.getvalue()
+
+
+def notices_chart(inline: bool) -> str:
+    """Stacked bars, one per region in registration order: what share of its councils has told landlords what.
+    Inline it follows the page theme; the standalone file uses fixed light colours for articles."""
+    regions = [(r, [c["status"] for c in v["councils"].values() if c["status"] != "unreachable"])
+               for r, v in NOTICES.items() if not r.startswith("_")]
+    # Narrow viewBox with each region's name above its bar, so the text stays legible when it shrinks to a phone.
+    w, top, row, step = 440, 84, 14, 42
+    h = top + len(regions) * step + (24 if not inline else 0)
+    fills = (("var(--brand)", "color-mix(in srgb, var(--brand) 50%, transparent)", "var(--line)", "transparent") if inline
+             else ("#0e5a44", "#9cc3b5", "#e4dfd3", "#ffffff"))
+    ink, mut, edge = ("var(--ink)", "var(--muted)", "var(--line)") if inline else ("#1c1a16", "#6b665c", "#cfc8b8")
+    out = [f'<svg viewBox="0 0 {w} {h}" role="img" aria-labelledby="councils-t" xmlns="http://www.w3.org/2000/svg" '
+           f'style="width:100%;max-width:640px;height:auto;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif">',
+           '<title id="councils-t">What English councils tell landlords about the landlord database, by region</title>']
+    if not inline:
+        out.append(f'<rect width="{w}" height="{h}" fill="#ffffff"/>')
+    out.append(f'<text x="0" y="18" font-size="15" font-weight="700" fill="{ink}">Has your council told landlords about the database?</text>')
+    for j, ((key, label), fill) in enumerate(zip(SEGMENTS, fills)):
+        lx, ly = (j % 2) * 220, 34 + (j // 2) * 20
+        out.append(f'<rect x="{lx}" y="{ly}" width="12" height="12" rx="2" fill="{fill}" stroke="{edge}"/>'
+                   f'<text x="{lx + 18}" y="{ly + 11}" font-size="13" fill="{mut}">{label}</text>')
+    for i, (r, sts) in enumerate(regions):
+        y = top + i * step
+        dated = sts.count("deadline")
+        out.append(f'<text x="0" y="{y + 12}" font-size="13" fill="{ink}">{html.escape(r)}</text>'
+                   f'<text x="{w}" y="{y + 12}" text-anchor="end" font-size="13" fill="{mut}"><tspan font-weight="700" fill="{ink}">{dated}</tspan> of {len(sts)} give dates</text>')
+        x = 0.0
+        for (key, label), fill in zip(SEGMENTS, fills):
+            k = sts.count(key)
+            if k:
+                bw = w * k / len(sts)
+                out.append(f'<rect x="{x:.1f}" y="{y + 18}" width="{bw:.1f}" height="{row}" fill="{fill}" stroke="{edge}" stroke-width="0.5">'
+                           f'<title>{html.escape(r)}: {k} of {len(sts)} councils, {label.lower()}</title></rect>')
+                x += bw
+    if not inline:
+        out.append(f'<text x="0" y="{h - 6}" font-size="10" fill="{mut}">'
+                   'Source: each council\'s own landlord pages, read 7 and 8 Nov 2026. Analysis: rentready (GenZAgents)</text>')
+    out.append("</svg>")
+    return "".join(out)
 
 
 def councils() -> str:
@@ -53,6 +114,8 @@ def councils() -> str:
 <div class="wrap"><table>
 <thead><tr><th>Region</th><th>Councils read</th><th>Mention the database</th><th>Give the right dates</th></tr></thead>
 <tbody>{rows}</tbody></table></div>
+<figure class="chart">{notices_chart(inline=True)}
+<figcaption class="mut">Each bar is one region, in the order they register. <a href="{BASE}data/council-notices-by-region.svg" download>Download the chart (SVG)</a> or <a href="{BASE}data/council-notices-by-council.csv">every council with its quote and link (CSV)</a>.</figcaption></figure>
 <p class="mut">The full council-by-council table with quotes is on each region's guide (linked). Data: <a href="https://github.com/genzagents/rentready/blob/main/tools/data/council-notices.json">council-notices.json</a>.</p>
 """
 
@@ -146,6 +209,8 @@ def build() -> str:
 <li><a href="{BASE}data/epc-rental-expiry-by-region.csv">Region figures (CSV)</a></li>
 <li><a href="{BASE}data/epc-rental-expiry-by-council.csv">Every English council, 296 rows (CSV)</a>: a local figure for any area, for example Birmingham about 2,040 before 14 March 2027.</li>
 <li><a href="{BASE}data/epc-expiry-by-year.svg" download>The chart (SVG, with source line)</a></li>
+<li><a href="{BASE}data/council-notices-by-council.csv">What every council tells landlords, {sum(len(v["councils"]) for r, v in NOTICES.items() if not r.startswith("_"))} rows (CSV)</a>: status, the quote and the council's own page, so you can check your area.</li>
+<li><a href="{BASE}data/council-notices-by-region.svg" download>The council chart (SVG, with source line)</a></li>
 <li><a href="{STORY}">The full data story</a>, with method and the searchable council table.</li>
 </ul>
 <h2>What it means for a landlord</h2>
@@ -163,5 +228,7 @@ def build() -> str:
 if __name__ == "__main__":
     _, years = story.compute()
     SVG_OUT.write_text(chart(years, inline=False) + "\n", encoding="utf-8")
+    NOTICES_SVG.write_text(notices_chart(inline=False) + "\n", encoding="utf-8")
+    NOTICES_CSV.write_text(notices_csv(), encoding="utf-8")
     OUT.write_text(apply("docs/press.html", build()), encoding="utf-8")
     print(OUT.relative_to(ROOT), SVG_OUT.relative_to(ROOT))

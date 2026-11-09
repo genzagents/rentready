@@ -18,6 +18,16 @@ class PressTest(unittest.TestCase):
         _, years = story.compute()
         self.assertEqual(gen_press.chart(years, inline=False) + "\n", gen_press.SVG_OUT.read_text(encoding="utf-8"))
 
+    def test_council_files_are_current_and_agree_with_story(self):
+        self.assertEqual(gen_press.notices_chart(inline=False) + "\n", gen_press.NOTICES_SVG.read_text(encoding="utf-8"))
+        self.assertEqual(gen_press.notices_csv(), gen_press.NOTICES_CSV.read_text(encoding="utf-8"))
+        rows = [r for r in csv.DictReader(gen_press.NOTICES_CSV.open(encoding="utf-8")) if r["status"] != "unreachable"]
+        told = sum(r["status"] in ("deadline", "mentions") for r in rows)
+        dated = sum(r["status"] == "deadline" for r in rows)
+        self.assertIn(f"<strong>{told} of {len(rows)}</strong> mention the landlord database", gen_press.OUT.read_text(encoding="utf-8"))
+        self.assertTrue(all(r["source_url"].startswith("https://") for r in rows))
+        self.assertGreater(dated, 0)
+
     def test_headline_matches_region_csv(self):
         rows = list(csv.DictReader((ROOT / "docs/data/epc-rental-expiry-by-region.csv").open(encoding="utf-8")))
         total = sum(int(r["rental_epcs_reaching_10_years_1_nov_2026_to_deadline"]) for r in rows)
