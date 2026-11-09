@@ -382,3 +382,20 @@ details.more[open] summary{margin-bottom:10px}
 /* Renters' Rights Act checklist: dates table */
 .rra-dates{margin:1em 0 1.4em}.rra-dates td:first-child{white-space:nowrap;font-weight:600}.rra-dates td:last-child{color:var(--muted);font-size:14px}
 @media (max-width:520px){.rra-dates{font-size:14px}.rra-dates th,.rra-dates td{padding:8px}.rra-dates td:first-child{white-space:normal}}
+/* Renters' Rights Act self-check */
+.rra-how{margin:.2em 0 .6em;font-size:14px}
+ol.rra{padding-left:1.4em}
+ol.rra li{margin:.35em 0}
+.rra-item{display:flex;gap:12px;align-items:flex-start;cursor:pointer;padding:8px 10px;margin-left:-10px;border-radius:var(--radius-sm)}
+.rra-item:hover{background:var(--brand-soft)}
+.rra-tick{flex:0 0 auto;width:20px;height:20px;margin:3px 0 0;accent-color:var(--brand);cursor:pointer}
+.rra-tick:checked+span{color:var(--muted)}
+.rra-tick:checked+span strong{text-decoration:line-through;text-decoration-thickness:1px}
+.rra-score{margin:16px 0 0;padding:14px 18px;border:1px solid var(--line);border-left:4px solid #c2410c;border-radius:var(--radius-sm);background:var(--surface)}
+.rra-score.ok{border-left-color:var(--brand)}
+.rra-score p{margin:0}.rra-score p+p{margin-top:4px;font-size:15px}
+.rra-score-h{font-size:18px}
+.rra-rem .remind-row input{flex:1 1 220px}
+.rra-rem .remind-row select{flex:1 1 200px}
+.rra-rem .remind-row button{flex:0 0 auto}
+.remind.rra-rem{margin-bottom:18px}.rra-rem .remind-row{max-width:none}

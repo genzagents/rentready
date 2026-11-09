@@ -69,6 +69,22 @@ class RemindTest(unittest.TestCase):
         self.assertEqual(baddate[fields["deadline"]], "")
         self.assertIsNone(bad)
 
+    def test_rra_sends_email_region_deadline_and_source_only(self):
+        fields, d, baddate, bad = self.call(
+            ["FIELDS", []], ["rra", [" l@x.co.uk ", "London", "2027-10-14"]],
+            ["rra", ["l@x.co.uk", "", "soon"]], ["rra", ["nope", "London", "2027-10-14"]])
+        self.assertEqual(d, {fields["email"]: "l@x.co.uk", fields["region"]: "London",
+                             fields["deadline"]: "2027-10-14", fields["source"]: "rra checklist"})
+        self.assertEqual(baddate[fields["deadline"]], "")
+        self.assertIsNone(bad)
+
+    def test_rra_page_wires_checklist_and_reminder(self):
+        page = (DOCS / "guides" / "renters-rights-act-landlord-checklist.html").read_text(encoding="utf-8")
+        self.assertIn('<script src="../remind.js"></script>', page)
+        self.assertEqual(page.count('class="rra-tick"'), 9)
+        self.assertIn("RM.rra(", page)
+        self.assertIn("../privacy.html#reminders", page)
+
 class RemindPagesTest(unittest.TestCase):
     def test_form_wired_and_explained(self):
         js = (DOCS / "remind.js").read_text(encoding="utf-8")
