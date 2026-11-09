@@ -379,3 +379,6 @@ main ol.vis-list{list-style:none;padding:0;margin:14px 0;display:grid;gap:10px}
 details.more{margin:0 0 16px;border:1px solid var(--line);border-radius:var(--radius-sm);padding:10px 14px}
 details.more summary{cursor:pointer;font-weight:600}
 details.more[open] summary{margin-bottom:10px}
+/* Renters' Rights Act checklist: dates table */
+.rra-dates{margin:1em 0 1.4em}.rra-dates td:first-child{white-space:nowrap;font-weight:600}.rra-dates td:last-child{color:var(--muted);font-size:14px}
+@media (max-width:520px){.rra-dates{font-size:14px}.rra-dates th,.rra-dates td{padding:8px}.rra-dates td:first-child{white-space:normal}}
