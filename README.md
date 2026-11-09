@@ -23,7 +23,7 @@ curl -sL https://raw.githubusercontent.com/genzagents/rentready/main/rentready/_
 ```
 
 ```
-rentready 0.8.1  B3 2TA  region: West Midlands
+rentready 0.8.2  B3 2TA  region: West Midlands
 Window: requirement starts 2026-12-15, deadline 2027-03-14 (137 days from 2026-10-28); the service opens for everyone on 2026-12-15
   PASS registration deadline: West Midlands requirement starts 2026-12-15, deadline 2027-03-14; you can register from 2026-12-15
   WARN gas safety record: expires 2027-02-01, before the 2027-03-14 deadline (96 days)
@@ -67,6 +67,27 @@ from the official guidance; the draft leaves the amount to the database operator
 Miss the 28-day upload and the entry becomes inactive ([regulation 11(2)(a)](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/11)); any later change
 must be updated within 28 days ([regulation 9(4)](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/9)). The official guidance confirms the two 28-day rules and the
 single renewal date. Check gov.uk before relying on a date.
+
+## What your council tells you (free data, all of England)
+
+On 7 and 8 November 2026 we read the landlord pages of all 295 councils in England's nine regions. **158 mention the
+landlord database at all, and only 30 give landlords the right dates.** Some give wrong ones: Castle Point says the
+database is unlikely before 2028, and Horsham's banner gives a deadline a month late. Manchester, Liverpool, Bristol,
+Nottingham and Newcastle cover the Renters' Rights Act but say nothing about the database; Oxford is helping the
+government trial it but gives no date. Every quote links to the council's own page, region by region, in the
+[deadline by region guide](https://genzagents.github.io/rentready/guides/landlord-database-deadline-by-region.html) and the
+[press page](https://genzagents.github.io/rentready/press.html#councils) (free to use with credit).
+
+Guides, each with an in-page check: [what it costs, first payment from £5.34](https://genzagents.github.io/rentready/guides/landlord-database-fee.html),
+[which properties to register](https://genzagents.github.io/rentready/guides/which-properties-to-register.html),
+[what you need to register](https://genzagents.github.io/rentready/guides/what-you-need-to-register.html),
+[gas safety](https://genzagents.github.io/rentready/guides/gas-safety-certificate-landlord-database.html),
+[EICR](https://genzagents.github.io/rentready/guides/eicr-landlord-database.html),
+[EPC](https://genzagents.github.io/rentready/guides/epc-rating-landlord-database.html),
+[penalties](https://genzagents.github.io/rentready/guides/landlord-database-penalties.html),
+[is it live yet (updated from Parliament's record)](https://genzagents.github.io/rentready/guides/landlord-database-regulations-status.html),
+[council licensing schemes](https://genzagents.github.io/rentready/guides/selective-licensing-councils-england.html) and
+[every landlord deadline to 2028](https://genzagents.github.io/rentready/guides/landlord-deadlines-calendar.html).
 
 ## Install
 
@@ -151,7 +172,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: genzagents/rentready@v0.8.1
+      - uses: genzagents/rentready@v0.8.2
         with:
           portfolio: properties.csv
           # warn-days: 90
@@ -218,6 +239,10 @@ GenZAgents, London ([about](https://genzagents.github.io/rentready/about.html));
 [GitHub issues](https://github.com/genzagents/rentready/issues).
 
 ## Changes
+
+**0.8.2** (documentation only, no behaviour change)
+- README: the all-England council survey (158 of 295 councils mention the database, 30 give the dates) and an index
+  of the guides, so the PyPI page carries them.
 
 **0.8.1** (packaging only, no behaviour change)
 - Listed in the official MCP registry as `io.github.genzagents/rentready` (`server.json`, published from GitHub Actions

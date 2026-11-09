@@ -51,7 +51,7 @@ try:
 except ImportError:  # run as a script: python3 rentready/__init__.py
     from fee import portfolio_first_payment
 
-__version__ = "0.8.1"
+__version__ = "0.8.2"
 
 FEE_PER_PROPERTY_GBP = 65
 
