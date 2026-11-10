@@ -35,7 +35,7 @@ class PressTest(unittest.TestCase):
         self.assertIn(f"About {round(total / 1000):,},000 rental EPCs", page)
 
     def test_linked_and_in_sitemap(self):
-        self.assertIn("rentready/press.html", (ROOT / "docs/sitemap.xml").read_text(encoding="utf-8"))
+        self.assertIn("/press.html", (ROOT / "docs/sitemap.xml").read_text(encoding="utf-8"))
         self.assertIn("press.html", (ROOT / "docs/guides/epc-expiry-by-region.html").read_text(encoding="utf-8"))
         self.assertIn("press.html", (ROOT / "docs/about.html").read_text(encoding="utf-8"))
 

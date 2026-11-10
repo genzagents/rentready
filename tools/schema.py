@@ -101,7 +101,8 @@ def apply(rel: str, t: str) -> str:
 
 def pages():
     for p in sorted((ROOT / "docs").rglob("*.html")):
-        yield p.relative_to(ROOT).as_posix(), p
+        if not p.name.startswith("google"):  # Search Console verification file, not a page
+            yield p.relative_to(ROOT).as_posix(), p
 
 
 if __name__ == "__main__":

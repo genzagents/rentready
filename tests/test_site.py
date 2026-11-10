@@ -11,7 +11,7 @@ DOCS = ROOT / "docs"
 def pages():
     for p in sorted(DOCS.rglob("*.html")):
         t = p.read_text(encoding="utf-8")
-        if 'http-equiv="refresh"' not in t:
+        if 'http-equiv="refresh"' not in t and not p.name.startswith("google"):
             yield p, t
 
 

@@ -12,7 +12,7 @@ BASE = "https://genzagents.github.io/rentready/"
 def pages():
     for p in sorted((ROOT / "docs").rglob("*.html")):
         t = p.read_text(encoding="utf-8")
-        if 'http-equiv="refresh"' in t:  # redirect stubs are checked separately
+        if 'http-equiv="refresh"' in t or p.name.startswith("google"):  # redirect stubs are checked separately
             continue
         yield p, t
 
