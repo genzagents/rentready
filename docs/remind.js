@@ -64,16 +64,16 @@
     return out;
   }
 
-  // Reminder from the Renters' Rights Act checklist: the email, the one region picked and its database deadline.
-  // Which duties were ticked stays in the browser.
-  function rra(email, region, deadline) {
+  // Reminder from the Renters' Rights Act checklist (and, with source "region page", the region guides): the email,
+  // the one region and its database deadline. Which duties were ticked stays in the browser.
+  function rra(email, region, deadline, source) {
     email = valid(email);
     if (!email) return null;
     var out = {};
     out[FIELDS.email] = email;
     out[FIELDS.region] = String(region || "").slice(0, 40);
     out[FIELDS.deadline] = /^\d{4}-\d{2}-\d{2}$/.test(deadline || "") ? deadline : "";
-    out[FIELDS.source] = "rra checklist";
+    out[FIELDS.source] = source === "region page" ? "region page" : "rra checklist";
     return out;
   }
 

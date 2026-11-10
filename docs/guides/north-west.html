@@ -19,6 +19,9 @@
 <h1>Landlord database registration in the North West: deadline 14 August 2027</h1>
 <p class="mut byline">Written by <a href="https://genzagents.github.io/rentready/about.html">GenZAgents</a>, reviewed 8 November 2026. <a href="#sources">Sources</a> below.</p>
 <p><strong>If your rental is in the North West, you must register it on the government's <em>Register your rental property</em> service (the landlord database, or PRS Database) by 14 August 2027.</strong> The requirement for the North West starts on 15 May 2027; the service opens to every landlord in England on 15 December 2026, so you can register earlier. The region goes by the property's address, not yours. The North West covers Manchester, Liverpool, Salford, Preston, Bolton, Stockport, Warrington, Blackpool, Lancaster and Chester.</p>
+<form class="remind wait reg-rem" id="rem" data-region="North West" data-deadline="2027-08-14" novalidate><p><strong>Email me before the North West deadline.</strong> One email when registration opens and one 30 days before 14 August 2027. No account.</p>
+<div class="remind-row"><label class="sr" for="rem-email">Email address</label><input type="email" id="rem-email" autocomplete="email" placeholder="you@example.com" required><button type="submit" class="go">Remind me</button></div>
+<p class="mut remind-f">We keep only your email, the region and its deadline. <a href="../privacy.html#reminders">How to be removed</a>.</p><p class="remind-msg" id="rem-msg" role="status"></p></form>
 <h2 id="council-notices">Has your council told landlords yet?</h2>
 <p>Landlords in the North West register from 15 May 2027, so on 8 November 2026 we read every council's own landlord pages. <strong>16 of 35</strong> mention the landlord database at all, and only 5 give the dates (the 15 December 2026 opening or the 14 August 2027 deadline). Don't wait for a letter from the council: the duty to register is yours, and the government's service is the only place to do it.</p>
 <div class="wrap"><table><thead><tr><th>Council</th><th>What its website says</th></tr></thead><tbody>
@@ -101,5 +104,14 @@
 <h2 id="sources">Sources</h2>
 <ul class="mut"><li><a href="https://housinghub.campaign.gov.uk/renting-is-changing/get-ready-to-register/">Get ready to register: Register your rental property (official guidance)</a></li><li><a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861">Draft Private Rented Sector Database Regulations 2026 (legislation.gov.uk; not yet made)</a></li><li><a href="https://geoportal.statistics.gov.uk/">ONS Open Geography Portal: ward to local authority to region lookup (May 2026)</a></li><li><a href="https://www.legislation.gov.uk/ukdsi/2026/9780348286861/schedule/3/part/2">Draft Schedule 3, Part 2: what the service asks, including licences</a></li></ul>
 <p class="mut">Dates: official guidance and the draft regulations, which Parliament has not yet approved (<a href="landlord-database-registration.html">status</a>). Fee: official guidance. Councils and schemes: read on each council's own website on 28 October 2026. Not legal advice. Last checked 8 November 2026.</p>
+<script src="../remind.js"></script>
+<script>
+(function(){"use strict";var RM=window.rentreadyRemind,r=document.getElementById("rem"),m=document.getElementById("rem-msg");if(!r)return;
+r.addEventListener("submit",async function(ev){ev.preventDefault();var reg=r.dataset.region,d=RM&&RM.rra(document.getElementById("rem-email").value,reg,r.dataset.deadline,"region page");
+if(!d){m.textContent="Please enter a valid email address.";return;}
+m.textContent="Sending...";try{await RM.send(d);m.textContent="Done. We will email you when registration opens and 30 days before the deadline.";r.querySelector("button").disabled=true;}
+catch(x){m.textContent="That did not send. Please try again in a moment.";}});
+})();
+</script>
 <footer class="foot mut"><a href="https://genzagents.github.io/rentready/about.html">About</a> · <a href="https://genzagents.github.io/rentready/guides/">Guides</a> · <a href="https://genzagents.github.io/rentready/developers.html">Developers</a> · <a href="https://genzagents.github.io/rentready/privacy.html">Privacy</a> · <a href="https://genzagents.github.io/rentready/terms.html">Terms</a> · <a href="https://github.com/genzagents/rentready/issues">Contact (GitHub issues)</a><br>rentready is made by GenZAgents in London. Not legal advice.</footer>
 </main></body></html>

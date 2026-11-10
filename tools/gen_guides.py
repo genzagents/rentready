@@ -264,6 +264,29 @@ RELATED = [("landlord-database-deadline-by-region.html", "Other regions"), ("wha
            ("gas-safety-certificate-landlord-database.html", "Gas"), ("eicr-landlord-database.html", "EICR"), ("epc-rating-landlord-database.html", "EPC")]
 
 
+def remind_form(region: str, w: dict) -> str:
+    """Email sign-up for this region's opening and deadline, sent through remind.js rra() with source "region page"."""
+    r = html.escape(region)
+    return (f'<form class="remind wait reg-rem" id="rem" data-region="{r}" data-deadline="{w["deadline"]}" novalidate>'
+            f'<p><strong>Email me before the {esc(TITLE_NAME.get(region, region))} deadline.</strong> One email when registration opens and one 30 days before {long(w["deadline"])}. No account.</p>\n'
+            '<div class="remind-row"><label class="sr" for="rem-email">Email address</label>'
+            '<input type="email" id="rem-email" autocomplete="email" placeholder="you@example.com" required>'
+            '<button type="submit" class="go">Remind me</button></div>\n'
+            f'<p class="mut remind-f">We keep only your email, the region and its deadline. <a href="../privacy.html#reminders">How to be removed</a>.</p>'
+            '<p class="remind-msg" id="rem-msg" role="status"></p></form>\n')
+
+
+REMIND_JS = """<script src="../remind.js"></script>
+<script>
+(function(){"use strict";var RM=window.rentreadyRemind,r=document.getElementById("rem"),m=document.getElementById("rem-msg");if(!r)return;
+r.addEventListener("submit",async function(ev){ev.preventDefault();var reg=r.dataset.region,d=RM&&RM.rra(document.getElementById("rem-email").value,reg,r.dataset.deadline,"region page");
+if(!d){m.textContent="Please enter a valid email address.";return;}
+m.textContent="Sending...";try{await RM.send(d);m.textContent="Done. We will email you when registration opens and 30 days before the deadline.";r.querySelector("button").disabled=true;}
+catch(x){m.textContent="That did not send. Please try again in a moment.";}});
+})();
+</script>"""
+
+
 def region_page(region: str, w: dict) -> tuple:
     fee = rr.FEE_PER_PROPERTY_GBP
     o, dl = long(w["opens"]), long(w["deadline"])
@@ -283,6 +306,7 @@ def region_page(region: str, w: dict) -> tuple:
             f"<em>Register your rental property</em> service (the landlord database, or PRS Database) by {dl}.</strong> The requirement for {esc(the(region))} starts on {o}; "
             f"the service opens to every landlord in England on {long(FIRST)}, so you can register earlier. "
             f"The region goes by the property's address, not yours. {esc(The(region))} covers {esc(PLACES[region])}.</p>\n"
+            + remind_form(region, w)
             + notice_html + councils_html + epc_html
             + f"<h2>Before {dl}</h2>\n"
             f"<p>£{fee} a property a year (<a href=\"landlord-database-fee.html\">fee</a>). Upload the gas safety record, EICR and EPC "
@@ -313,6 +337,7 @@ def region_page(region: str, w: dict) -> tuple:
 <h2 id="sources">Sources</h2>
 <ul class="mut">{''.join(f'<li><a href="{u}">{esc(t)}</a></li>' for u, t in sources)}</ul>
 <p class="mut">Dates: official guidance and the draft regulations, which Parliament has not yet approved (<a href="landlord-database-registration.html">status</a>). Fee: official guidance. Councils and schemes: read on each council's own website on {long(COUNCILS[region]['checked'])}. Not legal advice. Last checked {long(updated(region))}.</p>
+{REMIND_JS}
 <footer class="foot mut"><a href="https://genzagents.github.io/rentready/about.html">About</a> · <a href="https://genzagents.github.io/rentready/guides/">Guides</a> · <a href="https://genzagents.github.io/rentready/developers.html">Developers</a> · <a href="https://genzagents.github.io/rentready/privacy.html">Privacy</a> · <a href="https://genzagents.github.io/rentready/terms.html">Terms</a> · <a href="https://github.com/genzagents/rentready/issues">Contact (GitHub issues)</a><br>rentready is made by GenZAgents in London. Not legal advice.</footer>
 </main></body></html>
 """

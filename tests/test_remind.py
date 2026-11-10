@@ -5,6 +5,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 DOCS = ROOT / "docs"
 JS = str(DOCS / "remind.js")
+import sys; sys.path.insert(0, str(ROOT))
 NODE = shutil.which("node")
 RUN = "const R=require(process.argv[1]);let i=JSON.parse(require('fs').readFileSync(0,'utf8'));" \
       "console.log(JSON.stringify(i.map(([f,a])=>f==='FIELDS'?R.FIELDS:R[f](...a))))"
@@ -77,6 +78,23 @@ class RemindTest(unittest.TestCase):
                              fields["deadline"]: "2027-10-14", fields["source"]: "rra checklist"})
         self.assertEqual(baddate[fields["deadline"]], "")
         self.assertIsNone(bad)
+
+    def test_region_page_source(self):
+        fields, d, other = self.call(["FIELDS", []], ["rra", ["w@x.co.uk", "West Midlands", "2027-03-14", "region page"]],
+                                     ["rra", ["w@x.co.uk", "London", "2027-10-14", "anything else"]])
+        self.assertEqual(d[fields["source"]], "region page")
+        self.assertEqual(other[fields["source"]], "rra checklist")
+
+    def test_region_pages_carry_their_own_reminder(self):
+        import rentready as rr
+        for region, w in rr.ROLLOUT.items():
+            f = DOCS / "guides" / (region.lower().replace(" ", "-") + ".html")
+            page = f.read_text(encoding="utf-8")
+            if "http-equiv" in page:
+                continue  # merged region, redirect stub
+            self.assertIn(f'data-region="{region}" data-deadline="{w["deadline"]}"', page)
+            self.assertIn('"region page"', page)
+            self.assertIn('<script src="../remind.js"></script>', page)
 
     def test_rra_page_wires_checklist_and_reminder(self):
         page = (DOCS / "guides" / "renters-rights-act-landlord-checklist.html").read_text(encoding="utf-8")
