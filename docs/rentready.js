@@ -1,7 +1,7 @@
 // rentready in the browser: the same check, portfolio, calendar and registration pack as rentready/__init__.py, line for line.
 // Runs on the page with no server; the only network call is the postcode lookup at postcodes.io.
 // tests/test_web.py runs this file under node and compares its output with the Python's.
-// Dates: the draft Private Rented Sector Database Regulations 2026 (laid 9 Sep 2026; not yet approved as of 28 Oct 2026)
+// Dates: the draft Private Rented Sector Database Regulations 2026 (laid 9 Sep 2026; approved by both Houses on 4 Nov 2026)
 // and the official guidance. Fee (£65): the official guidance; the draft leaves the amount to the operator (reg 14).
 // EPC C minimum: all private tenancies by 1 October 2030 (government response, 21 Jan 2026, not yet law):
 // https://www.gov.uk/government/consultations/improving-the-energy-performance-of-privately-rented-homes-2025-update/outcome/improving-the-energy-performance-of-privately-rented-homes-government-response-html

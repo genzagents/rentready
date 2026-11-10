@@ -30,7 +30,7 @@ requires inspection at least every 5 years, or sooner if the report says so (SI 
 asks for the expiry date, so the report's date is used when given; issue date + 5 years is only a fallback, and the
 result says so.
 Timetable and required information: the draft Private Rented Sector Database Regulations 2026 (laid before
-Parliament on 9 Sep 2026; not yet approved as of 28 Oct 2026) and the official guidance at housinghub.campaign.gov.uk.
+Parliament on 9 Sep 2026; approved by both Houses on 4 Nov 2026) and the official guidance at housinghub.campaign.gov.uk.
 The £65 fee is from the official guidance; the draft leaves the amount to the database operator (reg 14). Upload
 within 28 days or the entry becomes inactive (draft regs 6(2), 11(2)(a)); update within 28 days of a change (reg 9(4)).
 Check gov.uk before relying on a date.

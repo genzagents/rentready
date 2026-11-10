@@ -336,7 +336,7 @@ def region_page(region: str, w: dict) -> tuple:
 <a class="btn" href="{BASE}#tool">Check my properties</a></div>
 <h2 id="sources">Sources</h2>
 <ul class="mut">{''.join(f'<li><a href="{u}">{esc(t)}</a></li>' for u, t in sources)}</ul>
-<p class="mut">Dates: official guidance and the draft regulations, which Parliament has not yet approved (<a href="landlord-database-registration.html">status</a>). Fee: official guidance. Councils and schemes: read on each council's own website on {long(COUNCILS[region]['checked'])}. Not legal advice. Last checked {long(updated(region))}.</p>
+<p class="mut">Dates: official guidance and the draft regulations, which both Houses of Parliament approved on 4 November 2026 (<a href="landlord-database-registration.html">status</a>). Fee: official guidance. Councils and schemes: read on each council's own website on {long(COUNCILS[region]['checked'])}. Not legal advice. Last checked {long(updated(region))}.</p>
 {REMIND_JS}
 <footer class="foot mut"><a href="https://genzagents.github.io/rentready/about.html">About</a> · <a href="https://genzagents.github.io/rentready/guides/">Guides</a> · <a href="https://genzagents.github.io/rentready/developers.html">Developers</a> · <a href="https://genzagents.github.io/rentready/privacy.html">Privacy</a> · <a href="https://genzagents.github.io/rentready/terms.html">Terms</a> · <a href="https://github.com/genzagents/rentready/issues">Contact (GitHub issues)</a><br>rentready is made by GenZAgents in London. Not legal advice.</footer>
 </main></body></html>

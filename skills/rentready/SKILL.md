@@ -10,7 +10,7 @@ England's private rented sector database opens on 15 December 2026 and each regi
 Every property costs £65 a year. Gas safety record, EICR and EPC are uploaded, and a landlord without an active
 entry cannot get a possession order (except on Ground 7A or Ground 14) and faces penalties up to £7,000, or up to
 £40,000 for the section 92 offences (false information, continuing a breach after a penalty, a repeat within five
-years). The dates come from draft regulations laid on 9 September 2026 and not yet approved (Lords scrutiny committee flagged them on 22 October 2026; committee debates 28 October 2026).
+years). The dates come from draft regulations laid on 9 September 2026 and approved by both Houses on 4 November 2026 (Lords scrutiny committee flagged them on 22 October 2026; committee debates 28 October 2026).
 
 ## How to run it
 

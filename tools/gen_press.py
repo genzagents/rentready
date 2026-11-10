@@ -203,7 +203,7 @@ def build() -> str:
 <div class="wrap"><table>
 <thead><tr><th>Region</th><th>Deadline to register</th><th>Reach ten years, 1 Nov 2026 to deadline</th><th>Inside the region's window</th><th>2028 to 2030</th></tr></thead>
 <tbody>{rows}</tbody></table></div>
-<p class="mut">Rounded to the nearest hundred. * The North East figure includes a one-off quarter (27,114 rental EPCs lodged from April to June 2017, about four times its usual quarter), likely a bulk lodgement by a large landlord. Region deadlines are from the official guidance and the draft regulations, which Parliament has not yet approved.</p>
+<p class="mut">Rounded to the nearest hundred. * The North East figure includes a one-off quarter (27,114 rental EPCs lodged from April to June 2017, about four times its usual quarter), likely a bulk lodgement by a large landlord. Region deadlines are from the official guidance and the draft regulations, which both Houses of Parliament approved on 4 November 2026.</p>
 {councils()}<h2>Data you can use</h2>
 <ul>
 <li><a href="{BASE}data/epc-rental-expiry-by-region.csv">Region figures (CSV)</a></li>

@@ -54,6 +54,10 @@ class StatusTest(unittest.TestCase):
         st = gs.status(base, date(2026, 11, 2))
         self.assertEqual(gs.live(st, date(2026, 11, 2))[0], "Not yet.")
         self.assertIn("still need Parliament", gs.live(st, date(2026, 11, 2))[1])
+        both = gs.status(base + [item(date(2026, 11, 4), "Motion to approve the instrument approved (House of Lords)"),
+                                 item(date(2026, 11, 4), "Motion to approve the instrument approved (House of Commons)")], date(2026, 11, 10))
+        self.assertIn("Both Houses of Parliament have approved", gs.live(both, date(2026, 11, 10))[1])
+        self.assertNotIn("still need Parliament", gs.live(both, date(2026, 11, 10))[1])
         made = gs.status(base + [item(date(2026, 11, 12), "Instrument made")], date(2026, 11, 12))
         self.assertIn("regulations are law", gs.live(made, date(2026, 11, 12))[1])
         self.assertEqual(gs.live(made, date(2026, 12, 15))[0], "It should be open.")

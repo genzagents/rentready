@@ -262,7 +262,7 @@ GenZAgents, London ([about](https://genzagents.github.io/rentready/about.html));
   penalty, a repeat within five years), not only repeats; no possession order without an active entry except on
   Ground 7A or Ground 14 ([section 90](https://www.legislation.gov.uk/ukpga/2025/26/section/90)).
 - Renewal: the last day of the 12 months from your first entry ([draft regulation 10](https://www.legislation.gov.uk/ukdsi/2026/9780348286861/regulation/10)); the program text now
-  says the regulations are a draft (laid 9 September 2026, not yet approved).
+  says the regulations are a draft (laid 9 September 2026, approved by both Houses on 4 November 2026).
 
 ## Roadmap
 

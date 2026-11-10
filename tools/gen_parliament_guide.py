@@ -2,7 +2,8 @@
 
 The draft PRS Database Regulations 2026 were debated on 28 October 2026 in the Commons Fourth Delegated Legislation
 Committee (Matthew Pennycook, agreed 11 to 6) and the Lords Grand Committee (Baroness Taylor of Stevenage), and the
-Lords approved them on 4 November. The ministers' answers settle questions landlords keep asking (bulk upload, agents
+Lords approved them on 4 November; the Commons approved them the same day by 316 votes to 149 in a deferred division
+(result published 10 November). The ministers' answers settle questions landlords keep asking (bulk upload, agents
 starting the registration, one payment for many homes, re-entering everything each year, licensing duplication) and
 nobody has written them up for landlords. Each answer below is a paraphrase of the Hansard record, with the source.
 
@@ -170,7 +171,7 @@ __CARDS__
 </section>
 
 <h2>Where the regulations are now</h2>
-<p>The Commons committee approved the draft regulations on 28 October by 11 votes to 6 and the Lords Grand Committee considered them the same day. The full House of Lords approved them on <a href="__LORDS_VOTE__" rel="noopener">4 November 2026</a>; the Commons decision was deferred to a vote on 4 November. <a href="landlord-database-regulations-status.html">The live status page</a> shows the result as soon as Parliament publishes it. Ministers said a second set of regulations, after the rollout, will decide what the public can see.</p>
+<p>The Commons committee approved the draft regulations on 28 October by 11 votes to 6 and the Lords Grand Committee considered them the same day. The full House of Lords approved them on <a href="__LORDS_VOTE__" rel="noopener">4 November 2026</a>; the Commons approved them in a deferred division the same day, <a href="https://votes.parliament.uk/votes/commons/division/2472" rel="noopener">316 votes to 149</a> (result published 10 November). The minister still has to sign them into law. <a href="landlord-database-regulations-status.html">The live status page</a> shows the result as soon as Parliament publishes it. Ministers said a second set of regulations, after the rollout, will decide what the public can see.</p>
 
 <h2>Questions</h2>
 __FAQ_HTML__

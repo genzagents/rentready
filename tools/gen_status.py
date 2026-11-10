@@ -121,6 +121,9 @@ def live(st: dict, today: date) -> tuple:
     if "made" in st["done"]:
         return ("Not yet.", "The regulations are law, and the official guidance gives 15 December 2026 as the day registration opens. "
                 "No landlord has to register before then.")
+    if "lords" in st["done"] and "commons" in st["done"]:
+        return ("Not yet.", "Both Houses of Parliament have approved the regulations and the minister still has to sign them; "
+                "the official guidance gives 15 December 2026 as the day registration opens. No landlord can register or has to register before then.")
     return ("Not yet.", "Registration is due to open on 15 December 2026, and the regulations behind it still need Parliament's approval. "
             "No landlord can register or has to register before then.")
 
@@ -271,8 +274,12 @@ def fetch() -> None:
 
 if __name__ == "__main__":
     if "--fetch" in sys.argv:
-        fetch()
-        fetch_votes()
+        # each source is fetched on its own, so a slow procedure browser cannot hold back a same-day vote
+        for f in (fetch, fetch_votes):
+            try:
+                f()
+            except (OSError, ValueError) as err:
+                print(f"{f.__name__} failed, keeping the saved copy: {err}", file=sys.stderr)
     page = apply("docs/guides/landlord-database-regulations-status.html", build(load_items(), date.today()))
     OUT.write_text(page, encoding="utf-8")
     print(OUT.relative_to(ROOT))
