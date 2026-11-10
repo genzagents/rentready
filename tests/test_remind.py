@@ -85,6 +85,22 @@ class RemindTest(unittest.TestCase):
         self.assertEqual(d[fields["source"]], "region page")
         self.assertEqual(other[fields["source"]], "rra checklist")
 
+    def test_guide_page_source(self):
+        fields, d = self.call(["FIELDS", []], ["rra", ["w@x.co.uk", "London", "2027-10-14", "guide page"]])
+        self.assertEqual(d[fields["source"]], "guide page")
+
+    def test_registration_and_penalties_guides_carry_a_reminder(self):
+        import json
+        import re
+        import rentready as rr
+        for f in ("landlord-database-registration", "landlord-database-penalties"):
+            page = (DOCS / "guides" / (f + ".html")).read_text(encoding="utf-8")
+            self.assertIn('"guide page"', page, f)
+            self.assertIn('<script src="../remind.js"></script>', page, f)
+            d = json.loads(re.search(r"var D=(\{.*?\});", page).group(1))
+            self.assertEqual(d, {r: w["deadline"] for r, w in rr.ROLLOUT.items()}, f)
+            self.assertLess(page.index('id="rem"'), page.index("<h2"), f + ": box should sit above the first heading")
+
     def test_region_pages_carry_their_own_reminder(self):
         import rentready as rr
         for region, w in rr.ROLLOUT.items():
